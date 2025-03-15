@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+body{
+  font-family: "Roboto", sans-serif;
+}
+
+@theme {
+  --font-roboto: "Roboto", sans-serif; 
+
+  --color-primary: #007AFF;
+  --color-secondary: #4CAF50;
+  --color-background: #F8F9FA;
+  --color-words: #212529;
+  --color-muted-words: #6C757D;
+  --color-primary-dark: #0A84FF;
+  --color-secondary-dark: #34C759;
+  --color-background-dark: #2A2A2A;
+  --color-words-dark: #EAEAEA;
+  --color-muted-words-dark: #A0A0A0;
+}
