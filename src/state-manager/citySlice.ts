@@ -1,36 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface City {
-  name: string;
-  country: string;
-  address: string;
-  area_km2: number;
-  lat: number;
-  lon: number;
-}
-
-export interface WeatherResponse extends City {
-  latitude: number;
-  longitude: number;
-  generationtime_ms: number;
-  utc_offset_seconds: number;
-  timezone: string;
-  timezone_abbreviation: string;
-  elevation: number;
-  current_units: {
-    time: string; // "iso8601"
-    interval: string; // "seconds"
-    temperature_2m: string; // "°C"
-    weathercode: string; // "wmo code"
-  };
-  current: {
-    time: string; // ISO 8601 timestamp
-    interval: number; // Interval in seconds
-    temperature_2m: number; // Temperature in °C
-    weathercode: number; // WMO weather code
-  };
-}
+import type { City, WeatherResponse } from "./types";
 
 export const fetchCityWeather = async (
   city: City
@@ -39,11 +9,10 @@ export const fetchCityWeather = async (
   baseURL.searchParams.set("latitude", city.lat.toString());
   baseURL.searchParams.set("longitude", city.lon.toString());
   baseURL.searchParams.set("current", "temperature_2m,weathercode");
+  baseURL.searchParams.set("hourly", "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover");
 
   const url = baseURL.toString();
-  console.log(url);
   const response = await axios.get(url);
-  console.log(response);
   return { ...response.data, ...city };
 };
 
@@ -56,11 +25,10 @@ export const fetchCitiesWeather = async (
   baseURL.searchParams.set("latitude", latitudes);
   baseURL.searchParams.set("longitude", longitudes);
   baseURL.searchParams.set("current", "temperature_2m,weathercode");
+  baseURL.searchParams.set("hourly", "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover");
 
   const url = baseURL.toString();
-  console.log(url);
   const response = await axios.get(url);
-  console.log(response);
   return response.data.map((wr: WeatherResponse, index: number) => ({
     ...wr,
     ...cities[index],

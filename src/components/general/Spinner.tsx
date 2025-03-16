@@ -14,7 +14,7 @@ export default function Spinner({ className }: SpinnerProps) {
         className || ""
       )}
     >
-      <ImSpinner7 className="animate-spin text-5xl" />
+      <ImSpinner7 className="animate-spin text-5xl text-white" />
     </div>
   );
 }
