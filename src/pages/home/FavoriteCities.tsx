@@ -31,39 +31,39 @@ export default function FavoriteCities() {
   const showRemovedCitiesBtn = removedCities?.length > 0;
 
   return (
-    <>
-      <div className="mb-[1rem]">
-        <div className="mb-[2.7rem] flex justify-between items-center">
-          <Header1 className="">Favorite Cities</Header1>
-          {showRemovedCitiesBtn && (
-            <button
-              onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-              className="inline-flex cursor-pointer justify-center items-center pl-[1.5625rem] pr-6 py-[0.8125rem] rounded-[0.9375rem] bg-white text-black text-base not-italic font-extrabold leading-[normal] font-manrope"
-            >
-              Removed Cities
-            </button>
-          )}
-        </div>
-        {cities?.length > 0 ? (
-          <div className="grid grid-cols-5 gap-x-[2.95rem] gap-y-[1.7rem]">
-            {cities.map((wr) => (
-              <CityWeatherCard
-                key={wr?.name}
-                weatherResponse={wr}
-                toggleFavorite={toggleFavorite}
-                toggleRemoved={toggleRemoved}
-                isFavorite={true}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="h-[6rem] flex items-center justify-center">
-            <p className="text-white text-xl not-italic font-medium leading-[normal]">
-              No favourites available
-            </p>
-          </div>
+    <div className="mb-4 sm:mb-6">
+      <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+        <Header1>Favorite Cities</Header1>
+
+        {showRemovedCitiesBtn && (
+          <button
+            onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
+            className="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 rounded-lg bg-white text-black text-lg sm:text-base font-extrabold leading-normal font-manrope"
+          >
+            Removed Cities
+          </button>
         )}
       </div>
-    </>
+
+      {cities?.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {cities.map((wr) => (
+            <CityWeatherCard
+              key={wr?.name}
+              weatherResponse={wr}
+              toggleFavorite={toggleFavorite}
+              toggleRemoved={toggleRemoved}
+              isFavorite={true}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="h-24 flex items-center justify-center">
+          <p className="text-white text-lg sm:text-xl font-medium">
+            No favorites available
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
