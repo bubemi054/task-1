@@ -101,9 +101,14 @@ export default function CityWeatherCard({
       </div>
       <div className="flex items-center justify-between relative bottom-2">
         <p
-          className={
-            "bg-clip-text text-[2.5rem] not-italic font-extrabold leading-[normal] bg-gradient-to-b text-transparent font-manrope from-[rgba(255,255,255,0.6)] to-[rgba(0,0,0,0.1)]"
-          }
+          className={twMerge(
+            "bg-clip-text text-[2.5rem] not-italic font-extrabold leading-[normal] bg-gradient-to-b text-transparent font-manrope",
+            `${
+              isNightTime
+                ? "from-[rgba(255,255,255,0.6)] to-[rgba(0,0,0,0.1)]"
+                : "from-[rgba(0,0,0,0.6)] to-[rgba(255,255,255,0.1)]"
+            }`
+          )}
         >
           {weatherResponse.current.temperature_2m}
           {weatherResponse.current_units.temperature_2m}
