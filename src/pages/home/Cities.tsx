@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import Header1 from "../../components/headers/Header1";
 import CityWeatherCard from "./CityWeatherCard";
 import Spinner from "../../components/general/Spinner";
-import { BIGGEST_CITIES } from "../../state-manager/uiSlice";
+import { BIGGEST_CITIES } from "../../state-manager/citySlice";
 import { useDispatch, useSelector } from "react-redux";
 import useFavoriteCities from "../../hooks/city/useFavoriteCities";
 import useRemovedCities from "../../hooks/city/useRemovedCities";
@@ -14,29 +14,35 @@ export default function Cities() {
   const { citiesWeather, fetchingCitiesWeather, fetchingCitiesWeatherError } =
     useSelector((state: RootState) => state.city);
   const { maxNumberOfCities } = useSelector((state: RootState) => state.ui);
-  const { favoriteCities, toggleFavorite } = useFavoriteCities();
-  const { toggleRemoved, removedCities } = useRemovedCities();
+  const { favoriteCitiesIds, toggleFavoriteCityId } = useFavoriteCities();
+  const { toggleRemovedCityId, removedCitiesIds } = useRemovedCities();
 
   useEffect(() => {
-    dispatch(getCitiesWeather(BIGGEST_CITIES));
-  }, []);
+    const remainingCities = BIGGEST_CITIES.filter(
+      (city) => !removedCitiesIds.includes(city.cityId)
+    );
+    const maxRemainingCities = remainingCities.slice(0, maxNumberOfCities);
+    dispatch(getCitiesWeather(maxRemainingCities));
+  }, [dispatch, maxNumberOfCities, removedCitiesIds]);
 
-  const sortedAndFilteredCitiesWeather = useMemo(() => {
-    const remainingCities = citiesWeather
-      ?.slice()
-      .filter((city) => !removedCities.includes(city.name));
+  const displayedBiggestCities = useMemo(() => {
+    const citiesWeatherCopy = citiesWeather.slice();
+    const favoriteCities = citiesWeatherCopy.filter((city) =>
+      favoriteCitiesIds.includes(city.cityId)
+    );
+    const nonFavoriteCities = citiesWeatherCopy.filter(
+      (city) => !favoriteCitiesIds.includes(city.cityId)
+    );
 
-    const sortedCities = remainingCities.sort((a, b) => {
-      const aIsFavorite = favoriteCities.includes(a.name);
-      const bIsFavorite = favoriteCities.includes(b.name);
+    const sortedFavoriteCities = favoriteCities.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    const sortedNonFavoriteCities = nonFavoriteCities.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
 
-      if (aIsFavorite && !bIsFavorite) return -1;
-      if (!aIsFavorite && bIsFavorite) return 1;
-      return a.name.localeCompare(b.name);
-    });
-
-    return sortedCities.slice(0, maxNumberOfCities);
-  }, [citiesWeather, removedCities, favoriteCities, maxNumberOfCities]);
+    return [...sortedFavoriteCities, ...sortedNonFavoriteCities];
+  }, [citiesWeather, favoriteCitiesIds]);
 
   if (fetchingCitiesWeather) {
     return (
@@ -60,13 +66,13 @@ export default function Cities() {
     <div className="mb-6 sm:mb-10">
       <Header1 className="mb-6 sm:mb-10">Cities</Header1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {sortedAndFilteredCitiesWeather.map((wr) => (
+        {displayedBiggestCities.map((wr) => (
           <CityWeatherCard
-            key={wr?.name}
+            key={wr?.name+wr?.name}
             weatherResponse={wr}
-            toggleFavorite={toggleFavorite}
-            toggleRemoved={toggleRemoved}
-            isFavorite={favoriteCities.includes(wr.name)}
+            toggleFavorite={toggleFavoriteCityId}
+            toggleRemoved={toggleRemovedCityId}
+            isFavorite={favoriteCitiesIds.includes(wr.cityId)}
           />
         ))}
       </div>

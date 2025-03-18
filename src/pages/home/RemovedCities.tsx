@@ -1,84 +1,125 @@
-import { useEffect, useMemo } from "react";
+import React from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state-manager/store";
 import useRemovedCities from "../../hooks/city/useRemovedCities";
 import { uiActions } from "../../state-manager/uiSlice";
 import { getWeatherStatus } from "../../utils/weather";
+import {
+  BIGGEST_CITIES,
+  getRemovedCities,
+} from "../../state-manager/citySlice";
 import PlusIcon from "../../components/icons/PlusIcon";
+import Spinner from "../../components/general/Spinner";
 import type { WeatherResponse } from "../../state-manager/types";
+import type { AppDispatch } from "../../state-manager/store";
 
 export default function RemovedCities() {
-  const dispatch = useDispatch();
-  const { citiesWeather } = useSelector((state: RootState) => state.city);
-  const { toggleRemoved, removedCities } = useRemovedCities();
+  const dispatch: AppDispatch = useDispatch();
+  const { removedCities, fetchingRemovedCities } = useSelector(
+    (state: RootState) => state.city
+  );
+  const { showRemovedCities } = useSelector((state: RootState) => state.ui);
+  const { toggleRemovedCityId, removedCitiesIds } = useRemovedCities();
 
-  const displayedCitiesWeather = useMemo(() => {
-    return citiesWeather?.filter((city) => removedCities.includes(city.name));
-  }, [citiesWeather, removedCities]);
+  const closeModalHandler = () => {
+    dispatch(uiActions.toggleShowRemovedCities());
+  };
 
   useEffect(() => {
-    if (displayedCitiesWeather?.length === 0)
-      dispatch(uiActions.toggleShowRemovedCities());
-  }, [displayedCitiesWeather?.length, dispatch]);
+    if (removedCitiesIds?.length === 0) {
+      closeModalHandler();
+      return;
+    }
+
+    const blacklistedCities = BIGGEST_CITIES.filter((city) =>
+      removedCitiesIds.includes(city.cityId)
+    );
+
+    dispatch(getRemovedCities(blacklistedCities));
+  }, [dispatch, removedCitiesIds]);
 
   return (
-    <>
-      <div
-        onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-        className="fixed bottom-0 right-0 w-screen h-screen z-40 bg-[rgba(0,0,0,0.50)]"
-      ></div>
-      <Modal>
-        {displayedCitiesWeather?.map((wr) => (
-          <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemoved} />
-        ))}
-      </Modal>
-    </>
+    <Modal open={showRemovedCities} onClose={closeModalHandler}>
+      {fetchingRemovedCities ? (
+        <p className="text-black text-lg sm:text-xl text-center">
+          <Spinner className="h-auto text-black" />
+        </p>
+      ) : (
+        removedCities?.map((wr) => (
+          <Item
+            key={wr.name}
+            weatherResponse={wr}
+            removeCity={toggleRemovedCityId}
+          />
+        ))
+      )}
+    </Modal>
   );
 }
 
-type ModalProps = {
+function Modal({
+  children,
+  open,
+  onClose,
+}: {
   children: React.ReactNode;
-};
+  open: boolean;
+  onClose: () => void;
+}) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-function Modal({ children }: ModalProps) {
+  useEffect(() => {
+    if (open) {
+      dialogRef.current?.showModal();
+    } else {
+      dialogRef.current?.close();
+    }
+  }, [open]);
+
   return (
-    <ul className="fixed top-1/2 left-1/2 -translate-x-1/2 z-50 -translate-y-1/2 flex w-[26rem] bg-white flex-col gap-3 px-3 py-2 rounded-[1.25rem]">
-      {children}
-    </ul>
+    <dialog
+      ref={dialogRef}
+      className="w-screen h-screen max-w-screen max-h-screen fixed bottom-0 right-0 flex items-center justify-center z-50 bg-[rgba(0,0,0,0.50)]"
+      onClick={(e) => {
+        if (e.target === dialogRef.current) onClose();
+      }}
+    >
+      <ul className="w-full sm:max-w-[30%] max-w-[80%] max-h-[60%] overflow-y-auto bg-white flex flex-col gap-3 px-3 py-2 rounded-[1.25rem] shadow-lg">
+        {children}
+      </ul>
+    </dialog>
   );
 }
 
-type ItemProps = {
+function Item({
+  weatherResponse,
+  removeCity,
+}: {
   weatherResponse: WeatherResponse;
   removeCity: (city: string) => void;
-};
-
-function Item({ weatherResponse, removeCity }: ItemProps) {
+}) {
   const weatherStatusColor = getWeatherStatus(
     weatherResponse.current.weathercode
   );
 
   return (
-    <li className="w-full shadow-[0px_4px_4px_0px_rgba(29,114,207,0.15)] rounded-[0.625rem] px-[1rem] py-[0.5rem] flex items-center justify-between">
+    <li className="w-full shadow-md rounded-[0.625rem] px-4 py-2 flex items-center justify-between">
       <span className="flex flex-col">
-        <span className="text-[#6B7280] text-xs not-italic font-medium leading-[normal] font-manrope">
-          {new Date(weatherResponse.current.time)?.toDateString()}
+        <span className="text-gray-500 text-xs font-medium">
+          {new Date(weatherResponse.current.time).toDateString()}
         </span>
-        <span className="text-[#111827] text-xl not-italic font-extrabold leading-[normal] font-manrope">
+        <span className="text-gray-900 text-xl font-extrabold">
           {weatherResponse.name}
         </span>
       </span>
       <span className="flex items-end">
-        <span
-          className={
-            "bg-clip-text text-3xl not-italic font-extrabold leading-[normal] bg-gradient-to-t text-transparent font-manrope from-[#111827] to-[#6B7280]"
-          }
-        >
+        <span className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-t from-gray-900 to-gray-500">
           {weatherResponse.current.temperature_2m}
           {weatherResponse.current_units.temperature_2m}
         </span>
         <span
-          className="text-xs not-italic font-extrabold leading-[normal] font-manrope"
+          className="text-xs font-extrabold"
           style={{ color: weatherStatusColor.color }}
         >
           {weatherStatusColor.status}

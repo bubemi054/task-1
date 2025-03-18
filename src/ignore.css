@@ -1,5 +1,8 @@
 .nonsense {
-  @apply text-black text-[28px] not-italic font-medium leading-9;
-  font-family: Roboto;
-  /* 128.571% */
+  @apply text-[color:var(--Cool-Gray-500,#6B7280)] text-[0.3125rem] not-italic font-medium leading-[normal];
+  font-family: Manrope;
+}
+.nnn{
+  @apply text-[color:var(--Cool-Gray-900,#111827)] text-sm not-italic font-extrabold leading-[normal];
+  font-family: Manrope;
 }

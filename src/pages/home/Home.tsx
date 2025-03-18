@@ -1,3 +1,4 @@
+import React from "react";
 import SearchBar from "./SearchBar";
 import FavoriteCities from "./FavoriteCities";
 import Cities from "./Cities";

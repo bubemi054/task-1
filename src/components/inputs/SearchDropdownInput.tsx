@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import SearchIcon from "../icons/SearchIcon";
 import { twMerge } from "tailwind-merge";
 import { City } from "../../state-manager/types";
+import { FixedSizeList as List } from "react-window";
+import Fuse from "fuse.js";
+
+const ITEM_HEIGHT = 40;
 
 type SearchDropdownInputProps = {
   value?: string;
@@ -10,6 +14,19 @@ type SearchDropdownInputProps = {
   placeholder?: string;
   items?: City[];
   onSelect?: (item: string) => void;
+  timeout?: number;
+};
+
+type DropdownProps = {
+  items: City[];
+  value: string;
+  onSelect: (item: string) => void;
+};
+
+type DropdownItemProps = {
+  text: string;
+  onClick: () => void;
+  style?: React.CSSProperties;
 };
 
 export default function SearchDropdownInput({
@@ -42,7 +59,7 @@ export default function SearchDropdownInput({
         onChange={(e) => onChange && onChange(e.target.value)}
         onFocus={() => setInputIsFocused(true)}
         onBlur={() => {
-          setTimeout(() => setInputIsFocused(false), 300);
+          setTimeout(() => setInputIsFocused(false), 200);
         }}
       />
       <SearchIcon />
@@ -53,45 +70,49 @@ export default function SearchDropdownInput({
   );
 }
 
-type DropdownProps = {
-  items: City[];
-  value: string;
-  onSelect: (item: string) => void;
-};
-
 function Dropdown({ items, onSelect, value }: DropdownProps) {
-  const filteredItems = items.filter((item) => 
-    !value || item.name.toLowerCase().includes(value.toLowerCase())
-  );
+  const fuse = useMemo(() => new Fuse(items, { keys: ["name"], threshold: 0.3 }), [items]);
+
+  const filteredItems = useMemo(() => {
+    if (!value.trim()) return [];
+    return fuse.search(value).map(result => result.item);
+  }, [value, fuse]);
+
+  if (filteredItems.length === 0) return null;
 
   return (
     <div
       data-testid="search-dropdown"
-      className="absolute top-[105%] left-0 w-full sm:w-auto z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60 overflow-y-auto"
+      className="absolute top-[105%] left-0 w-full sm:w-full z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60"
     >
-      <ul className="py-2 text-sm text-gray-700">
-        {filteredItems.map((item) => (
-          <DropdownItem key={item.name} text={item.address} onClick={() => onSelect(item.name)} />
-        ))}
-      </ul>
+      <List
+        height={Math.min(filteredItems.length * ITEM_HEIGHT, 240)} // Adjust height dynamically
+        itemCount={filteredItems.length}
+        itemSize={ITEM_HEIGHT}
+        width="100%"
+      >
+        {({ index, style }) => (
+          <DropdownItem
+            key={filteredItems[index].name}
+            text={filteredItems[index].name}
+            onClick={() => onSelect(filteredItems[index].name)}
+            style={style}
+          />
+        )}
+      </List>
     </div>
   );
 }
 
-type DropdownItemProps = {
-  text: string;
-  onClick: () => void;
-};
-
-function DropdownItem({ text, onClick }: DropdownItemProps) {
+function DropdownItem({ text, onClick, style }: DropdownItemProps) {
   return (
-    <li data-testid="search-dropdown-item">
+    <div style={style} data-testid="search-dropdown-item" className="px-4 py-2 hover:bg-gray-100 transition-all border-b border-b-gray-200">
       <button
         onClick={onClick}
-        className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-all"
+        className="w-full h-full text-left cursor-pointer text-[#111827] text-base not-italic font-medium leading-[normal] font-manrope"
       >
         {text}
       </button>
-    </li>
+    </div>
   );
 }

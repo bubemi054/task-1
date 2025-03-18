@@ -7,10 +7,10 @@ const STORAGE_KEY = "removedCities";
 
 export default function useRemovedCities() {
   const dispatch = useDispatch();
-  const { removedCities } = useSelector((state: RootState) => state.ui);
+  const { removedCitiesIds } = useSelector((state: RootState) => state.ui);
 
   const setRemovedCities = (cities: string[]) => {
-    dispatch(uiActions.changeRemovedCities(cities));
+    dispatch(uiActions.changeRemovedCitiesIds(cities));
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cities));
   };
 
@@ -19,13 +19,13 @@ export default function useRemovedCities() {
     setRemovedCities(stored ? JSON.parse(stored) : []);
   }, []);
 
-  const toggleRemoved = (city: string) => {
+  const toggleRemovedCityId = (cityId: string) => {
     setRemovedCities(
-      removedCities.includes(city)
-        ? removedCities.filter((c) => c !== city)
-        : [...removedCities, city]
+      removedCitiesIds.includes(cityId)
+        ? removedCitiesIds.filter((c) => c !== cityId)
+        : [...removedCitiesIds, cityId]
     );
   };
 
-  return { removedCities, toggleRemoved };
+  return { removedCitiesIds, toggleRemovedCityId };
 }
