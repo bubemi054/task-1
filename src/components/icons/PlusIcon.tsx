@@ -32,7 +32,7 @@ export default function PlusIcon({
         strokeLinejoin="round"
       />
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         clip-rule="evenodd"
         d="M11.8194 1.4165H5.18128C2.86739 1.4165 1.41699 3.05423 1.41699 5.37266V11.627C1.41699 13.9454 2.86064 15.5832 5.18128 15.5832H11.8194C14.14 15.5832 15.5837 13.9454 15.5837 11.627V5.37266C15.5837 3.05423 14.14 1.4165 11.8194 1.4165Z"
         stroke="black"

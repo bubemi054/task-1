@@ -50,7 +50,7 @@ export default function FavoriteCities() {
           </div>
         </div>
         {cities?.length > 0 ? (
-          <div className="grid grid-cols-5 gap-x-[2.95rem] gap-y-[1.7rem]">
+          <div className="flex justify-start gap-[30px] flex-wrap">
             {cities.map((wr) => (
               <CityWeatherCard
                 key={wr?.name}

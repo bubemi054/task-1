@@ -40,7 +40,7 @@ export default function Cities() {
 
   if (fetchingCitiesWeather) {
     return (
-      <div className="h-[20rem]">
+      <div className="h-80 flex items-center justify-center">
         <Spinner />
       </div>
     );
@@ -48,8 +48,10 @@ export default function Cities() {
 
   if (fetchingCitiesWeatherError) {
     return (
-      <div className="h-[20rem]">
-        <p className="text-white">{fetchingCitiesWeatherError}</p>
+      <div className="h-80 flex items-center justify-center">
+        <p className="text-white text-lg sm:text-xl text-center">
+          {fetchingCitiesWeatherError}
+        </p>
       </div>
     );
   }
@@ -57,7 +59,7 @@ export default function Cities() {
   return (
     <div className="mb-[1rem]">
       <Header1 className="mb-[2.7rem]">Cities</Header1>
-      <div className="flex justify-evenly gap-[30px] flex-wrap">
+      <div className="flex justify-start gap-[30px] flex-wrap">
         {sortedAndFilteredCitiesWeather.map((wr) => (
           <CityWeatherCard
             key={wr?.name}

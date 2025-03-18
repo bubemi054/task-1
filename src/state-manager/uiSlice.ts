@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+// import cities from 'all-the-cities';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+// const cities = require('all-the-cities');
 
 export interface CounterState {
   maxNumberOfCities: number;
@@ -35,6 +38,9 @@ export const uiSlice = createSlice({
     },
   },
 });
+
+// console.log(cities.filter(city => city.name.match('Albuquerque')));
+
 
 export const BIGGEST_CITIES = [
   {

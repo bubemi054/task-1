@@ -22,13 +22,14 @@ export default function SearchBar() {
   };
 
   return (
-    <nav className="flex items-center justify-end gap-x-[1.6rem] mb-[3.8rem]">
+    <nav className="flex items-center justify-between lg:justify-end lg:gap-x-[1.6rem] mb-[3.8rem]">
       <SearchDropdownInput
         value={searchCityText}
         placeholder="Search City"
         onChange={changeCityTextHandler}
         onSelect={selectCityHandler}
         items={BIGGEST_CITIES}
+        className="max-w-[13rem] lg:max-w-none"
       />
         <NotificationIcon />
         <ProfileIcon />

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SearchIcon from "../icons/SearchIcon";
 import { twMerge } from "tailwind-merge";
 import { City } from "../../state-manager/types";
 
-type SearchDropdownInput = {
+type SearchDropdownInputProps = {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
@@ -19,44 +19,35 @@ export default function SearchDropdownInput({
   placeholder,
   items,
   onSelect,
-}: SearchDropdownInput) {
+}: SearchDropdownInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputIsFocused, setInputIsFocused] = useState(false);
 
   useEffect(() => {
-    if (inputIsFocused) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
+    setIsOpen(inputIsFocused);
   }, [value, inputIsFocused]);
 
   return (
     <div
       className={twMerge(
-        "inline-flex relative justify-center items-center pl-[1.8125rem] pr-[1.60938rem] pt-[0.8125rem] pb-3 rounded-[0.625rem] bg-[rgba(0,0,0,0.50)]",
+        "relative flex items-center w-full sm:w-auto px-4 py-3 rounded-lg bg-black/50",
         className
       )}
     >
       <input
-        className="text-[rgba(255,255,255,0.50)] text-2xl not-italic font-normal leading-[normal] outline-none"
+        data-testid="search-input-general"
+        className="w-full sm:w-auto flex-1 text-white/80 text-lg outline-none bg-transparent placeholder-gray-400"
         placeholder={placeholder || "Search"}
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
         onFocus={() => setInputIsFocused(true)}
         onBlur={() => {
-          setTimeout(() => {
-            setInputIsFocused(false);
-          }, 300);
+          setTimeout(() => setInputIsFocused(false), 300);
         }}
       />
       <SearchIcon />
       {isOpen && (
-        <Dropdown
-          value={value || ""}
-          items={items || []}
-          onSelect={onSelect || (() => {})}
-        />
+        <Dropdown value={value || ""} items={items || []} onSelect={onSelect || (() => {})} />
       )}
     </div>
   );
@@ -69,20 +60,18 @@ type DropdownProps = {
 };
 
 function Dropdown({ items, onSelect, value }: DropdownProps) {
-  const filteredItems = items.filter((item) => {
-    if (!value) return true;
-    return item.name.toLowerCase().includes(value.toLowerCase());
-  });
+  const filteredItems = items.filter((item) => 
+    !value || item.name.toLowerCase().includes(value.toLowerCase())
+  );
 
   return (
-    <div className="absolute top-[105%] w-full z-10 bg-white divide-y divide-gray-300 rounded-lg shadow-sm max-h-[200px] overflow-y-auto">
-      <ul className="py-2 text-sm text-[rgba(0,0,0,0.50)]">
+    <div
+      data-testid="search-dropdown"
+      className="absolute top-[105%] left-0 w-full sm:w-auto z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60 overflow-y-auto"
+    >
+      <ul className="py-2 text-sm text-gray-700">
         {filteredItems.map((item) => (
-          <DropdownItem
-            key={item.name}
-            text={item.address}
-            onClick={() => onSelect(item.name)}
-          />
+          <DropdownItem key={item.name} text={item.address} onClick={() => onSelect(item.name)} />
         ))}
       </ul>
     </div>
@@ -96,10 +85,10 @@ type DropdownItemProps = {
 
 function DropdownItem({ text, onClick }: DropdownItemProps) {
   return (
-    <li>
+    <li data-testid="search-dropdown-item">
       <button
         onClick={onClick}
-        className="block w-full text-left px-4 py-2 cursor-pointer"
+        className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-all"
       >
         {text}
       </button>

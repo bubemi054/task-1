@@ -19,7 +19,8 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn', // Use this for TypeScript files
+      'no-unused-vars': 'off', // Disable the base rule to prevent conflicts
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
