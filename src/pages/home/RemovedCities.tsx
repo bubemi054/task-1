@@ -22,17 +22,11 @@ export default function RemovedCities() {
   }, [displayedCitiesWeather?.length, dispatch]);
 
   return (
-    <>
-      {/* <div
-        onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-        className="fixed bottom-0 right-0 w-screen h-screen z-40 bg-[rgba(0,0,0,0.50)]"
-      ></div> */}
-      <Modal>
-        {displayedCitiesWeather?.map((wr) => (
-          <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemoved} />
-        ))}
-      </Modal>
-    </>
+    <Modal>
+      {displayedCitiesWeather?.map((wr) => (
+        <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemoved} />
+      ))}
+    </Modal>
   );
 }
 
@@ -68,9 +62,8 @@ function Item({ weatherResponse, removeCity }: ItemProps) {
           {weatherResponse.name}
         </span>
       </span>
-      
-      <div className="flex items-center justify-center gap-5">
 
+      <div className="flex items-center justify-center gap-5">
         <span className="w-[120px] flex justify-center gap-1 items-end">
           <div className="text-left">
             <span className="bg-clip-text text-[20px] not-italic font-extrabold leading-normal bg-gradient-to-t text-transparent font-manrope from-[#111827] to-[#6B7280]">
