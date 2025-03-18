@@ -7,7 +7,7 @@ const STORAGE_KEY = "removedCities";
 
 export default function useRemovedCities() {
   const dispatch = useDispatch();
-  const { removedCitiesIds } = useSelector((state: RootState) => state.ui);
+  const { removedCitiesIds, showRemovedCities } = useSelector((state: RootState) => state.ui);
 
   const setRemovedCities = (cities: string[]) => {
     dispatch(uiActions.changeRemovedCitiesIds(cities));
@@ -27,5 +27,5 @@ export default function useRemovedCities() {
     );
   };
 
-  return { removedCitiesIds, toggleRemovedCityId };
+  return { removedCitiesIds, toggleRemovedCityId, showRemovedCities };
 }

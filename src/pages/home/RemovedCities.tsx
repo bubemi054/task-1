@@ -40,69 +40,55 @@ export default function RemovedCities() {
   }, [dispatch, removedCitiesIds]);
 
   return (
-    // <>
-    //   {/* <div
-    //     onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-    //     className="fixed bottom-0 right-0 w-screen h-screen z-40 bg-[rgba(0,0,0,0.50)]"
-    //   ></div> */}
-    //   <Modal>
-    //     {displayedCitiesWeather?.map((wr) => (
-    //       <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemoved} />
-    //     ))}
-    //   </Modal>
-    // </>
-    <Modal open={showRemovedCities} onClose={closeModalHandler}>
-      {fetchingRemovedCities ? (
-        <p className="text-black text-lg sm:text-xl text-center">
-          <Spinner className="h-auto text-black" />
-        </p>
-      ) : (
-        removedCities?.map((wr) => (
-          <Item
-            key={wr.name}
-            weatherResponse={wr}
-            removeCity={toggleRemovedCityId}
-          />
-        ))
-      )}
-    </Modal>
+    <>
+      <Modal>
+        {removedCities?.map((wr) => (
+          <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemovedCityId} />
+        ))}
+      </Modal>
+    </>
+    // <Modal open={showRemovedCities} onClose={closeModalHandler}>
+    //   {fetchingRemovedCities ? (
+    //     <p className="text-black text-lg sm:text-xl text-center">
+    //       <Spinner className="h-auto text-black" />
+    //     </p>
+    //   ) : (
+    //     removedCities?.map((wr) => (
+    //       <Item
+    //         key={wr.name}
+    //         weatherResponse={wr}
+    //         removeCity={toggleRemovedCityId}
+    //       />
+    //     ))
+    //   )}
+    // </Modal>
   );
 }
 
 function Modal({
   children,
-  open,
-  onClose,
 }: {
   children: React.ReactNode;
-  open: boolean;
-  onClose: () => void;
 }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
-    if (open) {
-      dialogRef.current?.showModal();
-    } else {
-      dialogRef.current?.close();
-    }
-  }, [open]);
+  // const dialogRef = useRef<HTMLDialogElement>(null);
 
   return (
-    // <ul className="absolute top-[50px] flex w-[20rem] bg-white flex-col gap-3 px-3 py-2 rounded-[1.25rem]">
-    //   {children}
-    // </ul>
-    <dialog
-      ref={dialogRef}
-      className="w-screen h-screen max-w-screen max-h-screen fixed bottom-0 right-0 flex items-center justify-center z-50 bg-[rgba(0,0,0,0.50)]"
-      onClick={(e) => {
-        if (e.target === dialogRef.current) onClose();
-      }}
-    >
-      <ul className="w-full sm:max-w-[30%] max-w-[80%] max-h-[60%] overflow-y-auto bg-white flex flex-col gap-3 px-3 py-2 rounded-[1.25rem] shadow-lg">
-        {children}
-      </ul>
-    </dialog>
+    <ul className="absolute top-[50px] flex w-[20rem] bg-white flex-col gap-3 px-3 py-2 rounded-[1.25rem]">
+      {children}
+    </ul>
+    
+    // <dialog
+    //   ref={dialogRef}
+    //   className="w-screen h-screen max-w-screen max-h-screen fixed bottom-0 right-0 flex items-center justify-center z-50 bg-[rgba(0,0,0,0.50)]"
+    //   onClick={(e) => {
+    //     if (e.target === dialogRef.current) onClose();
+    //   }}
+    // >
+    //   <ul className="w-full sm:max-w-[30%] max-w-[80%] max-h-[60%] overflow-y-auto bg-white flex flex-col gap-3 px-3 py-2 rounded-[1.25rem] shadow-lg">
+    //     {children}
+    //   </ul>
+    // </dialog>
   );
 }
 
