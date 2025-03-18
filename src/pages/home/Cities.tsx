@@ -19,24 +19,24 @@ export default function Cities() {
 
   useEffect(() => {
     dispatch(getCitiesWeather(BIGGEST_CITIES));
-  }, []);
+  }, [dispatch]);
 
   const sortedAndFilteredCitiesWeather = useMemo(() => {
     const remainingCities = citiesWeather
       ?.slice()
       .filter((city) => !removedCities.includes(city.name));
 
-    const sortedCities = remainingCities.sort((a, b) => {
-      const aIsFavorite = favoriteCities.includes(a.name);
-      const bIsFavorite = favoriteCities.includes(b.name);
+    // const sortedCities = remainingCities.sort((a, b) => {
+    //   const aIsFavorite = favoriteCities.includes(a.name);
+    //   const bIsFavorite = favoriteCities.includes(b.name);
 
-      if (aIsFavorite && !bIsFavorite) return -1;
-      if (!aIsFavorite && bIsFavorite) return 1;
-      return a.name.localeCompare(b.name);
-    });
+    //   if (aIsFavorite && !bIsFavorite) return -1;
+    //   if (!aIsFavorite && bIsFavorite) return 1;
+    //   return a.name.localeCompare(b.name);
+    // });
 
-    return sortedCities.slice(0, maxNumberOfCities);
-  }, [citiesWeather, removedCities, favoriteCities, maxNumberOfCities]);
+    return remainingCities.slice(0, maxNumberOfCities);
+  }, [citiesWeather, removedCities, maxNumberOfCities]);
 
   if (fetchingCitiesWeather) {
     return (
@@ -57,7 +57,7 @@ export default function Cities() {
   return (
     <div className="mb-[1rem]">
       <Header1 className="mb-[2.7rem]">Cities</Header1>
-      <div className="grid grid-cols-5 gap-x-[2.95rem] gap-y-[1.7rem]">
+      <div className="flex justify-evenly gap-[30px] flex-wrap">
         {sortedAndFilteredCitiesWeather.map((wr) => (
           <CityWeatherCard
             key={wr?.name}

@@ -64,7 +64,7 @@ export default function CityWeatherCard({
   return (
     <div
       className={twMerge(
-        "rounded-[1.25rem] px-[1rem] py-[1.5rem]",
+        "h-[380px] min-w-[230px] rounded-[1.25rem] px-[1rem] py-[2rem] flex flex-col justify-between",
         `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`
       )}
     >
@@ -72,7 +72,7 @@ export default function CityWeatherCard({
         <div className="">
           <p
             className={twMerge(
-              "text-xs not-italic font-medium leading-[normal] font-manrope",
+              "text-[10px] mb-[3px] not-italic font-medium leading-[normal] font-manrope",
               `${isNightTime ? "text-[#E3E3E3]" : "text-[#6B7280]"}`
             )}
           >
@@ -92,17 +92,17 @@ export default function CityWeatherCard({
           fill={isFavorite ? "#F1CC51" : "none"}
         />
       </div>
-      <div className="flex items-center justify-center w-full h-[8rem]">
+      <div className="flex items-center justify-center max-w-[200px] max-h-[200px] m-auto">
         <img
           src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
           alt="cat"
-          className=""
+          className="w-[100%] h-[100%] object-contain"
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative bottom-2">
         <p
           className={
-            "bg-clip-text text-[2.5rem] not-italic font-extrabold leading-[normal] bg-gradient-to-t text-transparent font-manrope from-[#111827] to-[#6B7280]"
+            "bg-clip-text text-[2.5rem] not-italic font-extrabold leading-[normal] bg-gradient-to-b text-transparent font-manrope from-[rgba(255,255,255,0.6)] to-[rgba(0,0,0,0.1)]"
           }
         >
           {weatherResponse.current.temperature_2m}

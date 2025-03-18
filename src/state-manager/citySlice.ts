@@ -8,6 +8,7 @@ export const fetchCityWeather = async (
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
   baseURL.searchParams.set("latitude", city.lat.toString());
   baseURL.searchParams.set("longitude", city.lon.toString());
+  baseURL.searchParams.set("forecast_days", "7");
   baseURL.searchParams.set("current", "temperature_2m,weathercode");
   baseURL.searchParams.set("hourly", "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover");
 
