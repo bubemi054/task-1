@@ -52,9 +52,9 @@ export default function CityWeatherCard({
   isFavorite,
 }: CityWeatherCardProps) {
   const navigate = useNavigate();
-  const isNightTime = isNight(weatherResponse.current.time);
+  const isNightTime = isNight(weatherResponse?.current?.time);
   const weatherStatusColor = getWeatherStatus(
-    weatherResponse.current.weathercode
+    weatherResponse?.current?.weathercode
   );
 
   const viewInDetail = () => {
@@ -76,7 +76,7 @@ export default function CityWeatherCard({
               `${isNightTime ? "text-[#E3E3E3]" : "text-[#6B7280]"}`
             )}
           >
-            {new Date(weatherResponse.current.time).toDateString()}
+            {new Date(weatherResponse?.current?.time)?.toDateString()}
           </p>
           <p
             className={twMerge(
@@ -88,13 +88,13 @@ export default function CityWeatherCard({
           </p>
         </div>
         <StarIcon
-          onClick={() => toggleFavorite(weatherResponse.name)}
+          onClick={() => toggleFavorite(weatherResponse.cityId)}
           fill={isFavorite ? "#F1CC51" : "none"}
         />
       </div>
       <div className="flex items-center justify-center max-w-[200px] max-h-[200px] m-auto">
         <img
-          src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
+          src={getCatImage(isNightTime, weatherResponse?.current?.weathercode)}
           alt="cat"
           className="w-[100%] h-[100%] object-contain"
         />
@@ -110,24 +110,26 @@ export default function CityWeatherCard({
             }`
           )}
         >
-          {weatherResponse.current.temperature_2m}
-          {weatherResponse.current_units.temperature_2m}
+          {weatherResponse?.current?.temperature_2m}
+          {weatherResponse?.current_units?.temperature_2m}
         </p>
         <SendIcon
           stroke={isNightTime ? "#fff" : "#000"}
           onClick={viewInDetail}
+          className="cursor-pointer"
         />
       </div>
       <div className="flex justify-between items-center">
         <p
           className="text-xs not-italic font-extrabold leading-[normal] font-manrope"
-          style={{ color: weatherStatusColor.color }}
+          style={{ color: weatherStatusColor?.color }}
         >
-          {weatherStatusColor.status}
+          {weatherStatusColor?.status}
         </p>
         <TrashIcon
-          onClick={() => toggleRemoved(weatherResponse.name)}
+          onClick={() => toggleRemoved(weatherResponse?.cityId)}
           stroke={isNightTime ? "#fff" : "#000"}
+          className="cursor-pointer"
         />
       </div>
     </div>

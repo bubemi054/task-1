@@ -7,10 +7,10 @@ const STORAGE_KEY = "favoriteCities";
 
 export default function useFavoriteCities() {
   const dispatch = useDispatch();
-  const { favoriteCities } = useSelector((state: RootState) => state.ui);
+  const { favoriteCitiesIds } = useSelector((state: RootState) => state.ui);
 
   const setFavoriteCities = (cities: string[]) => {
-    dispatch(uiActions.changeFavoriteCities(cities));
+    dispatch(uiActions.changeFavoriteCitiesIds(cities));
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cities));
   };
 
@@ -19,13 +19,16 @@ export default function useFavoriteCities() {
     setFavoriteCities(stored ? JSON.parse(stored) : []);
   }, []);
 
-  const toggleFavorite = (city: string) => {
+  const toggleFavoriteCityId = (cityId: string) => {
+    console.log(cityId);
+    console.log(favoriteCitiesIds);
+    console.log(favoriteCitiesIds.includes(cityId));
     setFavoriteCities(
-      favoriteCities.includes(city)
-        ? favoriteCities.filter((c) => c !== city)
-        : [...favoriteCities, city]
+      favoriteCitiesIds.includes(cityId)
+        ? favoriteCitiesIds.filter((c) => c !== cityId)
+        : [...favoriteCitiesIds, cityId]
     );
   };
 
-  return { favoriteCities, toggleFavorite };
+  return { favoriteCitiesIds, toggleFavoriteCityId };
 }
