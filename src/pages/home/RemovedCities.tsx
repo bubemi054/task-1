@@ -36,7 +36,7 @@ export default function RemovedCities() {
     );
 
     dispatch(getRemovedCities(blacklistedCities));
-  }, [removedCitiesIds]);
+  }, [removedCitiesIds, dispatch]);
 
   return (
     <>
