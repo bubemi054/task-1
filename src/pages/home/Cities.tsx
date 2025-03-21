@@ -23,13 +23,15 @@ export default function Cities() {
     );
     const maxRemainingCities = remainingCities.slice(0, maxNumberOfCities);
     dispatch(getCitiesWeather(maxRemainingCities));
-  }, [dispatch, maxNumberOfCities, removedCitiesIds]);
+  }, [dispatch, maxNumberOfCities]);
 
   const displayedBiggestCities = useMemo(() => {
     const citiesWeatherCopy = citiesWeather.slice();
+    
     const favoriteCities = citiesWeatherCopy.filter((city) =>
       favoriteCitiesIds.includes(city.cityId)
     );
+
     const nonFavoriteCities = citiesWeatherCopy.filter(
       (city) => !favoriteCitiesIds.includes(city.cityId)
     );
@@ -37,6 +39,7 @@ export default function Cities() {
     const sortedFavoriteCities = favoriteCities.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
+
     const sortedNonFavoriteCities = nonFavoriteCities.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
@@ -68,7 +71,7 @@ export default function Cities() {
       <div className="flex justify-start gap-[30px] flex-wrap">
         {displayedBiggestCities.map((wr) => (
           <CityWeatherCard
-            key={wr?.name+wr?.name}
+            key={wr?.name + wr?.name}
             weatherResponse={wr}
             toggleFavorite={toggleFavoriteCityId}
             toggleRemoved={toggleRemovedCityId}

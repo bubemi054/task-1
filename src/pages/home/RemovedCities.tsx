@@ -15,10 +15,9 @@ import type { AppDispatch } from "../../state-manager/store";
 
 export default function RemovedCities() {
   const dispatch: AppDispatch = useDispatch();
-  const { removedCities, fetchingRemovedCities } = useSelector(
+  const { removedCities } = useSelector(
     (state: RootState) => state.city
   );
-  const { showRemovedCities } = useSelector((state: RootState) => state.ui);
   const { toggleRemovedCityId, removedCitiesIds } = useRemovedCities();
 
   const closeModalHandler = () => {

@@ -8,12 +8,24 @@ export const fetchCityWeather = async (
 ): Promise<WeatherResponse> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
   const [longitude, latitude] = city.loc.coordinates;
-  baseURL.searchParams.set("latitude", longitude.toString());
-  baseURL.searchParams.set("longitude", latitude.toString());
+
+  baseURL.searchParams.set("latitude", latitude.toString());
+  baseURL.searchParams.set("longitude", longitude.toString());
+  baseURL.searchParams.set("timezone", "auto");
+
+  // Fetch Current Weather
   baseURL.searchParams.set(
     "current",
-    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover"
+    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index"
   );
+
+  // Fetch 7-Day Forecast
+  baseURL.searchParams.set("forecast_days", "7");
+  baseURL.searchParams.set(
+    "daily",
+    "temperature_2m_max,temperature_2m_min,weathercode"
+  );
+
   baseURL.searchParams.set(
     "hourly",
     "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover"
@@ -21,6 +33,7 @@ export const fetchCityWeather = async (
 
   const url = baseURL.toString();
   const response = await axios.get(url);
+
   return { ...response.data, ...city };
 };
 
@@ -34,7 +47,7 @@ export const fetchCitiesWeather = async (
   baseURL.searchParams.set("longitude", longitudes);
   baseURL.searchParams.set(
     "current",
-    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover"
+    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index"
   );
   baseURL.searchParams.set(
     "hourly",
@@ -124,6 +137,7 @@ export const getCityWeather = createAsyncThunk(
   async (args: City, { rejectWithValue }) => {
     try {
       const weather = await fetchCityWeather(args);
+
       return weather;
     } catch (err: unknown) {
       if (err instanceof Error) {
