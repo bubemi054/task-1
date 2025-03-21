@@ -48,8 +48,9 @@ function Notes({ cityWeather }: NotesProps) {
   };
 
   const handleDeleteNote = (note: Note) => {
-      const newNotes = notes?.filter(n => n.id !== note.id)
-      setNotes(newNotes)
+      const updatedNotes = notes?.filter(n => n.id !== note.id)
+
+      localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes))
   }
 
   useEffect(() => {
