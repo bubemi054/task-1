@@ -28,7 +28,8 @@ export default function FavoriteCities() {
       return a.name.localeCompare(b.name);
     });
     return sortedCities;
-  }, [citiesWeather, favoriteCities, removedCities]);
+  }, [citiesWeather, removedCities]);
+  
 
   return (
     <>

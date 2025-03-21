@@ -41,6 +41,14 @@ export const uiSlice = createSlice({
 
 // console.log(cities.filter(city => city.name.match('Albuquerque')));
 
+export interface City {
+  name: string;
+  country: string;
+  area_km2: number;
+  lat: number;
+  lon: number;
+  address: string;
+}
 
 export const BIGGEST_CITIES = [
   {

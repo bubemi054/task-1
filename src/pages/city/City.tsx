@@ -8,7 +8,7 @@ import CityTimeDisplay from "./CityTimeDisplay";
 import MapComponent from "./MapComponent";
 import Forecast from "./Forcast";
 import WeatherCard from "./WeatherCardMain";
-import PopularCities from "./PopularCitite";
+import PopularCities from "./PopularCities";
 import { formatTimeAndDate } from "../../utils/weather";
 import Notes from "./Notes";
 
