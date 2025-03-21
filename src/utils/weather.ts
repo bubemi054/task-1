@@ -33,12 +33,12 @@ export function getWeatherStatus(wmoCode: number) {
 export const formatTimeAndDate = (isoString: string, lat: number, lon: number) => {
   if (!isoString) return { time: "N/A", dateString: "N/A" };
 
-  const timeZone = tzLookup(lat, lon); // Get timezone based on coordinates
-  const date = DateTime.fromISO(isoString, { zone: "utc" }) // Convert to UTC first
-    .setZone(timeZone); // Adjust to correct timezone
+  const timeZone = tzLookup(lat, lon);
+  const date = DateTime.fromISO(isoString, { zone: "utc" })
+    .setZone(timeZone);
 
   return {
-    time: date.toFormat("HH:mm"), // 24-hour format
-    dateString: date.toFormat("EEEE, dd MMM"), // Weekday, DD MMM
+    time: date.toFormat("HH:mm"),
+    dateString: date.toFormat("EEEE, dd MMM"),
   };
 };
