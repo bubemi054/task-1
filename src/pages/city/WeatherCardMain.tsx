@@ -80,23 +80,23 @@ const WeatherCard: React.FC<WeatherCardProps> = ({
 
         <div className="grid grid-cols-2 gap-x-[40px] gap-y-[20px] mt-4 text-sm">
           <div className="flex flex-col items-center gap-2">
-            <span className="text-[50px]">🌊</span> {/* Increased size */}
-            <span className="font-medium">{humidity || "NA"}%</span>
+            <span className="text-[50px]">🌊</span>
+            <span className="font-medium">{humidity || "N/A"}%</span>
             <span className="text-white font-normal">Humidity</span>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <span className="text-[50px]">💨</span> {/* Increased size */}
-            <span className="font-medium">{windSpeed || "NA"}km/h</span>
+            <span className="text-[50px]">💨</span>
+            <span className="font-medium">{windSpeed || "N/A"}km/h</span>
             <span className="text-white font-normal">Wind Speed</span>
           </div>
           <div className="flex flex-col items-center gap-2">
-            <span className="text-[50px]">⏲</span> {/* Increased size */}
-            <span className="font-medium">{pressure || "NA"}hPa</span>
+            <span className="text-[50px]">⏲</span>
+            <span className="font-medium">{pressure || "N/A"}hPa</span>
             <span className="text-white font-normal">Pressure</span>
           </div>
           <div className="flex flex-col items-center gap-2">
             <span className="text-[50px]">🔆</span>
-            <span className="font-medium">{uvIndex || "NA"}</span>
+            <span className="font-medium">{uvIndex || "N/A"}</span>
             <span className="text-white font-normal">UV</span>
           </div>
         </div>

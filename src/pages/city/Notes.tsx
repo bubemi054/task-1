@@ -25,7 +25,7 @@ function Notes({ cityWeather }: NotesProps) {
 
     const updatedNotes = [...(notes || []), newNote];
 
-    setNotes([...updatedNotes]);
+    setNotes(updatedNotes ? [...updatedNotes] : []);
 
     localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
 
@@ -42,24 +42,38 @@ function Notes({ cityWeather }: NotesProps) {
       note.id === updatedNote.id ? updatedNote : note
     );
 
-    setNotes([...updatedNotes]);
+    setNotes(updatedNotes ? [...updatedNotes] : []);
 
     localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
   };
 
   const handleDeleteNote = (note: Note) => {
-    const updatedNotes = notes?.filter((n) => n.id !== note.id);
-    setNotes([...updatedNotes]);
-    localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
+    const updatedNotes = (notes ?? []).filter((n) => n.id !== note.id);
+    setNotes(updatedNotes);
   };
+  useEffect(() => {
+    if (!notes) return;
+    localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(notes));
+  }, [notes]);
 
   useEffect(() => {
     const savedNotes = localStorage.getItem(`${cityWeather.cityId}`);
     if (savedNotes) {
-      const parsedNotes = JSON.parse(savedNotes);
-      setNotes([...parsedNotes]);
+      try {
+        const parsedNotes = JSON.parse(savedNotes);
+        if (Array.isArray(parsedNotes)) {
+          setNotes((prevNotes) =>
+            JSON.stringify(prevNotes) !== JSON.stringify(parsedNotes)
+              ? parsedNotes
+              : prevNotes
+          );
+        }
+      } catch (error) {
+        console.error("Error parsing notes from localStorage", error);
+        setNotes([]);
+      }
     }
-  }, []);
+  }, [cityWeather]);
 
   return (
     <div className="">
@@ -68,7 +82,7 @@ function Notes({ cityWeather }: NotesProps) {
         <h2 className="text-white text-2xl font-bold">Notes</h2>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex justify-start items-start gap-[20px] flex-wrap">
         <div className="relative">
           <textarea
             className="w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] text-white rounded-lg relative min-h-[150px] flex flex-col justify-between outline-none"

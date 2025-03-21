@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Send, Pencil, Trash } from "lucide-react";
 import { Note } from "../../state-manager/types";
 
@@ -8,7 +8,12 @@ interface NoteCardProps {
   onDelete: (note: Note) => void;
 }
 
-const NoteCard: React.FC<NoteCardProps> = ({ initialNote, onSave, onDelete }) => {
+const NoteCard: React.FC<NoteCardProps> = ({
+  initialNote,
+  onSave,
+  onDelete,
+}) => {
+  const noteRef = useRef<HTMLTextAreaElement>(null);
   const [note, setNote] = useState<Note>(initialNote);
   const [editMode, setEditMode] = useState<boolean>(!note.text);
 
@@ -22,9 +27,17 @@ const NoteCard: React.FC<NoteCardProps> = ({ initialNote, onSave, onDelete }) =>
     setEditMode(false);
   };
 
+  useEffect(() => {
+  if (editMode && noteRef.current) {
+    noteRef.current.focus();
+  }
+}, [editMode]);
+
+
   return (
     <div className="relative">
       <textarea
+        ref={noteRef}
         className="w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] 
         text-white rounded-lg min-h-[150px] flex flex-col justify-between outline-none"
         disabled={!editMode}
