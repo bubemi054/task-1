@@ -8,7 +8,7 @@ interface NotesProps {
 }
 
 function Notes({ cityWeather }: NotesProps) {
-  const [notes, setNotes] = useState<Note[]>()
+  const [notes, setNotes] = useState<Note[]>();
   const [note, setNote] = useState<Note>({
     id: (notes?.length || 0) + 1,
     text: "",
@@ -24,8 +24,8 @@ function Notes({ cityWeather }: NotesProps) {
     const newNote = { ...note, id: (notes?.length || 0) + 1 };
 
     const updatedNotes = [...(notes || []), newNote];
-    
-    setNotes([...updatedNotes])
+
+    setNotes([...updatedNotes]);
 
     localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
 
@@ -36,28 +36,28 @@ function Notes({ cityWeather }: NotesProps) {
   };
 
   const handleUpdateNote = (updatedNote: Note) => {
-    if (notes?.length === 0) return 
+    if (notes?.length === 0) return;
 
     const updatedNotes = (notes || []).map((note) =>
       note.id === updatedNote.id ? updatedNote : note
     );
 
-    setNotes([...updatedNotes])
+    setNotes([...updatedNotes]);
 
     localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
   };
 
   const handleDeleteNote = (note: Note) => {
-      const updatedNotes = notes?.filter(n => n.id !== note.id)
-
-      localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes))
-  }
+    const updatedNotes = notes?.filter((n) => n.id !== note.id);
+    setNotes([...updatedNotes]);
+    localStorage.setItem(`${cityWeather.cityId}`, JSON.stringify(updatedNotes));
+  };
 
   useEffect(() => {
     const savedNotes = localStorage.getItem(`${cityWeather.cityId}`);
     if (savedNotes) {
       const parsedNotes = JSON.parse(savedNotes);
-      setNotes([...parsedNotes])
+      setNotes([...parsedNotes]);
     }
   }, []);
 
@@ -84,7 +84,11 @@ function Notes({ cityWeather }: NotesProps) {
         </div>
         {notes?.map((note) => (
           <div className="relative" key={note.id}>
-            <NoteCard initialNote={note} onSave={handleUpdateNote} onDelete={handleDeleteNote} />
+            <NoteCard
+              initialNote={note}
+              onSave={handleUpdateNote}
+              onDelete={handleDeleteNote}
+            />
           </div>
         ))}
       </div>
