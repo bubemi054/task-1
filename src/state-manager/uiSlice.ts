@@ -39,8 +39,6 @@ export const uiSlice = createSlice({
   },
 });
 
-// console.log(cities.filter(city => city.name.match('Albuquerque')));
-
 export interface City {
   name: string;
   country: string;
