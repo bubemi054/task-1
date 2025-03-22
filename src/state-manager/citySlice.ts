@@ -9,16 +9,15 @@ export const fetchCityLocationByPosition = async ([latitude, longitude]: [
 ]): Promise<City> => {
   const baseURL = new URL(
     `${
-      import.meta.env.VITE_PTV_URL
+      import.meta.env.VITE_PTV_GEO_CODE_URL
     }/v1/locations/by-position/${latitude}/${longitude}`
   );
   baseURL.searchParams.set("apiKey", import.meta.env.VITE_PTV_DEV_API_KEY);
-  // baseURL.searchParams.set("language", "en");
   const url = baseURL.toString();
   const response = await axios.get(url);
   const data = response?.data as PTVLocation;
-  console.log(data);
   const location = data.locations[0];
+
   const city: City = {
     cityId: 0,
     name: location.address.city,
@@ -32,7 +31,10 @@ export const fetchCityLocationByPosition = async ([latitude, longitude]: [
     population: 0,
     loc: {
       type: "Point",
-      coordinates: [latitude, longitude],
+      coordinates: [
+        location?.referencePosition?.latitude || latitude,
+        location?.referencePosition?.longitude || longitude,
+      ],
     },
   };
 
@@ -43,7 +45,7 @@ export const fetchCityWeather = async (
   city: City
 ): Promise<WeatherResponse> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
-  const [longitude, latitude] = city.loc.coordinates;
+  const [latitude, longitude] = city.loc.coordinates;
 
   baseURL.searchParams.set("latitude", latitude.toString());
   baseURL.searchParams.set("longitude", longitude.toString());
@@ -77,8 +79,8 @@ export const fetchCitiesWeather = async (
   cities: City[]
 ): Promise<WeatherResponse[]> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
-  const latitudes = cities.map((city) => city.loc.coordinates[1])?.join(",");
-  const longitudes = cities.map((city) => city.loc.coordinates[0])?.join(",");
+  const latitudes = cities.map((city) => city.loc.coordinates[0])?.join(",");
+  const longitudes = cities.map((city) => city.loc.coordinates[1])?.join(",");
   baseURL.searchParams.set("latitude", latitudes);
   baseURL.searchParams.set("longitude", longitudes);
   baseURL.searchParams.set(
@@ -190,9 +192,7 @@ export const getUserWeather = createAsyncThunk(
   async (args: [number, number], { rejectWithValue }) => {
     try {
       const city = await fetchCityLocationByPosition(args);
-      console.log(city);
       const weather = await fetchCityWeather(city);
-      console.log(weather);
       return weather;
     } catch (err: unknown) {
       console.log(err);

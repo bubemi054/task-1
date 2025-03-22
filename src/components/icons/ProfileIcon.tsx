@@ -1,8 +1,9 @@
 type ProfileIconProps = {
   className?: string;
+  onClick?: () => void;
 };
 
-export default function ProfileIcon({ className }: ProfileIconProps) {
+export default function ProfileIcon({ className, onClick }: ProfileIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +13,7 @@ export default function ProfileIcon({ className }: ProfileIconProps) {
       viewBox="0 0 51 51"
       fill="none"
       className={className}
+      onClick={onClick}
     >
       <circle
         id="image"

@@ -24,7 +24,7 @@ export default function useCurrentCity() {
     // const coords = JSON.parse(coordsString) as [number, number] || [0, 0];
 
     if (isGeolocationAvailable && coords) {
-      console.log("onibu");
+      console.log(coords);
       dispatch(getUserWeather([coords.latitude, coords.longitude]));
     }
   }, [isGeolocationAvailable, coords, dispatch]);

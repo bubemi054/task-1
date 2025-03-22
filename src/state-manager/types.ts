@@ -1,6 +1,6 @@
 export interface Note {
   id: number;
-  cityId?: number;
+  cityId?: number | string;
   text: string;
 }
 

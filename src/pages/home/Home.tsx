@@ -1,13 +1,13 @@
 import React from "react";
 import FavoriteCities from "./FavoriteCities";
 import Cities from "./Cities";
-import useCurrentCity from "../../hooks/city/useCurrentCity";
+// import useCurrentCity from "../../hooks/city/useCurrentCity";
 
 export default function Home() {
-  useCurrentCity();
+  // useCurrentCity();
 
   return (
-    <div className="w-[95%] m-auto">
+    <div className="">
       <FavoriteCities />
       <Cities />
     </div>

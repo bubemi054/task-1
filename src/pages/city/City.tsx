@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import Spinner from "../../components/general/Spinner";
 import useCity from "../../hooks/city/useCity";
 import CityTimeDisplay from "./CityTimeDisplay";
@@ -10,11 +10,15 @@ import PopularCities from "./PopularCities";
 import { formatTimeAndDate } from "../../utils/weather";
 import Notes from "./Notes";
 
-const MAX_POPULAR_CITIES = 8;
-
 export default function City() {
+  const [searchParams] = useSearchParams();
+  const isCurrentLocationString = searchParams.get("current-location");
+  const isCurrentLocation = isCurrentLocationString === "true";
   const { cityId } = useParams<{ cityId: string }>();
-  const { citiesWeather, cityWeather, fetchingCityWeather } = useCity(cityId);
+  const { remainingBiggestCities, cityWeather, fetchingCityWeather } = useCity(
+    cityId,
+    isCurrentLocation
+  );
 
   if (fetchingCityWeather) {
     return (
@@ -59,12 +63,10 @@ export default function City() {
           </div>
         </div>
         <PopularCities
-          weatherData={citiesWeather
-            .filter((city) => city.cityId !== Number(cityId))
-            .slice(0, MAX_POPULAR_CITIES)}
+          weatherData={remainingBiggestCities}
         />
       </div>
-      {cityWeather?.cityId && <Notes cityWeather={cityWeather} />}
+      {!isCurrentLocation && cityWeather?.cityId && <Notes cityWeather={cityWeather} />}
     </div>
   );
 }

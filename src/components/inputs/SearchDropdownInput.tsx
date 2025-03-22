@@ -104,7 +104,7 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
         width="100%"
       >
         {({ index, style }) => (
-          <div style={style}>
+          <div style={style} className="cursor-pointer">
             <DropdownItem
               key={filteredItems[index].cityId}
               text={filteredItems[index].name}
@@ -124,7 +124,7 @@ type DropdownItemProps = {
 
 function DropdownItem({ text, onClick }: DropdownItemProps) {
   return (
-    <li data-testid="search-dropdown-item" className="list-none">
+    <li data-testid="search-dropdown-item" className="list-none cursor-pointer">
       <button
         onClick={onClick}
         className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-all"

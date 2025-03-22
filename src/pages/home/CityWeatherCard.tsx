@@ -93,6 +93,7 @@ export default function CityWeatherCard({
         <StarIcon
           onClick={() => toggleFavorite(weatherResponse.cityId)}
           fill={isFavorite ? "#F1CC51" : "none"}
+          className="cursor-pointer"
         />
       </div>
       <div className="flex items-center justify-center max-w-[200px] max-h-[200px] m-auto">
@@ -119,6 +120,7 @@ export default function CityWeatherCard({
         <SendIcon
           stroke={isNightTime ? "#fff" : "#000"}
           onClick={viewInDetail}
+          className="cursor-pointer"
         />
       </div>
       <div className="flex justify-between items-center">
@@ -131,6 +133,7 @@ export default function CityWeatherCard({
         <TrashIcon
           onClick={() => toggleRemoved(weatherResponse.cityId)}
           stroke={isNightTime ? "#fff" : "#000"}
+          className="cursor-pointer"
         />
       </div>
     </div>
