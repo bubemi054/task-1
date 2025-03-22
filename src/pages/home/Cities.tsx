@@ -1,4 +1,4 @@
-import Reac from "react";
+import React from "react";
 import Header1 from "../../components/headers/Header1";
 import CityWeatherCard from "./CityWeatherCard";
 import Spinner from "../../components/general/Spinner";
