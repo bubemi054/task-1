@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../state-manager/uiSlice";
 import { getFavoriteCitiesWeather } from "../../state-manager/citySlice";
+import { useIsOnline } from "react-use-is-online";
 import useRemovedCities from "./useRemovedCities";
 import { CITIES } from "../../state-manager/citySlice";
 import { RootState, AppDispatch } from "../../state-manager/store";
@@ -14,15 +15,18 @@ export default function useFavoriteCities() {
   const { favoriteCitiesId } = useSelector((state: RootState) => state.ui);
   const { favoriteCities } = useSelector((state: RootState) => state.city);
   const { removedCitiesId } = useRemovedCities();
+  const { isOffline } = useIsOnline();
 
   useEffect(() => {
+    if (isOffline) return;
     const cityIdsString = localStorage?.getItem(STORAGE_KEY) || "[]";
     const cityIds = JSON.parse(cityIdsString) as number[];
 
     dispatch(uiActions.changeFavoriteCitiesId(cityIds));
-  }, [dispatch]);
+  }, [dispatch, isOffline]);
 
   useEffect(() => {
+    if (isOffline) return;
     const favoriteCities = CITIES.filter((city) =>
       favoriteCitiesId.includes(city.cityId)
     );
@@ -32,9 +36,10 @@ export default function useFavoriteCities() {
     );
     // console.log(remainingFavoriteCities);
     dispatch(getFavoriteCitiesWeather(remainingFavoriteCities));
-  }, [dispatch, favoriteCitiesId, removedCitiesId]);
+  }, [dispatch, favoriteCitiesId, removedCitiesId, isOffline]);
 
   const toggleFavoriteCityId = (cityId: number) => {
+    if (isOffline) return;
     let newCitiesId = [];
     if (favoriteCitiesId.includes(cityId)) {
       newCitiesId = favoriteCitiesId.filter((id) => id != cityId);

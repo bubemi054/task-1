@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useSearchParams } from "react-router";
 import Spinner from "../../components/general/Spinner";
 import useCity from "../../hooks/city/useCity";
 import CityTimeDisplay from "./CityTimeDisplay";
 import MapComponent from "./MapComponent";
+import { useIsOnline } from "react-use-is-online";
+import { useNavigate } from "react-router";
 import Forecast from "./Forcast";
 import WeatherStatsCard from "./WeatherStatsCard";
 import PopularCities from "./PopularCities";
@@ -11,6 +13,7 @@ import { formatTimeAndDate } from "../../utils/weather";
 import Notes from "./Notes";
 
 export default function City() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isCurrentLocationString = searchParams.get("current-location");
   const isCurrentLocation = isCurrentLocationString === "true";
@@ -19,6 +22,13 @@ export default function City() {
     cityId,
     isCurrentLocation
   );
+  const { isOffline } = useIsOnline();
+
+  useEffect(() => {
+    if (isOffline) {
+      navigate("/");
+    }
+  }, [isOffline, navigate]);
 
   if (fetchingCityWeather) {
     return (
@@ -62,11 +72,11 @@ export default function City() {
             />
           </div>
         </div>
-        <PopularCities
-          weatherData={remainingBiggestCities}
-        />
+        <PopularCities weatherData={remainingBiggestCities} />
       </div>
-      {!isCurrentLocation && cityWeather?.cityId && <Notes cityWeather={cityWeather} />}
+      {cityWeather && (cityWeather?.cityId || isCurrentLocation) && (
+        <Notes cityWeather={cityWeather} isCurrentLocation={isCurrentLocation} />
+      )}
     </div>
   );
 }

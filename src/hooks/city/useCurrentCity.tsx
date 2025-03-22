@@ -1,35 +1,72 @@
 import React, { useEffect } from "react";
 import { useGeolocated } from "react-geolocated";
-import { getUserWeather } from "../../state-manager/citySlice";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../../state-manager/store";
-
-const STORAGE_KEY = "currentLocation";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state-manager/store";
+import { useIsOnline } from "react-use-is-online";
+import { useNavigate } from "react-router";
+import { areCoordinatesClose } from "../../utils/location";
 
 export default function useCurrentCity() {
-  const dispatch: AppDispatch = useDispatch();
-  const { userWeather, fetchingUserWeather, fetchingUserWeatherError } =
-    useSelector((state: RootState) => state.city);
+  const navigate = useNavigate();
+  const { userWeather } = useSelector((state: RootState) => state.city);
 
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 5000,
-    });
+  const { coords, isGeolocationAvailable } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+  });
+
+  const { isOffline } = useIsOnline();
+
+  const viewCurrentCityWeather = () =>
+    navigate(`/city/0?current-location=true`);
 
   useEffect(() => {
-    // const coordsString = localStorage?.getItem(STORAGE_KEY) || "[]";
-    // const coords = JSON.parse(coordsString) as [number, number] || [0, 0];
+    if (isOffline || !isGeolocationAvailable) return;
 
-    if (isGeolocationAvailable && coords) {
-      console.log(coords);
-      dispatch(getUserWeather([coords.latitude, coords.longitude]));
-    }
-  }, [isGeolocationAvailable, coords, dispatch]);
+    const oldLat = userWeather?.latitude || 0;
+    const oldLon = userWeather?.longitude || 0;
+    const newLat = coords?.latitude || 0;
+    const newLon = coords?.longitude || 0;
 
-  console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
+    const showPrompts = () => {
+      if (!oldLat || !oldLon) {
+        const ans = window.confirm(
+          "Do you want to view your current locations weather? \n You can always click the profile icon to view your locations wether."
+        );
 
-  return { userWeather, fetchingUserWeather, fetchingUserWeatherError };
+        if (ans) {
+          viewCurrentCityWeather();
+        }
+
+        return;
+      }
+
+      // if(newLat === oldLat && newLon === oldLon) return;
+      // console.log(oldLat, oldLon, newLat, newLon);
+
+      // const isClose = areCoordinatesClose(oldLat, oldLon, newLat, newLon, 5);
+      // if (!isClose) {
+      //   const ans = window.confirm(
+      //     "Your location has changed. Do you want to view your current locations wether? \n You can always click the profile icon to view your locations wether."
+      //   );
+
+      //   if (ans) {
+      //     viewCurrentCityWeather();
+      //   }
+
+      //   return;
+      // }
+    };
+
+    const id = setTimeout(() => {
+      showPrompts();
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+    // eslint-disable-next-line
+  }, [isOffline, isGeolocationAvailable, userWeather, coords]);
 }

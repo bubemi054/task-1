@@ -12,6 +12,7 @@ type SearchDropdownInputProps = {
   placeholder?: string;
   items?: City[];
   onSelect?: (item: number) => void;
+  isOffline: boolean
 };
 
 export default function SearchDropdownInput({
@@ -21,17 +22,18 @@ export default function SearchDropdownInput({
   placeholder,
   items,
   onSelect,
+  isOffline
 }: SearchDropdownInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputIsFocused, setInputIsFocused] = useState(false);
 
   useEffect(() => {
-    if (value?.trim()?.length === 0) {
+    if (value?.trim()?.length === 0 || isOffline) {
       setIsOpen(false);
       return;
     }
     setIsOpen(inputIsFocused);
-  }, [value, inputIsFocused]);
+  }, [value, inputIsFocused, isOffline]);
 
   return (
     <div
@@ -42,7 +44,7 @@ export default function SearchDropdownInput({
     >
       <input
         data-testid="search-input-general"
-        className="w-full sm:w-auto flex-1 text-white/80 text-lg outline-none bg-transparent placeholder-gray-400"
+        className="w-full sm:w-auto flex-1 text-white/80 text-lg outline-none bg-transparent placeholder-gray-400 disabled:cursor-not-allowed"
         placeholder={placeholder || "Search"}
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
@@ -50,6 +52,7 @@ export default function SearchDropdownInput({
         onBlur={() => {
           setTimeout(() => setInputIsFocused(false), 300);
         }}
+        disabled={isOffline}
       />
       <SearchIcon />
       {isOpen && (

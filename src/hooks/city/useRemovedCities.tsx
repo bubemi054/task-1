@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../state-manager/uiSlice";
 import { getRemovedCitiesWeather } from "../../state-manager/citySlice";
+import { useIsOnline } from "react-use-is-online";
 import { CITIES } from "../../state-manager/citySlice";
 import { RootState, AppDispatch } from "../../state-manager/store";
 
@@ -13,22 +14,26 @@ export default function useRemovedCities() {
     (state: RootState) => state.ui
   );
   const { removedCities } = useSelector((state: RootState) => state.city);
+  const { isOffline } = useIsOnline();
 
   useEffect(() => {
+    if (isOffline) return;
     const cityIdsString = localStorage?.getItem(STORAGE_KEY) || "[]";
     const cityIds = JSON.parse(cityIdsString) as number[];
 
     dispatch(uiActions.changeRemovedCitiesId(cityIds));
-  }, [dispatch]);
+  }, [dispatch, isOffline]);
 
   useEffect(() => {
+    if (isOffline) return;
     const removedCities = CITIES.filter((city) =>
       removedCitiesId.includes(city.cityId)
     );
     dispatch(getRemovedCitiesWeather(removedCities));
-  }, [dispatch, removedCitiesId]);
+  }, [dispatch, removedCitiesId, isOffline]);
 
   const toggleRemovedCityId = (cityId: number) => {
+    if (isOffline) return;
     let newCitiesId = [];
     if (removedCitiesId.includes(cityId)) {
       newCitiesId = removedCitiesId.filter((id) => id != cityId);
@@ -45,8 +50,12 @@ export default function useRemovedCities() {
     dispatch(uiActions.toggleShowRemovedCities());
   };
 
+  const changeShowRemovedCities = (val: boolean) => {
+    dispatch(uiActions.changeShowRemovedCities(val));
+  };
+
   useEffect(() => {
-    if (removedCitiesId.length === 0) toggleShowRemovedCities();
+    if (removedCitiesId.length === 0) changeShowRemovedCities(false);
     // eslint-disable-next-line
   }, [removedCitiesId.length]);
 

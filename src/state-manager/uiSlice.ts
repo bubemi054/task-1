@@ -36,6 +36,9 @@ export const uiSlice = createSlice({
     toggleShowRemovedCities: (state) => {
       state.showRemovedCities = !state.showRemovedCities;
     },
+    changeShowRemovedCities: (state, action: PayloadAction<boolean>) => {
+      state.showRemovedCities = action.payload;
+    }
   },
 });
 

@@ -13,11 +13,14 @@ export default function useCity(
   isCurrentLocation: boolean = false
 ) {
   const dispatch: AppDispatch = useDispatch();
-  const { citiesWeather, cityWeather, fetchingCityWeather } = useSelector(
-    (state: RootState) => state.city
-  );
-  const { userWeather, fetchingUserWeather, fetchingUserWeatherError } =
-    useSelector((state: RootState) => state.city);
+  const {
+    citiesWeather,
+    cityWeather,
+    fetchingCityWeather,
+    userWeather,
+    fetchingUserWeather,
+    fetchingUserWeatherError,
+  } = useSelector((state: RootState) => state.city);
   const { removedCitiesId } = useRemovedCities();
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -30,13 +33,11 @@ export default function useCity(
 
   useEffect(() => {
     if (isCurrentLocation && isGeolocationAvailable && coords) {
-      console.log(coords);
       dispatch(getUserWeather([coords.latitude, coords.longitude]));
     } else {
       if (typeof cityId !== "string") return;
 
       const foundCity = CITIES.find((city) => city.cityId === Number(cityId));
-      console.log(foundCity);
 
       if (foundCity) {
         dispatch(getCityWeather(foundCity));

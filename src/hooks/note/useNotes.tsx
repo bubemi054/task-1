@@ -10,7 +10,7 @@ function createNote(cityId: number | undefined, notes?: Note[], text?: string) {
   };
 }
 
-export default function useNotes(cityId: number | undefined) {
+export default function useNotes(cityId: number | undefined, isCurrentLocation: boolean = false) {
   const [allNotes, setAllNotes] = useState<Note[]>();
   const [notes, setNotes] = useState<Note[]>();
   const [note, setNote] = useState<Note>();
@@ -36,7 +36,7 @@ export default function useNotes(cityId: number | undefined) {
   };
 
   const saveNoteHandler = () => {
-    if (note && cityId && note?.text?.trim()) {
+    if (note && note?.text?.trim()) {
       const updatedNotes = [...(notes || []), note];
       const updatedAllNotes = [...(allNotes || []), note];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAllNotes));

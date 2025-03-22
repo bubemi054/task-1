@@ -5,9 +5,10 @@ import NoteCard from "./Note";
 
 interface NotesProps {
   cityWeather: WeatherResponse;
+  isCurrentLocation: boolean;
 }
 
-function Notes({ cityWeather }: NotesProps) {
+function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
   const {
     notes,
     note,
@@ -15,7 +16,7 @@ function Notes({ cityWeather }: NotesProps) {
     saveNoteHandler,
     editNoteHandler,
     deleteNoteHandler,
-  } = useNotes(cityWeather?.cityId);
+  } = useNotes(cityWeather?.cityId, isCurrentLocation);
 
   return (
     <div className="">

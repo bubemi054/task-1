@@ -2,8 +2,11 @@ import React from "react";
 import { Outlet } from "react-router";
 import Cloud from "./pages/home/Cloud";
 import SearchBar from "./pages/home/SearchBar";
+import useCurrentCity from "./hooks/city/useCurrentCity";
 
 const Layout = () => {
+  useCurrentCity();
+
   return (
     <>
       <Cloud />
