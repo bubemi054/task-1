@@ -1,48 +1,38 @@
-import { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../state-manager/store";
-import useRemovedCities from "../../hooks/city/useRemovedCities";
-import { uiActions } from "../../state-manager/uiSlice";
+import React from "react";
 import { getWeatherStatus } from "../../utils/weather";
 import PlusIcon from "../../components/icons/PlusIcon";
 import type { WeatherResponse } from "../../state-manager/types";
 
-export default function RemovedCities() {
-  const dispatch = useDispatch();
-  const { citiesWeather } = useSelector((state: RootState) => state.city);
-  const { toggleRemoved, removedCities } = useRemovedCities();
+type RemovedCitiesProps = {
+  removedCities: WeatherResponse[];
+  toggleRemovedCityId: (city: number) => void;
+};
 
-  const displayedCitiesWeather = useMemo(() => {
-    return citiesWeather?.filter((city) => removedCities.includes(city.name));
-  }, [citiesWeather, removedCities]);
-
-  useEffect(() => {
-    if (displayedCitiesWeather?.length === 0)
-      dispatch(uiActions.toggleShowRemovedCities());
-  }, [displayedCitiesWeather?.length, dispatch]);
-
+export default function RemovedCities({
+  removedCities,
+  toggleRemovedCityId,
+}: RemovedCitiesProps) {
   return (
-    <>
-      {/* <div
-        onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-        className="fixed bottom-0 right-0 w-screen h-screen z-40 bg-[rgba(0,0,0,0.50)]"
-      ></div> */}
-      <Modal>
-        {displayedCitiesWeather?.map((wr) => (
-          <Item key={wr.name} weatherResponse={wr} removeCity={toggleRemoved} />
-        ))}
-      </Modal>
-    </>
+    <Dropdown onClick={e => e.stopPropagation()}>
+      {removedCities?.map((wr) => (
+        <Item
+          key={wr.cityId}
+          weatherResponse={wr}
+          removeCity={toggleRemovedCityId}
+        />
+      ))}
+    </Dropdown>
   );
 }
 
 type ModalProps = {
   children: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
 };
 
-function Modal({ children }: ModalProps) {
+function Dropdown({ children, onClick }: ModalProps) {
   return (
-    <ul className="absolute top-[50px] flex w-[20rem] bg-white flex-col gap-3 px-3 py-2 rounded-[1.25rem]">
+    <ul onClick={onClick} className="absolute top-[50px] flex w-[20rem] bg-white flex-col gap-3 px-3 py-2 rounded-[1.25rem]">
       {children}
     </ul>
   );
@@ -50,7 +40,7 @@ function Modal({ children }: ModalProps) {
 
 type ItemProps = {
   weatherResponse: WeatherResponse;
-  removeCity: (city: string) => void;
+  removeCity: (city: number) => void;
 };
 
 function Item({ weatherResponse, removeCity }: ItemProps) {
@@ -68,9 +58,8 @@ function Item({ weatherResponse, removeCity }: ItemProps) {
           {weatherResponse.name}
         </span>
       </span>
-      
-      <div className="flex items-center justify-center gap-5">
 
+      <div className="flex items-center justify-center gap-5">
         <span className="w-[120px] flex justify-center gap-1 items-end">
           <div className="text-left">
             <span className="bg-clip-text text-[20px] not-italic font-extrabold leading-normal bg-gradient-to-t text-transparent font-manrope from-[#111827] to-[#6B7280]">
@@ -90,7 +79,7 @@ function Item({ weatherResponse, removeCity }: ItemProps) {
         </span>
 
         <PlusIcon
-          onClick={() => removeCity(weatherResponse.name)}
+          onClick={() => removeCity(weatherResponse.cityId)}
           className="cursor-pointer"
         />
       </div>

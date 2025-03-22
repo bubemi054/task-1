@@ -1,70 +1,64 @@
-import { useMemo } from "react";
+import React from "react";
 import Header1 from "../../components/headers/Header1";
 import CityWeatherCard from "./CityWeatherCard";
-import { useSelector, useDispatch } from "react-redux";
+import RemovedCities from "./RemovedCities";
 import useFavoriteCities from "../../hooks/city/useFavoriteCities";
 import useRemovedCities from "../../hooks/city/useRemovedCities";
-import RemovedCities from "./RemovedCities";
-import { uiActions } from "../../state-manager/uiSlice";
-import { RootState } from "../../state-manager/store";
+import ClickAwayListener from "react-click-away-listener";
 
 export default function FavoriteCities() {
-  const dispatch = useDispatch();
-  const { citiesWeather } = useSelector((state: RootState) => state.city);
-  const { showRemovedCities } = useSelector((state: RootState) => state.ui);
-  const { favoriteCities, toggleFavorite } = useFavoriteCities();
-  const { toggleRemoved, removedCities } = useRemovedCities();
-
-  const cities = useMemo(() => {
-    const favCities = citiesWeather
-      ?.slice()
-      .filter((city) => favoriteCities.includes(city.name));
-
-    const remainingCities = favCities.filter(
-      (city) => !removedCities.includes(city.name)
-    );
-
-    const sortedCities = remainingCities?.slice().sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
-    return sortedCities;
-  }, [citiesWeather, favoriteCities, removedCities]);
-
-  const showRemovedCitiesBtn = removedCities?.length > 0;
+  const { sortedFavoriteCities, toggleFavoriteCityId } = useFavoriteCities();
+  const {
+    removedCities,
+    toggleRemovedCityId,
+    showRemovedCities,
+    toggleShowRemovedCities,
+  } = useRemovedCities();
 
   return (
     <>
-      <div className="mb-[1rem]">
-        <div className="mb-[2.7rem] flex justify-between items-flex-end">
-          <Header1 className="">Favorite Cities</Header1>
-          <div className="flex flex-col items-end gap-2 relative">
-            {showRemovedCitiesBtn && (
+      <div className="mb-[2rem]">
+        <div className="mb-6 flex flex-row justify-between items-center">
+          <Header1 className="text-left sm:text-center">
+            Favorite Cities
+          </Header1>
+          <div className="flex flex-col items-end relative">
+            {removedCities?.length > 0 && (
               <button
-                onClick={() => dispatch(uiActions.toggleShowRemovedCities())}
-                className="inline-flex cursor-pointer justify-center items-center pl-[1.5625rem] pr-6 py-[0.8125rem] rounded-[0.9375rem] bg-white text-black text-base not-italic font-bold leading-[normal] font-manrope"
+                onClick={toggleShowRemovedCities}
+                className="inline-flex cursor-pointer justify-center items-center  px-2 py-2 sm:px-6 rounded-lg bg-white text-black  text-sm sm:text-base lg:text-lg  font-bold leading-normal font-manrope transition-all duration-200 hover:bg-gray-200"
               >
                 Removed Cities
               </button>
             )}
-            {showRemovedCities && <RemovedCities />}
+            {showRemovedCities && (
+              <ClickAwayListener onClickAway={toggleShowRemovedCities}>
+                <RemovedCities
+                  toggleRemovedCityId={toggleRemovedCityId}
+                  removedCities={removedCities}
+                />
+              </ClickAwayListener>
+            )}
           </div>
         </div>
-        {cities?.length > 0 ? (
-          <div className="flex justify-start gap-[30px] flex-wrap">
-            {cities.map((wr) => (
+
+        {sortedFavoriteCities?.length > 0 ? (
+          <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
+            {sortedFavoriteCities.map((wr) => (
               <CityWeatherCard
-                key={wr?.name}
+                key={wr?.cityId}
                 weatherResponse={wr}
-                toggleFavorite={toggleFavorite}
-                toggleRemoved={toggleRemoved}
+                toggleFavorite={toggleFavoriteCityId}
+                toggleRemoved={toggleRemovedCityId}
                 isFavorite={true}
+                className="w-full sm:w-auto"
               />
             ))}
           </div>
         ) : (
-          <div className="h-[6rem] flex items-center justify-center">
-            <p className="text-white text-xl not-italic font-medium leading-[normal] opacity-50">
-              No favourites available
+          <div className="h-24 flex items-center justify-center">
+            <p className="text-white text-lg sm:text-xl font-medium opacity-50 text-center">
+              No favorites available
             </p>
           </div>
         )}

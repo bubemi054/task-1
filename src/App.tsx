@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router";
 import Layout from "./layout";
 import Home from "./pages/home/Home";
@@ -8,7 +9,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="city/:city" element={<City />} />
+        <Route path="city/:cityId" element={<City />} />
       </Route>
     </Routes>
   );

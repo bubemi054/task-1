@@ -1,3 +1,6 @@
+import tzLookup from "tz-lookup";
+import { DateTime } from "luxon";
+
 export function isNight(timestamp: string): boolean {
   const date = new Date(timestamp);
   const hours = date.getUTCHours();
@@ -25,3 +28,19 @@ export function getWeatherStatus(wmoCode: number) {
   }
   return { status: "Unknown", color: "#9CA3AF" };
 }
+
+export const formatTimeAndDate = (
+  isoString: string,
+  lat: number,
+  lon: number
+) => {
+  if (!isoString) return { time: "N/A", dateString: "N/A" };
+
+  const timeZone = tzLookup(lat, lon);
+  const date = DateTime.fromISO(isoString, { zone: "utc" }).setZone(timeZone);
+
+  return {
+    time: date.toFormat("HH:mm"),
+    dateString: date.toFormat("EEEE, dd MMM"),
+  };
+};

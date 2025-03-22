@@ -4,7 +4,8 @@ import NotificationIcon from "../../components/icons/NotificationIcon";
 import ProfileIcon from "../../components/icons/ProfileIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { BIGGEST_CITIES, uiActions } from "../../state-manager/uiSlice";
+import { uiActions } from "../../state-manager/uiSlice";
+import { CITIES } from "../../state-manager/citySlice";
 import { RootState } from "../../state-manager/store";
 
 export default function SearchBar() {
@@ -16,9 +17,9 @@ export default function SearchBar() {
     dispatch(uiActions.changeSearchCityText(city));
   };
 
-  const selectCityHandler = (city: string) => {
+  const selectCityHandler = (cityId: number) => {
     changeCityTextHandler("")
-    navigate(`/city/${city}`);  
+    navigate(`/city/${cityId}`);  
   };
 
   return (
@@ -28,7 +29,7 @@ export default function SearchBar() {
         placeholder="Search City"
         onChange={changeCityTextHandler}
         onSelect={selectCityHandler}
-        items={BIGGEST_CITIES}
+        items={CITIES}
         className="max-w-[13rem] lg:max-w-none"
       />
         <NotificationIcon />

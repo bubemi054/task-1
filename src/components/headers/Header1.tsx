@@ -10,7 +10,7 @@ export default function Header1({ children, className }: Header1Props) {
   return (
     <h1
       className={twMerge(
-        "text-white text-3xl not-italic font-extrabold leading-[normal]",
+        "text-white text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight",
         className || ""
       )}
     >

@@ -40,9 +40,10 @@ function getCatImage(isNight: boolean, wmoCode: number) {
 
 type CityWeatherCardProps = {
   weatherResponse: WeatherResponse;
-  toggleFavorite: (city: string) => void;
-  toggleRemoved: (city: string) => void;
+  toggleFavorite: (city: number) => void;
+  toggleRemoved: (city: number) => void;
   isFavorite: boolean;
+  className?: string;
 };
 
 export default function CityWeatherCard({
@@ -50,6 +51,7 @@ export default function CityWeatherCard({
   toggleFavorite,
   toggleRemoved,
   isFavorite,
+  className
 }: CityWeatherCardProps) {
   const navigate = useNavigate();
   const isNightTime = isNight(weatherResponse.current.time);
@@ -58,14 +60,15 @@ export default function CityWeatherCard({
   );
 
   const viewInDetail = () => {
-    navigate(`/city/${weatherResponse?.name}`);
+    navigate(`/city/${weatherResponse?.cityId}`);
   };
 
   return (
     <div
       className={twMerge(
         "h-[380px] min-w-[230px] rounded-[1.25rem] px-[1rem] py-[2rem] flex flex-col justify-between",
-        `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`
+        `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`,
+        className
       )}
     >
       <div className="flex items-start justify-between mb-[1.1rem]">
@@ -88,7 +91,7 @@ export default function CityWeatherCard({
           </p>
         </div>
         <StarIcon
-          onClick={() => toggleFavorite(weatherResponse.name)}
+          onClick={() => toggleFavorite(weatherResponse.cityId)}
           fill={isFavorite ? "#F1CC51" : "none"}
         />
       </div>
@@ -126,7 +129,7 @@ export default function CityWeatherCard({
           {weatherStatusColor.status}
         </p>
         <TrashIcon
-          onClick={() => toggleRemoved(weatherResponse.name)}
+          onClick={() => toggleRemoved(weatherResponse.cityId)}
           stroke={isNightTime ? "#fff" : "#000"}
         />
       </div>

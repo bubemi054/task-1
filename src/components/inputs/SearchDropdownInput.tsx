@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import SearchIcon from "../icons/SearchIcon";
 import { twMerge } from "tailwind-merge";
 import { City } from "../../state-manager/types";
+import Fuse from "fuse.js";
+import { FixedSizeList as List } from "react-window";
 
 type SearchDropdownInputProps = {
   value?: string;
@@ -9,7 +11,7 @@ type SearchDropdownInputProps = {
   className?: string;
   placeholder?: string;
   items?: City[];
-  onSelect?: (item: string) => void;
+  onSelect?: (item: number) => void;
 };
 
 export default function SearchDropdownInput({
@@ -24,6 +26,10 @@ export default function SearchDropdownInput({
   const [inputIsFocused, setInputIsFocused] = useState(false);
 
   useEffect(() => {
+    if (value?.trim()?.length === 0) {
+      setIsOpen(false);
+      return;
+    }
     setIsOpen(inputIsFocused);
   }, [value, inputIsFocused]);
 
@@ -47,7 +53,11 @@ export default function SearchDropdownInput({
       />
       <SearchIcon />
       {isOpen && (
-        <Dropdown value={value || ""} items={items || []} onSelect={onSelect || (() => {})} />
+        <Dropdown
+          value={value || ""}
+          items={items || []}
+          onSelect={onSelect || (() => {})}
+        />
       )}
     </div>
   );
@@ -56,24 +66,53 @@ export default function SearchDropdownInput({
 type DropdownProps = {
   items: City[];
   value: string;
-  onSelect: (item: string) => void;
+  onSelect: (item: number) => void;
 };
 
 function Dropdown({ items, onSelect, value }: DropdownProps) {
-  const filteredItems = items.filter((item) => 
-    !value || item.name.toLowerCase().includes(value.toLowerCase())
+  const fuse = useMemo(
+    () =>
+      new Fuse(items, {
+        keys: [
+          { name: "name", weight: 0.4 },
+          // { name: "country", weight: 0.3 },
+          // { name: "altCountry", weight: 0.2 },
+          // { name: "muni", weight: 0.2 },
+          // { name: "muniSub", weight: 0.1 },
+          // { name: "adminCode", weight: 0.1 },
+        ],
+        threshold: 0.4,
+      }),
+    [items]
   );
+
+  const filteredItems = useMemo(() => {
+    if (!value) return items;
+    return fuse.search(value).map((result) => result.item);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, fuse]);
 
   return (
     <div
       data-testid="search-dropdown"
-      className="absolute top-[105%] left-0 w-full sm:w-auto z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60 overflow-y-auto"
+      className="absolute top-[105%] left-0 w-full z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60"
     >
-      <ul className="py-2 text-sm text-gray-700">
-        {filteredItems.map((item) => (
-          <DropdownItem key={item.name} text={item.address} onClick={() => onSelect(item.name)} />
-        ))}
-      </ul>
+      <List
+        height={240}
+        itemCount={filteredItems.length}
+        itemSize={40}
+        width="100%"
+      >
+        {({ index, style }) => (
+          <div style={style}>
+            <DropdownItem
+              key={filteredItems[index].cityId}
+              text={filteredItems[index].name}
+              onClick={() => onSelect(filteredItems[index].cityId)}
+            />
+          </div>
+        )}
+      </List>
     </div>
   );
 }
@@ -85,7 +124,7 @@ type DropdownItemProps = {
 
 function DropdownItem({ text, onClick }: DropdownItemProps) {
   return (
-    <li data-testid="search-dropdown-item">
+    <li data-testid="search-dropdown-item" className="list-none">
       <button
         onClick={onClick}
         className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-all"
