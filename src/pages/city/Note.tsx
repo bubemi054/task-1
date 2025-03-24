@@ -29,8 +29,8 @@ export default function NoteCard({
   return (
     <div className="relative">
       <textarea
-        className="w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] 
-        text-white rounded-lg min-h-[150px] flex flex-col justify-between outline-none"
+        className="[@media(max-width:380px)]:w-[100%] w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] 
+        text-white rounded-lg flex flex-col justify-between outline-none"
         disabled={!editMode}
         onChange={handleEditNote}
         value={note.text}

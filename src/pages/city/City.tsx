@@ -45,10 +45,10 @@ export default function City() {
   );
 
   return (
-    <div className="w-[100%] min-h-[95vh] m-auto mb-[20px] flex flex-col gap-[70px]">
-      <div className="flex gap-[15px]">
+    <div className="w-[100%] min-h-[95vh] m-auto mb-[20px] flex flex-col gap-[70px] overflow-x-hidden">
+      <div className="flex gap-[15px] flex-wrap">
         <div className="flex flex-col gap-[15px]">
-          <div className="flex gap-[15px]">
+          <div className="flex gap-[15px] [@media(max-width:550px)]:flex-wrap [@media(max-width:1050px)]:justify-center">
             <CityTimeDisplay
               cityName={cityWeather?.name || "Unknown City"}
               time={time || "00:00"}
@@ -59,7 +59,7 @@ export default function City() {
               longitude={cityWeather?.longitude || 0}
             />
           </div>
-          <div className="flex gap-[15px]">
+          <div className="flex gap-[15px] [@media(max-width:840px)]:flex-wrap">
             <Forecast daily={cityWeather?.daily} />
             <WeatherStatsCard
               temperature={cityWeather?.current.temperature_2m || 0}

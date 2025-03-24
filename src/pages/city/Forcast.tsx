@@ -45,9 +45,9 @@ export default function Forecast({ daily }: ForecastProps) {
   }
 
   return (
-    <div className="w-[376px] h-[500px] backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] rounded-[15px] p-4 text-white py-[30px] flex flex-col gap-[25px]">
+    <div className="[@media(max-width:550px)]:w-[100%] w-[376px] h-[500px] backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] rounded-[15px] p-4 text-white py-[30px] flex flex-col gap-[25px]">
       <div className="flex justify-between items-center mb-2 px-[15px]">
-        <h3 className="font-bold text-[36px]">Forecast</h3>
+        <h3 className="font-bold text-[36px] [@media(max-width:380px)]:text-[24px]">Forecast</h3>
         <button className=" bg-white text-black px-3 py-1 rounded-md text-sm">
           6 Days
         </button>

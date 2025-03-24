@@ -19,7 +19,7 @@ export default function FavoriteCities() {
     <>
       <div className="mb-[2rem]">
         <div className="mb-6 flex flex-row justify-between items-center">
-          <Header1 className="text-left sm:text-center">
+          <Header1 className="w-full text-center sm:text-left">
             Favorite Cities
           </Header1>
           <div className="flex flex-col items-end relative">

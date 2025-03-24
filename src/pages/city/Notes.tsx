@@ -19,16 +19,16 @@ function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
   } = useNotes(cityWeather?.cityId, isCurrentLocation);
 
   return (
-    <div className="">
+    <div className="w-full">
       <div className="flex items-center gap-2 mb-4">
         <button className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition"></button>
         <h2 className="text-white text-2xl font-bold">Notes</h2>
       </div>
 
       <div className="flex flex-wrap gap-4">
-        <div className="relative">
+        <div className="relative [@media(max-width:380px)]:w-full">
           <textarea
-            className="w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] text-white rounded-lg relative min-h-[150px] flex flex-col justify-between outline-none"
+            className="[@media(max-width:380px)]:w-[100%] w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] text-white rounded-lg relative min-h-[150px] flex flex-col justify-between outline-none"
             placeholder="Write your thoughts here..."
             value={note?.text || ""}
             onChange={changeNoteHandler}
@@ -40,7 +40,7 @@ function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
           />
         </div>
         {notes?.map((note) => (
-          <div className="" key={note.id}>
+          <div className="[@media(max-width:380px)]:w-full" key={note.id}>
             <NoteCard
               initialNote={note}
               onSave={editNoteHandler}

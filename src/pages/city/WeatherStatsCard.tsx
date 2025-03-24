@@ -56,14 +56,14 @@ export default function WeatherStatsCard({
   const weatherStatusColor = getWeatherStatus(weatherCode);
 
   return (
-    <div className="w-[505px] h-[500px] bg-[rgba(0,0,0,0.3)] rounded-[15px] backdrop-blur-lg p-5 text-white flex flex-col items-center">
-      <div className="w-full text-[90px] text-left font-bold">
+    <div className="[@media(max-width:550px)]:w-[100%] [@media(max-width:1050px)]:w-[375px] w-[505px] h-[500px] [@media(max-width:430px)]:h-auto bg-[rgba(0,0,0,0.3)] rounded-[15px] backdrop-blur-lg p-5 text-white flex flex-col items-center">
+      <div className="w-full [@media(max-width:1050px)]:text-[60px] text-[90px] [@media(max-width:550px)]:text-center text-left font-bold">
         {temperature}°C
       </div>
 
-      <div className="w-full flex justify-around items-center">
-        <div className="flex flex-col justify-around items-center gap-[40px]">
-          <div className="w-[177px] h-[176px]">
+      <div className="w-full flex justify-around items-center [@media(max-width:430px)]:flex-col">
+        <div className="flex flex-col justify-around items-center gap-[40px] [@media(max-width:550px)]:gap-[20px]">
+          <div className="[@media(max-width:1050px)]:w-[130px] w-[177px] h-[176px]">
             <img
               src={getCatImage(isNightTime, weatherCode)}
               alt="cat"

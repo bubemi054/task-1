@@ -9,11 +9,11 @@ interface PopularCitiesProps {
 
 export default function PopularCities({ weatherData }: PopularCitiesProps) {
   return (
-    <div className="w-[428px] h-[812px] backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] py-[25px] px-[25px] rounded-[15px]">
+    <div className=" [@media(max-width:550px)]:w-[100%] w-[428px] h-[812px] [@media(max-width:550px)]:h-auto backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] py-[25px] px-[25px] rounded-[15px]">
       <h2 className="text-white text-2xl font-semibold text-center mb-4">
         Biggest Cities
       </h2>
-      <div className="space-y-3 overflow-y-auto h-[700px] scrollbar-hide">
+      <div className="space-y-3 overflow-y-auto h-[700px] [@media(max-width:550px)]:h-auto scrollbar-hide">
         {weatherData?.map((city) => {
           const day = new Date(city.current.time).toLocaleDateString("en-US", {
             weekday: "long",
@@ -24,7 +24,7 @@ export default function PopularCities({ weatherData }: PopularCitiesProps) {
           return (
             <div
               key={city.name}
-              className="bg-white p-4 rounded-xl flex items-center justify-between shadow-md"
+              className="bg-white p-4 rounded-xl flex items-center justify-between shadow-md [@media(max-width:550px)]:flex-col [@media(max-width:550px)]:gap-[20px]"
             >
               <div>
                 <p className="text-xs text-gray-500">{day}</p>
