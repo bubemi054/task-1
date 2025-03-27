@@ -28,11 +28,11 @@ export default function useFavoriteCities() {
   useEffect(() => {
     if (isOffline) return;
     const favoriteCities = CITIES.filter((city) =>
-      favoriteCitiesId.includes(city.cityId)
+      favoriteCitiesId.includes(city.cityId),
     );
     // console.log(favoriteCities);
     const remainingFavoriteCities = favoriteCities.filter(
-      (city) => !removedCitiesId.includes(city.cityId)
+      (city) => !removedCitiesId.includes(city.cityId),
     );
     // console.log(remainingFavoriteCities);
     dispatch(getFavoriteCitiesWeather(remainingFavoriteCities));

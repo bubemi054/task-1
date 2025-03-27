@@ -32,7 +32,7 @@ export function getWeatherStatus(wmoCode: number) {
 export const formatTimeAndDate = (
   isoString: string,
   lat: number,
-  lon: number
+  lon: number,
 ) => {
   if (!isoString) return { time: "N/A", dateString: "N/A" };
 

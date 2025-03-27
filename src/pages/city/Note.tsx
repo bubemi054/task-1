@@ -29,8 +29,7 @@ export default function NoteCard({
   return (
     <div className="relative">
       <textarea
-        className="[@media(max-width:380px)]:w-[100%] w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] 
-        text-white rounded-lg flex flex-col justify-between outline-none"
+        className="flex h-[319px] w-[319px] flex-col justify-between rounded-lg bg-[rgba(0,0,0,0.2)] p-4 text-white backdrop-blur-[20px] outline-none [@media(max-width:380px)]:w-[100%]"
         disabled={!editMode}
         onChange={handleEditNote}
         value={note.text}
@@ -38,19 +37,19 @@ export default function NoteCard({
       {editMode ? (
         <Check
           size={25}
-          className="absolute bottom-3 right-3 text-white cursor-pointer"
+          className="absolute right-3 bottom-3 cursor-pointer text-white"
           onClick={handleSaveNote}
         />
       ) : (
         <div>
           <Trash
             size={25}
-            className="absolute bottom-3 right-11 text-white cursor-pointer"
+            className="absolute right-11 bottom-3 cursor-pointer text-white"
             onClick={() => onDelete(note)}
           />
           <Pencil
             size={25}
-            className="absolute bottom-3 right-3 text-white cursor-pointer"
+            className="absolute right-3 bottom-3 cursor-pointer text-white"
             onClick={() => setEditMode(true)}
           />
         </div>

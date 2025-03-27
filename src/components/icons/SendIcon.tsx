@@ -1,10 +1,14 @@
 type SendIconProps = {
   className?: string;
   stroke?: string;
-  onClick?: () => void
+  onClick?: () => void;
 };
 
-export default function SendIcon({ className, stroke, onClick }: SendIconProps) {
+export default function SendIcon({
+  className,
+  stroke,
+  onClick,
+}: SendIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

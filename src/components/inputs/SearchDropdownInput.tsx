@@ -12,7 +12,7 @@ type SearchDropdownInputProps = {
   placeholder?: string;
   items?: City[];
   onSelect?: (item: number) => void;
-  isOffline: boolean
+  isOffline: boolean;
 };
 
 export default function SearchDropdownInput({
@@ -22,7 +22,7 @@ export default function SearchDropdownInput({
   placeholder,
   items,
   onSelect,
-  isOffline
+  isOffline,
 }: SearchDropdownInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputIsFocused, setInputIsFocused] = useState(false);
@@ -38,13 +38,13 @@ export default function SearchDropdownInput({
   return (
     <div
       className={twMerge(
-        "relative flex items-center w-full sm:w-auto px-4 py-3 rounded-lg bg-black/50",
-        className
+        "relative flex w-full items-center rounded-lg bg-black/50 px-4 py-3 sm:w-auto",
+        className,
       )}
     >
       <input
         data-testid="search-input-general"
-        className="w-full sm:w-auto flex-1 text-white/80 text-lg outline-none bg-transparent placeholder-gray-400 disabled:cursor-not-allowed"
+        className="w-full flex-1 bg-transparent text-lg text-white/80 placeholder-gray-400 outline-none disabled:cursor-not-allowed sm:w-auto"
         placeholder={placeholder || "Search"}
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
@@ -73,6 +73,18 @@ type DropdownProps = {
 };
 
 function Dropdown({ items, onSelect, value }: DropdownProps) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value]);
+
   const fuse = useMemo(
     () =>
       new Fuse(items, {
@@ -86,19 +98,18 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
         ],
         threshold: 0.4,
       }),
-    [items]
+    [items],
   );
 
   const filteredItems = useMemo(() => {
-    if (!value) return items;
-    return fuse.search(value).map((result) => result.item);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, fuse]);
+    if (!debouncedValue) return items;
+    return fuse.search(debouncedValue).map((result) => result.item);
+  }, [debouncedValue, fuse, items]);
 
   return (
     <div
       data-testid="search-dropdown"
-      className="absolute top-[105%] left-0 w-full z-10 bg-white shadow-lg rounded-lg overflow-hidden max-h-60"
+      className="absolute top-[105%] left-0 z-10 max-h-60 w-full overflow-hidden rounded-lg bg-white shadow-lg"
     >
       <List
         height={240}
@@ -127,10 +138,10 @@ type DropdownItemProps = {
 
 function DropdownItem({ text, onClick }: DropdownItemProps) {
   return (
-    <li data-testid="search-dropdown-item" className="list-none cursor-pointer">
+    <li data-testid="search-dropdown-item" className="cursor-pointer list-none">
       <button
         onClick={onClick}
-        className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-all"
+        className="w-full cursor-pointer px-4 py-3 text-left transition-all"
       >
         {text}
       </button>

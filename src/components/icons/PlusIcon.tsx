@@ -3,10 +3,7 @@ type PlusIconProps = {
   onClick?: () => void;
 };
 
-export default function PlusIcon({
-  className,
-  onClick,
-}: PlusIconProps) {
+export default function PlusIcon({ className, onClick }: PlusIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

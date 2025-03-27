@@ -11,7 +11,7 @@ const STORAGE_KEY = "removedCitiesId";
 export default function useRemovedCities() {
   const dispatch: AppDispatch = useDispatch();
   const { removedCitiesId, showRemovedCities } = useSelector(
-    (state: RootState) => state.ui
+    (state: RootState) => state.ui,
   );
   const { removedCities } = useSelector((state: RootState) => state.city);
   const { isOffline } = useIsOnline();
@@ -27,7 +27,7 @@ export default function useRemovedCities() {
   useEffect(() => {
     if (isOffline) return;
     const removedCities = CITIES.filter((city) =>
-      removedCitiesId.includes(city.cityId)
+      removedCitiesId.includes(city.cityId),
     );
     dispatch(getRemovedCitiesWeather(removedCities));
   }, [dispatch, removedCitiesId, isOffline]);

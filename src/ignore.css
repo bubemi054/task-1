@@ -1,5 +1,5 @@
 .nonsense {
-  @apply text-black text-[28px] not-italic font-medium leading-9;
+  @apply text-[28px] leading-9 font-medium text-black not-italic;
   font-family: Roboto;
   /* 128.571% */
 }

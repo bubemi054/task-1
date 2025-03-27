@@ -7,8 +7,8 @@ export interface CounterState {
   favoriteCitiesId: number[];
   removedCitiesId: number[];
   showRemovedCities: boolean;
-    // current location
-    coordinates: [number?, number?];
+  // current location
+  coordinates: [number?, number?];
 }
 
 const initialState: CounterState = {
@@ -38,7 +38,7 @@ export const uiSlice = createSlice({
     },
     changeShowRemovedCities: (state, action: PayloadAction<boolean>) => {
       state.showRemovedCities = action.payload;
-    }
+    },
   },
 });
 

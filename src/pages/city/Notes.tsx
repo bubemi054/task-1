@@ -20,15 +20,15 @@ function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 mb-4">
-        <button className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition"></button>
-        <h2 className="text-white text-2xl font-bold">Notes</h2>
+      <div className="mb-4 flex items-center gap-2">
+        <button className="rounded-full bg-white/20 p-2 transition hover:bg-white/30"></button>
+        <h2 className="text-2xl font-bold text-white">Notes</h2>
       </div>
 
       <div className="flex flex-wrap gap-4">
         <div className="relative [@media(max-width:380px)]:w-full">
           <textarea
-            className="[@media(max-width:380px)]:w-[100%] w-[319px] h-[319px] p-4 backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] text-white rounded-lg relative min-h-[150px] flex flex-col justify-between outline-none"
+            className="relative flex h-[319px] min-h-[150px] w-[319px] flex-col justify-between rounded-lg bg-[rgba(0,0,0,0.2)] p-4 text-white backdrop-blur-[20px] outline-none [@media(max-width:380px)]:w-[100%]"
             placeholder="Write your thoughts here..."
             value={note?.text || ""}
             onChange={changeNoteHandler}
@@ -36,7 +36,7 @@ function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
           <Send
             size={25}
             onClick={saveNoteHandler}
-            className="absolute bottom-3 right-3 text-white"
+            className="absolute right-3 bottom-3 text-white"
           />
         </div>
         {notes?.map((note) => (

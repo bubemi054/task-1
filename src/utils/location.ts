@@ -3,7 +3,7 @@ export const areCoordinatesClose = (
   lon1: number,
   lat2: number,
   lon2: number,
-  threshold = 100
+  threshold = 100,
 ) => {
   const R = 6371000; // Earth's radius in meters
   const toRad = (angle: number) => (angle * Math.PI) / 180;

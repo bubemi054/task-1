@@ -19,11 +19,11 @@ export default function useBiggestCities() {
     if (isOffline) return;
 
     const remainingBiggestCities = BIGGEST_CITIES.filter(
-      (city) => !removedCitiesId.includes(city.cityId)
+      (city) => !removedCitiesId.includes(city.cityId),
     );
     const maxRemainingBiggestCities = remainingBiggestCities.slice(
       0,
-      maxNumberOfCities
+      maxNumberOfCities,
     );
     dispatch(getCitiesWeather(maxRemainingBiggestCities));
   }, [dispatch, maxNumberOfCities, removedCitiesId, isOffline]);

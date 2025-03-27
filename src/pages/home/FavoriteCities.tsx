@@ -18,15 +18,15 @@ export default function FavoriteCities() {
   return (
     <>
       <div className="mb-[2rem]">
-        <div className="mb-6 flex flex-row justify-between items-center">
+        <div className="mb-6 flex flex-row items-center justify-between">
           <Header1 className="w-full text-center sm:text-left">
             Favorite Cities
           </Header1>
-          <div className="flex flex-col items-end relative">
+          <div className="relative flex flex-col items-end">
             {removedCities?.length > 0 && (
               <button
                 onClick={toggleShowRemovedCities}
-                className="inline-flex cursor-pointer justify-center items-center  px-2 py-2 sm:px-6 rounded-lg bg-white text-black  text-sm sm:text-base lg:text-lg  font-bold leading-normal font-manrope transition-all duration-200 hover:bg-gray-200"
+                className="font-manrope inline-flex cursor-pointer items-center justify-center truncate rounded-lg bg-white px-2 py-2 text-sm leading-normal font-bold text-black transition-all duration-200 hover:bg-gray-200 sm:px-6 sm:text-base lg:text-lg"
               >
                 Removed Cities
               </button>
@@ -43,7 +43,7 @@ export default function FavoriteCities() {
         </div>
 
         {sortedFavoriteCities?.length > 0 ? (
-          <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
+          <div className="flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-6 lg:gap-8">
             {sortedFavoriteCities.map((wr) => (
               <CityWeatherCard
                 key={wr?.cityId}
@@ -56,8 +56,8 @@ export default function FavoriteCities() {
             ))}
           </div>
         ) : (
-          <div className="h-24 flex items-center justify-center">
-            <p className="text-white text-lg sm:text-xl font-medium opacity-50 text-center">
+          <div className="flex h-24 items-center justify-center">
+            <p className="text-center text-lg font-medium text-white opacity-50 sm:text-xl">
               No favorites available
             </p>
           </div>

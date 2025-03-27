@@ -5,12 +5,12 @@ import type { City, WeatherResponse, PTVLocation } from "./types";
 
 export const fetchCityLocationByPosition = async ([latitude, longitude]: [
   number,
-  number
+  number,
 ]): Promise<City> => {
   const baseURL = new URL(
     `${
       import.meta.env.VITE_PTV_GEO_CODE_URL
-    }/v1/locations/by-position/${latitude}/${longitude}`
+    }/v1/locations/by-position/${latitude}/${longitude}`,
   );
   baseURL.searchParams.set("apiKey", import.meta.env.VITE_PTV_DEV_API_KEY);
   const url = baseURL.toString();
@@ -42,7 +42,7 @@ export const fetchCityLocationByPosition = async ([latitude, longitude]: [
 };
 
 export const fetchCityWeather = async (
-  city: City
+  city: City,
 ): Promise<WeatherResponse> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
   const [latitude, longitude] = city.loc.coordinates;
@@ -54,19 +54,19 @@ export const fetchCityWeather = async (
   // Fetch Current Weather
   baseURL.searchParams.set(
     "current",
-    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index"
+    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index",
   );
 
   // Fetch 7-Day Forecast
   baseURL.searchParams.set("forecast_days", "7");
   baseURL.searchParams.set(
     "daily",
-    "temperature_2m_max,temperature_2m_min,weathercode"
+    "temperature_2m_max,temperature_2m_min,weathercode",
   );
 
   baseURL.searchParams.set(
     "hourly",
-    "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover"
+    "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover",
   );
 
   const url = baseURL.toString();
@@ -76,7 +76,7 @@ export const fetchCityWeather = async (
 };
 
 export const fetchCitiesWeather = async (
-  cities: City[]
+  cities: City[],
 ): Promise<WeatherResponse[]> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
   const latitudes = cities.map((city) => city.loc.coordinates[0])?.join(",");
@@ -85,11 +85,11 @@ export const fetchCitiesWeather = async (
   baseURL.searchParams.set("longitude", longitudes);
   baseURL.searchParams.set(
     "current",
-    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index"
+    "temperature_2m,weathercode,wind_speed_10m,precipitation,cloudcover,relative_humidity_2m,surface_pressure,uv_index",
   );
   baseURL.searchParams.set(
     "hourly",
-    "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover"
+    "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover",
   );
 
   const url = baseURL.toString();
@@ -127,7 +127,7 @@ export const getCitiesWeather = createAsyncThunk(
         return rejectWithValue(err);
       }
     }
-  }
+  },
 );
 
 export const getFavoriteCitiesWeather = createAsyncThunk(
@@ -147,7 +147,7 @@ export const getFavoriteCitiesWeather = createAsyncThunk(
         return rejectWithValue(err);
       }
     }
-  }
+  },
 );
 
 export const getRemovedCitiesWeather = createAsyncThunk(
@@ -167,7 +167,7 @@ export const getRemovedCitiesWeather = createAsyncThunk(
         return rejectWithValue(err);
       }
     }
-  }
+  },
 );
 
 export const getCityWeather = createAsyncThunk(
@@ -184,7 +184,7 @@ export const getCityWeather = createAsyncThunk(
         return rejectWithValue(err);
       }
     }
-  }
+  },
 );
 
 export const getUserWeather = createAsyncThunk(
@@ -202,7 +202,7 @@ export const getUserWeather = createAsyncThunk(
         return rejectWithValue(err);
       }
     }
-  }
+  },
 );
 
 export interface CitySliceState {
@@ -356,7 +356,7 @@ export const CITIES = (cities as City[]).filter((city) => {
 });
 
 export const BIGGEST_CITIES = CITIES.slice().sort(
-  (a, b) => b.population - a.population
+  (a, b) => b.population - a.population,
 );
 
 export default citySlice.reducer;

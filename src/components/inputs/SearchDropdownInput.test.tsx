@@ -1,5 +1,11 @@
-import React, {useState} from "react";
-import { render, screen, fireEvent, waitFor, cleanup, } from "@testing-library/react";
+import React, { useState } from "react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
 import SearchDropdownInput from "./SearchDropdownInput";
 import { describe, vi, it, expect, afterEach } from "vitest";
 import { City } from "../../state-manager/types";
@@ -30,11 +36,15 @@ const mockCities: City[] = [
     lat: 34.0522,
     lon: -118.2437,
   },
-]
+];
 
-afterEach(cleanup)
+afterEach(cleanup);
 
-function ControlledSearchDropdown({onSelect}: {onSelect?: (item: string) => void}) {
+function ControlledSearchDropdown({
+  onSelect,
+}: {
+  onSelect?: (item: string) => void;
+}) {
   const [searchValue, setSearchValue] = useState("");
 
   return (
@@ -63,7 +73,6 @@ describe("SearchDropdownInput", () => {
   });
 
   it("filters dropdown items based on input", async () => {
-
     render(<ControlledSearchDropdown />);
     const input = screen.getByTestId("search-input-general");
 
@@ -80,10 +89,12 @@ describe("SearchDropdownInput", () => {
   it("calls onSelect with correct value when an item is clicked", async () => {
     const onSelectMock = vi.fn();
     render(<ControlledSearchDropdown onSelect={onSelectMock} />);
-    
+
     const input = screen.getByTestId("search-input-general");
     fireEvent.focus(input);
-    await waitFor(() => expect(screen.getByText("Lagos, Nigeria")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("Lagos, Nigeria")).toBeInTheDocument(),
+    );
 
     fireEvent.click(screen.getByText("Lagos, Nigeria"));
 
@@ -91,13 +102,19 @@ describe("SearchDropdownInput", () => {
   });
 
   it("closes dropdown after blur", async () => {
-    render(<ControlledSearchDropdown/>);
+    render(<ControlledSearchDropdown />);
     const input = screen.getByTestId("search-input-general");
 
     fireEvent.focus(input);
-    await waitFor(() => expect(screen.getByText("Lagos, Nigeria")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("Lagos, Nigeria")).toBeInTheDocument(),
+    );
 
     fireEvent.blur(input);
-    await waitFor(() => expect(screen.queryByText("Lagos, Nigeria")).not.toBeInTheDocument(), { timeout: 500 });
+    await waitFor(
+      () =>
+        expect(screen.queryByText("Lagos, Nigeria")).not.toBeInTheDocument(),
+      { timeout: 500 },
+    );
   });
 });

@@ -10,7 +10,7 @@ const MAX_POPULAR_CITIES = 8;
 
 export default function useCity(
   cityId: string | undefined,
-  isCurrentLocation: boolean = false
+  isCurrentLocation: boolean = false,
 ) {
   const dispatch: AppDispatch = useDispatch();
   const {

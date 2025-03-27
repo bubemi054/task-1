@@ -4,7 +4,11 @@ type TrashIconProps = {
   onClick?: () => void;
 };
 
-export default function TrashIcon({ className, onClick, stroke }: TrashIconProps) {
+export default function TrashIcon({
+  className,
+  onClick,
+  stroke,
+}: TrashIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +18,6 @@ export default function TrashIcon({ className, onClick, stroke }: TrashIconProps
       fill="none"
       className={className}
       onClick={onClick}
-      
     >
       <path
         d="M13.6887 6.70605C13.6887 6.70605 13.3041 11.4767 13.0809 13.4862C12.9747 14.446 12.3818 15.0084 11.4107 15.0261C9.56264 15.0594 7.71247 15.0616 5.86514 15.0226C4.93084 15.0035 4.34789 14.434 4.24376 13.4912C4.01922 11.4639 3.63672 6.70605 3.63672 6.70605"

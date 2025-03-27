@@ -20,7 +20,7 @@ export default function City() {
   const { cityId } = useParams<{ cityId: string }>();
   const { remainingBiggestCities, cityWeather, fetchingCityWeather } = useCity(
     cityId,
-    isCurrentLocation
+    isCurrentLocation,
   );
   const { isOffline } = useIsOnline();
 
@@ -32,7 +32,7 @@ export default function City() {
 
   if (fetchingCityWeather) {
     return (
-      <div className="h-80 flex items-center justify-center">
+      <div className="flex h-80 items-center justify-center">
         <Spinner />
       </div>
     );
@@ -41,14 +41,14 @@ export default function City() {
   const { time, dateString } = formatTimeAndDate(
     cityWeather?.current.time || "",
     cityWeather?.latitude || 0,
-    cityWeather?.longitude || 0
+    cityWeather?.longitude || 0,
   );
 
   return (
-    <div className="w-[100%] min-h-[95vh] m-auto mb-[20px] flex flex-col gap-[70px] overflow-x-hidden">
-      <div className="flex gap-[15px] flex-wrap">
+    <div className="m-auto mb-[20px] flex min-h-[95vh] w-[100%] flex-col gap-[70px] overflow-x-hidden">
+      <div className="flex flex-wrap gap-[15px]">
         <div className="flex flex-col gap-[15px]">
-          <div className="flex gap-[15px] [@media(max-width:550px)]:flex-wrap [@media(max-width:1050px)]:justify-center">
+          <div className="flex gap-[15px] [@media(max-width:1050px)]:justify-center [@media(max-width:550px)]:flex-wrap">
             <CityTimeDisplay
               cityName={cityWeather?.name || "Unknown City"}
               time={time || "00:00"}
@@ -75,7 +75,10 @@ export default function City() {
         <PopularCities weatherData={remainingBiggestCities} />
       </div>
       {cityWeather && (cityWeather?.cityId || isCurrentLocation) && (
-        <Notes cityWeather={cityWeather} isCurrentLocation={isCurrentLocation} />
+        <Notes
+          cityWeather={cityWeather}
+          isCurrentLocation={isCurrentLocation}
+        />
       )}
     </div>
   );

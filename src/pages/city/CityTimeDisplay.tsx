@@ -12,11 +12,11 @@ export default function CityTimeDisplay({
   dateString,
 }: CityTimeDisplayProps) {
   return (
-    <div className="[@media(max-width:550px)]:w-[100%] w-[312px] h-[297px] rounded-[15px] backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] flex flex-col justify-center items-center gap-[20px]">
-      <span className="text-[36px] text-white font-bold">{cityName}</span>
+    <div className="flex h-[297px] w-[312px] flex-col items-center justify-center gap-[20px] rounded-[15px] bg-[rgba(0,0,0,0.2)] backdrop-blur-[20px] [@media(max-width:550px)]:w-[100%]">
+      <span className="text-[36px] font-bold text-white">{cityName}</span>
       <div className="flex flex-col items-center">
-        <span className="text-[70px] text-white font-bold">{time}</span>
-        <span className="text-[20px] text-white font-normal">{dateString}</span>
+        <span className="text-[70px] font-bold text-white">{time}</span>
+        <span className="text-[20px] font-normal text-white">{dateString}</span>
       </div>
     </div>
   );

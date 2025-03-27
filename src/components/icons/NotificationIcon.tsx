@@ -1,6 +1,6 @@
 type NotificationIconProps = {
   className?: string;
-}
+};
 
 export default function NotificationIcon({ className }: NotificationIconProps) {
   return (

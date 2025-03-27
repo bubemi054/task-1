@@ -45,14 +45,16 @@ export default function Forecast({ daily }: ForecastProps) {
   }
 
   return (
-    <div className="[@media(max-width:550px)]:w-[100%] w-[376px] h-[500px] backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] rounded-[15px] p-4 text-white py-[30px] flex flex-col gap-[25px]">
-      <div className="flex justify-between items-center mb-2 px-[15px]">
-        <h3 className="font-bold text-[36px] [@media(max-width:380px)]:text-[24px]">Forecast</h3>
-        <button className=" bg-white text-black px-3 py-1 rounded-md text-sm">
+    <div className="flex h-[500px] w-[376px] flex-col gap-[25px] rounded-[15px] bg-[rgba(0,0,0,0.2)] p-4 py-[30px] text-white backdrop-blur-[20px] [@media(max-width:550px)]:w-[100%]">
+      <div className="mb-2 flex items-center justify-between px-[15px]">
+        <h3 className="text-[36px] font-bold [@media(max-width:380px)]:text-[24px]">
+          Forecast
+        </h3>
+        <button className="rounded-md bg-white px-3 py-1 text-sm text-black">
           6 Days
         </button>
       </div>
-      <div className="rounded-[15px] h-[100%] flex flex-col justify-between">
+      <div className="flex h-[100%] flex-col justify-between rounded-[15px]">
         {daily.time.slice(1, 7).map((date, index) => {
           const day = new Date(date).toLocaleDateString("en-US", {
             weekday: "long",
@@ -61,11 +63,11 @@ export default function Forecast({ daily }: ForecastProps) {
           });
 
           return (
-            <div key={index} className="flex justify-around items-center py-1">
+            <div key={index} className="flex items-center justify-around py-1">
               <span className="text-xl">
                 {weatherIcons[daily.weathercode[index]]}
               </span>
-              <span className="text-lg w-[70px] text-left">
+              <span className="w-[70px] text-left text-lg">
                 {daily.temperature_2m_max[index]}°C
               </span>
               <span className="w-[150px] text-sm">{day}</span>

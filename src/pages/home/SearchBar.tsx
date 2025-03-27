@@ -21,23 +21,23 @@ export default function SearchBar() {
   };
 
   const selectCityHandler = (cityId: number) => {
-    if(isOffline) return
+    if (isOffline) return;
     changeCityTextHandler("");
     navigate(`/city/${cityId}`);
   };
 
   const selectCurrentCityHandler = () => {
-    if(isOffline) return
+    if (isOffline) return;
     changeCityTextHandler("");
     navigate(`/city/0?current-location=true`);
   };
 
   return (
     // <nav className="flex items-center justify-between lg:justify-end lg:gap-x-[1.6rem] mb-[3.8rem]">
-    <nav className="flex flex-col sm:flex-row gap-y-[1rem] items-center justify-between gap-x-[0.5rem] mb-[3.8rem]">
+    <nav className="mb-[3.8rem] flex flex-col items-center justify-between gap-x-[0.5rem] gap-y-[1rem] sm:flex-row">
       <Home
         onClick={() => navigate("/")}
-        className={`text-white justify-self-start cursor-pointer`}
+        className={`cursor-pointer justify-self-start text-white`}
         size={32}
       />
       <div className="flex items-center justify-between gap-x-[0.5rem] lg:gap-x-[1.6rem]">

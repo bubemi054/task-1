@@ -51,12 +51,12 @@ export default function CityWeatherCard({
   toggleFavorite,
   toggleRemoved,
   isFavorite,
-  className
+  className,
 }: CityWeatherCardProps) {
   const navigate = useNavigate();
   const isNightTime = isNight(weatherResponse.current.time);
   const weatherStatusColor = getWeatherStatus(
-    weatherResponse.current.weathercode
+    weatherResponse.current.weathercode,
   );
 
   const viewInDetail = () => {
@@ -66,25 +66,25 @@ export default function CityWeatherCard({
   return (
     <div
       className={twMerge(
-        "h-[380px] min-w-[230px] rounded-[1.25rem] px-[1rem] py-[2rem] flex flex-col justify-between",
+        "flex h-[380px] min-w-[230px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem]",
         `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`,
-        className
+        className,
       )}
     >
-      <div className="flex items-start justify-between mb-[1.1rem]">
+      <div className="mb-[1.1rem] flex items-start justify-between">
         <div className="">
           <p
             className={twMerge(
-              "text-[10px] mb-[3px] not-italic font-medium leading-[normal] font-manrope",
-              `${isNightTime ? "text-[#E3E3E3]" : "text-[#6B7280]"}`
+              "font-manrope mb-[3px] text-[10px] leading-[normal] font-medium not-italic",
+              `${isNightTime ? "text-[#E3E3E3]" : "text-[#6B7280]"}`,
             )}
           >
             {new Date(weatherResponse.current.time).toDateString()}
           </p>
           <p
             className={twMerge(
-              "text-xl not-italic font-extrabold leading-[normal] font-manrope",
-              `${isNightTime ? "text-white" : "text-[#111827]"}`
+              "font-manrope text-xl leading-[normal] font-extrabold not-italic",
+              `${isNightTime ? "text-white" : "text-[#111827]"}`,
             )}
           >
             {weatherResponse?.name}
@@ -96,22 +96,22 @@ export default function CityWeatherCard({
           className="cursor-pointer"
         />
       </div>
-      <div className="flex items-center justify-center max-w-[200px] max-h-[200px] m-auto">
+      <div className="m-auto flex max-h-[200px] max-w-[200px] items-center justify-center">
         <img
           src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
           alt="cat"
-          className="w-[100%] h-[100%] object-contain"
+          className="h-[100%] w-[100%] object-contain"
         />
       </div>
-      <div className="flex items-center justify-between relative bottom-2">
+      <div className="relative bottom-2 flex items-center justify-between">
         <p
           className={twMerge(
-            "bg-clip-text text-[2.5rem] not-italic font-extrabold leading-[normal] bg-gradient-to-b text-transparent font-manrope",
+            "font-manrope bg-gradient-to-b bg-clip-text text-[2.5rem] leading-[normal] font-extrabold text-transparent not-italic",
             `${
               isNightTime
                 ? "from-[rgba(255,255,255,0.6)] to-[rgba(0,0,0,0.1)]"
                 : "from-[rgba(0,0,0,0.6)] to-[rgba(255,255,255,0.1)]"
-            }`
+            }`,
           )}
         >
           {weatherResponse.current.temperature_2m}
@@ -123,9 +123,9 @@ export default function CityWeatherCard({
           className="cursor-pointer"
         />
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <p
-          className="text-xs not-italic font-extrabold leading-[normal] font-manrope"
+          className="font-manrope text-xs leading-[normal] font-extrabold not-italic"
           style={{ color: weatherStatusColor.color }}
         >
           {weatherStatusColor.status}

@@ -9,11 +9,11 @@ interface PopularCitiesProps {
 
 export default function PopularCities({ weatherData }: PopularCitiesProps) {
   return (
-    <div className=" [@media(max-width:550px)]:w-[100%] w-[428px] h-[812px] [@media(max-width:550px)]:h-auto backdrop-blur-[20px] bg-[rgba(0,0,0,0.2)] py-[25px] px-[25px] rounded-[15px]">
-      <h2 className="text-white text-2xl font-semibold text-center mb-4">
+    <div className="h-[812px] w-[428px] rounded-[15px] bg-[rgba(0,0,0,0.2)] px-[25px] py-[25px] backdrop-blur-[20px] [@media(max-width:550px)]:h-auto [@media(max-width:550px)]:w-[100%]">
+      <h2 className="mb-4 text-center text-2xl font-semibold text-white">
         Biggest Cities
       </h2>
-      <div className="space-y-3 overflow-y-auto h-[700px] [@media(max-width:550px)]:h-auto scrollbar-hide">
+      <div className="scrollbar-hide h-[700px] space-y-3 overflow-y-auto [@media(max-width:550px)]:h-auto">
         {weatherData?.map((city) => {
           const day = new Date(city.current.time).toLocaleDateString("en-US", {
             weekday: "long",
@@ -24,20 +24,20 @@ export default function PopularCities({ weatherData }: PopularCitiesProps) {
           return (
             <div
               key={city.name}
-              className="bg-white p-4 rounded-xl flex items-center justify-between shadow-md [@media(max-width:550px)]:flex-col [@media(max-width:550px)]:gap-[20px]"
+              className="flex items-center justify-between rounded-xl bg-white p-4 shadow-md [@media(max-width:550px)]:flex-col [@media(max-width:550px)]:gap-[20px]"
             >
               <div>
                 <p className="text-xs text-gray-500">{day}</p>
-                <p className="font-bold text-lg">{city.name}</p>
+                <p className="text-lg font-bold">{city.name}</p>
               </div>
-              <div className="w-[180px] flex justify-between items-center gap-2">
+              <div className="flex w-[180px] items-center justify-between gap-2">
                 <div className="flex gap-[5px]">
-                  <span className="bg-clip-text text-[25px] font-bold bg-gradient-to-b text-transparent font-manrope from-[rgba(0,0,0,1)] to-[rgba(255,255,255,0.1)]">
+                  <span className="font-manrope bg-gradient-to-b from-[rgba(0,0,0,1)] to-[rgba(255,255,255,0.1)] bg-clip-text text-[25px] font-bold text-transparent">
                     {city.current.temperature_2m}{" "}
                     {city.current_units.temperature_2m}
                   </span>
                   <span
-                    className="text-[12px] font-semibold relative bottom-[-20px]"
+                    className="relative bottom-[-20px] text-[12px] font-semibold"
                     style={{
                       color: getWeatherStatus(city.current.weathercode)?.color,
                     }}

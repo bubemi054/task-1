@@ -10,8 +10,8 @@ export default function Spinner({ className }: SpinnerProps) {
   return (
     <div
       className={twMerge(
-        "flex items-center justify-center h-[70%]",
-        className || ""
+        "flex h-[70%] items-center justify-center",
+        className || "",
       )}
     >
       <ImSpinner7 className="animate-spin text-5xl text-white" />

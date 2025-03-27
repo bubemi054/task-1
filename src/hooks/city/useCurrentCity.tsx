@@ -33,7 +33,7 @@ export default function useCurrentCity() {
     const showPrompts = () => {
       if (!oldLat || !oldLon) {
         const ans = window.confirm(
-          "Do you want to view your current locations weather? \n You can always click the profile icon to view your locations wether."
+          "Do you want to view your current locations weather? \n You can always click the profile icon to view your locations wether.",
         );
 
         if (ans) {
