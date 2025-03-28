@@ -11,7 +11,7 @@ export interface CounterState {
   coordinates: [number?, number?];
 }
 
-const initialState: CounterState = {
+export const initialState: CounterState = {
   maxNumberOfCities: 15,
   searchCityText: "",
   favoriteCitiesId: [],

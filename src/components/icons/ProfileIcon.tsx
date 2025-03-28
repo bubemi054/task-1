@@ -1,3 +1,5 @@
+import React from "react";
+
 type ProfileIconProps = {
   className?: string;
   onClick?: () => void;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { cityActions } from "../../state-manager/citySlice";
+import { RootState, AppDispatch } from "../../state-manager/store";
 import type { Note } from "../../state-manager/types";
-const STORAGE_KEY = "cityIdNotes";
 
 function createNote(cityId: number | undefined, notes?: Note[], text?: string) {
   return {
@@ -10,23 +12,15 @@ function createNote(cityId: number | undefined, notes?: Note[], text?: string) {
   };
 }
 
-export default function useNotes(
-  cityId: number | undefined,
-  isCurrentLocation: boolean = false,
-) {
-  const [allNotes, setAllNotes] = useState<Note[]>();
-  const [notes, setNotes] = useState<Note[]>();
+export default function useNotes(cityId: number | undefined) {
+  const dispatch: AppDispatch = useDispatch();
+  const { notes } = useSelector((state: RootState) => state.city);
   const [note, setNote] = useState<Note>();
 
   useEffect(() => {
-    const notesString = localStorage?.getItem(STORAGE_KEY) || "[]";
-    const notes = JSON.parse(notesString) as Note[];
-
     const filteredNotes = notes.filter((note) => note.cityId === cityId);
-    setAllNotes(notes);
-    setNotes(filteredNotes);
     setNote({ ...createNote(cityId, filteredNotes, "") });
-  }, [cityId]);
+  }, [cityId, notes]);
 
   const changeNoteHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNote((previousNote) => {
@@ -38,12 +32,13 @@ export default function useNotes(
     });
   };
 
+  const setNotes = (notes: Note[]) => {
+    dispatch(cityActions.updateNotes(notes));
+  };
+
   const saveNoteHandler = () => {
     if (note && note?.text?.trim()) {
-      const updatedNotes = [...(notes || []), note];
-      const updatedAllNotes = [...(allNotes || []), note];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAllNotes));
-      setAllNotes(updatedAllNotes);
+      const updatedNotes = [...notes, note];
       setNotes(updatedNotes);
       setNote({ ...createNote(cityId, updatedNotes, "") });
     }
@@ -53,23 +48,13 @@ export default function useNotes(
     const updatedNotes = notes?.map((note) =>
       note.id === updatedNote.id ? updatedNote : note,
     );
-    const updatedAllNotes = allNotes?.map((note) =>
-      note.id === updatedNote.id && note.cityId === cityId ? updatedNote : note,
-    );
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAllNotes));
-    setAllNotes(updatedAllNotes);
     setNotes(updatedNotes);
   };
 
   const deleteNoteHandler = (note: Note) => {
     const updatedNotes = notes?.filter((n) => n.id !== note.id);
-    const updatedAllNotes = allNotes?.filter(
-      (n) => n.id !== note.id && n.cityId === cityId,
-    );
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedAllNotes));
-    setAllNotes(updatedAllNotes);
     setNotes(updatedNotes);
   };
 

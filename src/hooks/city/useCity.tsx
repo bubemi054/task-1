@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGeolocated } from "react-geolocated";
 import useRemovedCities from "./useRemovedCities";
-import { getCityWeather, getUserWeather } from "../../state-manager/citySlice";
+import { getCityWeather } from "../../state-manager/citySlice";
 import { CITIES } from "../../state-manager/citySlice";
 import { AppDispatch, RootState } from "../../state-manager/store";
 
@@ -10,17 +10,11 @@ const MAX_POPULAR_CITIES = 8;
 
 export default function useCity(
   cityId: string | undefined,
-  isCurrentLocation: boolean = false,
 ) {
   const dispatch: AppDispatch = useDispatch();
-  const {
-    citiesWeather,
-    cityWeather,
-    fetchingCityWeather,
-    userWeather,
-    fetchingUserWeather,
-    fetchingUserWeatherError,
-  } = useSelector((state: RootState) => state.city);
+  const { citiesWeather, cityWeather, fetchingCityWeather } = useSelector(
+    (state: RootState) => state.city,
+  );
   const { removedCitiesId } = useRemovedCities();
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -32,18 +26,14 @@ export default function useCity(
     });
 
   useEffect(() => {
-    if (isCurrentLocation && isGeolocationAvailable && coords) {
-      dispatch(getUserWeather([coords.latitude, coords.longitude]));
-    } else {
-      if (typeof cityId !== "string") return;
+    if (typeof cityId !== "string") return;
 
-      const foundCity = CITIES.find((city) => city.cityId === Number(cityId));
+    const foundCity = CITIES.find((city) => city.cityId === Number(cityId));
 
-      if (foundCity) {
-        dispatch(getCityWeather(foundCity));
-      }
+    if (foundCity) {
+      dispatch(getCityWeather(foundCity));
     }
-  }, [dispatch, isCurrentLocation, isGeolocationAvailable, coords, cityId]);
+  }, [dispatch, isGeolocationAvailable, coords, cityId]);
 
   const remainingBiggestCities = useMemo(() => {
     return citiesWeather
@@ -53,10 +43,8 @@ export default function useCity(
 
   return {
     citiesWeather,
-    cityWeather: isCurrentLocation ? userWeather : cityWeather,
-    fetchingCityWeather: isCurrentLocation
-      ? fetchingUserWeather
-      : fetchingCityWeather,
+    cityWeather: cityWeather,
+    fetchingCityWeather: fetchingCityWeather,
     coords,
     isGeolocationAvailable,
     isGeolocationEnabled,

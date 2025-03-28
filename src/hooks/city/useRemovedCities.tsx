@@ -5,10 +5,12 @@ import { getRemovedCitiesWeather } from "../../state-manager/citySlice";
 import { useIsOnline } from "react-use-is-online";
 import { CITIES } from "../../state-manager/citySlice";
 import { RootState, AppDispatch } from "../../state-manager/store";
+import { useNavigate } from "react-router";
 
 const STORAGE_KEY = "removedCitiesId";
 
 export default function useRemovedCities() {
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { removedCitiesId, showRemovedCities } = useSelector(
     (state: RootState) => state.ui,
@@ -54,6 +56,10 @@ export default function useRemovedCities() {
     dispatch(uiActions.changeShowRemovedCities(val));
   };
 
+  const viewInDetail = (cityId: number) => {
+    navigate(`/city/${cityId}`);
+  }
+
   useEffect(() => {
     if (removedCitiesId.length === 0) changeShowRemovedCities(false);
     // eslint-disable-next-line
@@ -65,5 +71,6 @@ export default function useRemovedCities() {
     removedCities,
     showRemovedCities,
     toggleShowRemovedCities,
+    viewInDetail
   };
 }

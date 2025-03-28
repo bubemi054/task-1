@@ -1,45 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import cities from "./cities.json";
-import type { City, WeatherResponse, PTVLocation } from "./types";
-
-export const fetchCityLocationByPosition = async ([latitude, longitude]: [
-  number,
-  number,
-]): Promise<City> => {
-  const baseURL = new URL(
-    `${
-      import.meta.env.VITE_PTV_GEO_CODE_URL
-    }/v1/locations/by-position/${latitude}/${longitude}`,
-  );
-  baseURL.searchParams.set("apiKey", import.meta.env.VITE_PTV_DEV_API_KEY);
-  const url = baseURL.toString();
-  const response = await axios.get(url);
-  const data = response?.data as PTVLocation;
-  const location = data.locations[0];
-
-  const city: City = {
-    cityId: 0,
-    name: location.address.city,
-    country: location.address.countryName,
-    altCountry: location.address.state,
-    muni: location.address.province,
-    muniSub: location.address.district,
-    featureClass: location.address.subdistrict,
-    featureCode: location.address.street,
-    adminCode: location.address.postalCode,
-    population: 0,
-    loc: {
-      type: "Point",
-      coordinates: [
-        location?.referencePosition?.latitude || latitude,
-        location?.referencePosition?.longitude || longitude,
-      ],
-    },
-  };
-
-  return city;
-};
+import type { City, WeatherResponse, Note } from "./types";
 
 export const fetchCityWeather = async (
   city: City,
@@ -187,24 +150,6 @@ export const getCityWeather = createAsyncThunk(
   },
 );
 
-export const getUserWeather = createAsyncThunk(
-  "getUserWeather",
-  async (args: [number, number], { rejectWithValue }) => {
-    try {
-      const city = await fetchCityLocationByPosition(args);
-      const weather = await fetchCityWeather(city);
-      return weather;
-    } catch (err: unknown) {
-      console.log(err);
-      if (err instanceof Error) {
-        return rejectWithValue(err.message);
-      } else {
-        return rejectWithValue(err);
-      }
-    }
-  },
-);
-
 export interface CitySliceState {
   // multiple cities
   citiesWeather: WeatherResponse[];
@@ -222,13 +167,12 @@ export interface CitySliceState {
   removedCities: WeatherResponse[];
   fetchingRemovedCities: boolean;
   fetchingRemovedCitiesError: string;
-  // user weather
-  userWeather?: WeatherResponse;
-  fetchingUserWeather: boolean;
-  fetchingUserWeatherError: string;
+  // recent city
+  recentCurrentCity: City | undefined;
+  notes: Note[];
 }
 
-const initialState: CitySliceState = {
+export const initialState: CitySliceState = {
   citiesWeather: [],
   fetchingCitiesWeather: false,
   fetchingCitiesWeatherError: "",
@@ -241,9 +185,8 @@ const initialState: CitySliceState = {
   removedCities: [],
   fetchingRemovedCities: false,
   fetchingRemovedCitiesError: "",
-  userWeather: undefined,
-  fetchingUserWeather: false,
-  fetchingUserWeatherError: "",
+  recentCurrentCity: undefined,
+  notes: [],
 };
 
 export const citySlice = createSlice({
@@ -252,6 +195,12 @@ export const citySlice = createSlice({
   reducers: {
     reset: () => {
       return initialState;
+    },
+    updateRecentCurrentCity: (state, action: PayloadAction<City>) => {
+      state.recentCurrentCity = action.payload;
+    },
+    updateNotes: (state, action: PayloadAction<Note[]>) => {
+      state.notes = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -326,23 +275,6 @@ export const citySlice = createSlice({
           state.fetchingCityWeatherError = payload;
         } else {
           state.fetchingCityWeatherError = "Error fetching city weather";
-        }
-      });
-    builder
-      .addCase(getUserWeather.pending, (state) => {
-        state.fetchingUserWeather = true;
-      })
-      .addCase(getUserWeather.fulfilled, (state, { payload }) => {
-        state.fetchingUserWeather = false;
-        state.userWeather = payload;
-        state.fetchingUserWeatherError = "";
-      })
-      .addCase(getUserWeather.rejected, (state, { payload }) => {
-        state.fetchingUserWeather = false;
-        if (typeof payload === "string") {
-          state.fetchingUserWeatherError = payload;
-        } else {
-          state.fetchingUserWeatherError = "Error fetching user weather";
         }
       });
   },

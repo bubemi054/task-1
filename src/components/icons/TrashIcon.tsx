@@ -11,6 +11,7 @@ export default function TrashIcon({
 }: TrashIconProps) {
   return (
     <svg
+      role="trash-icon"
       xmlns="http://www.w3.org/2000/svg"
       width="17"
       height="17"

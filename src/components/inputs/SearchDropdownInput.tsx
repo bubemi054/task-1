@@ -11,7 +11,7 @@ type SearchDropdownInputProps = {
   className?: string;
   placeholder?: string;
   items?: City[];
-  onSelect?: (item: number) => void;
+  onSelect?: (item: City) => void;
   isOffline: boolean;
 };
 
@@ -43,7 +43,7 @@ export default function SearchDropdownInput({
       )}
     >
       <input
-        data-testid="search-input-general"
+        data-testid="search-input"
         className="w-full flex-1 bg-transparent text-lg text-white/80 placeholder-gray-400 outline-none disabled:cursor-not-allowed sm:w-auto"
         placeholder={placeholder || "Search"}
         value={value}
@@ -69,7 +69,7 @@ export default function SearchDropdownInput({
 type DropdownProps = {
   items: City[];
   value: string;
-  onSelect: (item: number) => void;
+  onSelect: (item: City) => void;
 };
 
 function Dropdown({ items, onSelect, value }: DropdownProps) {
@@ -122,7 +122,7 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
             <DropdownItem
               key={filteredItems[index].cityId}
               text={filteredItems[index].name}
-              onClick={() => onSelect(filteredItems[index].cityId)}
+              onClick={() => onSelect(filteredItems[index])}
             />
           </div>
         )}

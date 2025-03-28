@@ -15,7 +15,6 @@ import StarIcon from "../../components/icons/StarIcon";
 import SendIcon from "../../components/icons/SendIcon";
 import TrashIcon from "../../components/icons/TrashIcon";
 import { isNight, getWeatherStatus } from "../../utils/weather";
-import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
 
 function getCatImage(isNight: boolean, wmoCode: number) {
@@ -42,6 +41,7 @@ type CityWeatherCardProps = {
   weatherResponse: WeatherResponse;
   toggleFavorite: (city: number) => void;
   toggleRemoved: (city: number) => void;
+  viewInDetail: (city: number) => void;
   isFavorite: boolean;
   className?: string;
 };
@@ -50,23 +50,19 @@ export default function CityWeatherCard({
   weatherResponse,
   toggleFavorite,
   toggleRemoved,
+  viewInDetail,
   isFavorite,
   className,
 }: CityWeatherCardProps) {
-  const navigate = useNavigate();
   const isNightTime = isNight(weatherResponse.current.time);
   const weatherStatusColor = getWeatherStatus(
     weatherResponse.current.weathercode,
   );
 
-  const viewInDetail = () => {
-    navigate(`/city/${weatherResponse?.cityId}`);
-  };
-
   return (
     <div
       className={twMerge(
-        "flex h-[380px] min-w-[230px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem]",
+        "flex h-[450px] sm:h-[380px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem]",
         `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`,
         className,
       )}
@@ -94,12 +90,13 @@ export default function CityWeatherCard({
           onClick={() => toggleFavorite(weatherResponse.cityId)}
           fill={isFavorite ? "#F1CC51" : "none"}
           className="cursor-pointer"
+          
         />
       </div>
       <div className="m-auto flex max-h-[200px] max-w-[200px] items-center justify-center">
         <img
           src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
-          alt="cat"
+          role="weather-image"
           className="h-[100%] w-[100%] object-contain"
         />
       </div>
@@ -119,7 +116,7 @@ export default function CityWeatherCard({
         </p>
         <SendIcon
           stroke={isNightTime ? "#fff" : "#000"}
-          onClick={viewInDetail}
+          onClick={() => viewInDetail(weatherResponse.cityId)}
           className="cursor-pointer"
         />
       </div>

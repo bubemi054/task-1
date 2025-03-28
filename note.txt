@@ -1,2 +1,134 @@
-https://api.myptv.com/geocoding/v1/locations/by-position/6.5582548/3.3874084?apiKey=RVVfZjgzMzdkOWJmODI1NDk5ZWJmNjczYzI5ZTlkZjQxNDg6N2VlMjA2MjItNmQyNy00Y2IwLTg3MjQtN2JlMWRiYWYwNzZj
-https://api.myptv.com/v1/locations/by-position/49.0133618/8.4277972?apiKey=RVVfZjgzMzdkOWJmODI1NDk5ZWJmNjczYzI5ZTlkZjQxNDg6N2VlMjA2MjItNmQyNy00Y2IwLTg3MjQtN2JlMWRiYWYwNzZj
+import React, { JSX } from "react";
+import {
+  render as rtlRender,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from "@testing-library/react";
+import store from "../../state-manager/store";
+// import SearchBar from "./SearchBar";
+import { describe, vi, it, expect, afterEach } from "vitest";
+import { Provider } from "react-redux";
+
+import "@testing-library/jest-dom/vitest";
+
+// const mockCities: City[] = [
+//   {
+//     cityId: 2013348,
+
+//     name: "Vladivostok",
+
+//     altCountry: "",
+
+//     country: "RU",
+
+//     featureCode: "PPLA",
+
+//     adminCode: "59",
+
+//     population: 587022,
+
+//     loc: { type: "Point", coordinates: [43.10562, 131.87353] },
+//   },
+
+//   {
+//     cityId: 2023469,
+
+//     name: "Irkutsk",
+
+//     altCountry: "",
+
+//     country: "RU",
+
+//     featureCode: "PPLA",
+
+//     adminCode: "20",
+
+//     population: 586695,
+
+//     loc: { type: "Point", coordinates: [52.29778, 104.29639] },
+//   },
+
+//   {
+//     cityId: 931755,
+
+//     name: "Blantyre",
+
+//     altCountry: "",
+
+//     country: "MW",
+
+//     featureCode: "PPLA",
+
+//     adminCode: "S",
+
+//     population: 584877,
+
+//     loc: { type: "Point", coordinates: [-15.78499, 35.00854] },
+//   },
+// ];
+
+// afterEach(() => {
+//   cleanup();
+//   vi.restoreAllMocks();
+// })
+
+// console.log("opuyctyvu");
+
+const render = (component: JSX.Element) =>
+  rtlRender(<Provider store={store}>{component}</Provider>);
+
+describe("SearchBar Component", () => {
+  it("renders SearchDropdownInput and ProfileIcon", () => {
+    // render(<SearchBar />);
+    // expect(screen.getByPlaceholderText("Search City")).toBeInTheDocument();
+
+    // expect(screen.getByPlaceholderText("Search City")).toBeInTheDocument();
+    // expect(screen.getByRole("img")).toBeInTheDocument();
+  });
+
+  // it("updates search input value on change", () => {
+  //   store.dispatch = vi.fn();
+  //   render(
+  //     <Provider store={store}>
+  //       <BrowserRouter>
+  //         <SearchBar />
+  //       </BrowserRouter>
+  //     </Provider>
+  //   );
+  //   const input = screen.getByPlaceholderText("Search City");
+  //   fireEvent.change(input, { target: { value: "Lagos" } });
+  //   expect(store.dispatch).toHaveBeenCalled();
+  // });
+
+  // it("navigates to city page on city selection", () => {
+  //   const mockNavigate = vi.fn();
+  //   vi.mock("react-router", () => ({ useNavigate: () => mockNavigate }));
+
+  //   render(
+  //     <Provider store={store}>
+  //       <BrowserRouter>
+  //         <SearchBar />
+  //       </BrowserRouter>
+  //     </Provider>
+  //   );
+  //   fireEvent.click(screen.getByPlaceholderText("Search City"));
+  //   fireEvent.click(screen.getByText("Lagos"));
+  //   expect(mockNavigate).toHaveBeenCalledWith("/city/1");
+  // });
+
+  // it("navigates to home page when Home icon is clicked", () => {
+  //   const mockNavigate = vi.fn();
+  //   vi.mock("react-router", () => ({ useNavigate: () => mockNavigate }));
+  //   render(
+  //     <Provider store={store}>
+  //       <BrowserRouter>
+  //         <SearchBar />
+  //       </BrowserRouter>
+  //     </Provider>
+  //   );
+  //   fireEvent.click(screen.getByRole("img", { name: /home/i }));
+  //   expect(mockNavigate).toHaveBeenCalledWith("/");
+  // });
+});

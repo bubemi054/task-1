@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useSearchParams } from "react-router";
+import { useParams } from "react-router";
 import Spinner from "../../components/general/Spinner";
 import useCity from "../../hooks/city/useCity";
 import CityTimeDisplay from "./CityTimeDisplay";
@@ -14,13 +14,9 @@ import Notes from "./Notes";
 
 export default function City() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const isCurrentLocationString = searchParams.get("current-location");
-  const isCurrentLocation = isCurrentLocationString === "true";
   const { cityId } = useParams<{ cityId: string }>();
   const { remainingBiggestCities, cityWeather, fetchingCityWeather } = useCity(
     cityId,
-    isCurrentLocation,
   );
   const { isOffline } = useIsOnline();
 
@@ -74,10 +70,9 @@ export default function City() {
         </div>
         <PopularCities weatherData={remainingBiggestCities} />
       </div>
-      {cityWeather && (cityWeather?.cityId || isCurrentLocation) && (
+      {cityWeather && (cityWeather?.cityId) && (
         <Notes
           cityWeather={cityWeather}
-          isCurrentLocation={isCurrentLocation}
         />
       )}
     </div>

@@ -16,6 +16,7 @@ export default function StarIcon({ className, onClick, fill }: StarIconProps) {
       fill={fill || "none"}
       className={twMerge("cursor-pointer", className)}
       onClick={onClick}
+      role="star-icon"
     >
       <path
         fillRule="evenodd"

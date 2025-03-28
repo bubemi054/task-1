@@ -1,7 +1,7 @@
 import React from "react";
 import SearchDropdownInput from "../../components/inputs/SearchDropdownInput";
-// import NotificationIcon from "../../components/icons/NotificationIcon";
 import ProfileIcon from "../../components/icons/ProfileIcon";
+import useShowCurrentCityWeather from "../../hooks/city/useShowCurrentCityWeather";
 import { Home } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -9,31 +9,26 @@ import { uiActions } from "../../state-manager/uiSlice";
 import { CITIES } from "../../state-manager/citySlice";
 import { RootState } from "../../state-manager/store";
 import { useIsOnline } from "react-use-is-online";
+import { City } from "../../state-manager/types";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { searchCityText } = useSelector((state: RootState) => state.ui);
   const { isOffline } = useIsOnline();
+  const { viewCurrentCityWeather } = useShowCurrentCityWeather();
 
   const changeCityTextHandler = (city: string) => {
     dispatch(uiActions.changeSearchCityText(city));
   };
 
-  const selectCityHandler = (cityId: number) => {
+  const selectCityHandler = (city: City) => {
     if (isOffline) return;
     changeCityTextHandler("");
-    navigate(`/city/${cityId}`);
-  };
-
-  const selectCurrentCityHandler = () => {
-    if (isOffline) return;
-    changeCityTextHandler("");
-    navigate(`/city/0?current-location=true`);
+    navigate(`/city/${city.cityId}`);
   };
 
   return (
-    // <nav className="flex items-center justify-between lg:justify-end lg:gap-x-[1.6rem] mb-[3.8rem]">
     <nav className="mb-[3.8rem] flex flex-col items-center justify-between gap-x-[0.5rem] gap-y-[1rem] sm:flex-row">
       <Home
         onClick={() => navigate("/")}
@@ -50,9 +45,8 @@ export default function SearchBar() {
           className="max-w-[13rem] lg:max-w-none"
           isOffline={isOffline}
         />
-        {/* <NotificationIcon /> */}
         <ProfileIcon
-          onClick={selectCurrentCityHandler}
+          onClick={viewCurrentCityWeather}
           className={`${isOffline ? "cursor-not-allowed" : "cursor-pointer"}`}
         />
       </div>

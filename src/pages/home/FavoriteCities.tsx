@@ -13,6 +13,7 @@ export default function FavoriteCities() {
     toggleRemovedCityId,
     showRemovedCities,
     toggleShowRemovedCities,
+    viewInDetail
   } = useRemovedCities();
 
   return (
@@ -43,15 +44,16 @@ export default function FavoriteCities() {
         </div>
 
         {sortedFavoriteCities?.length > 0 ? (
-          <div className="flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {sortedFavoriteCities.map((wr) => (
               <CityWeatherCard
                 key={wr?.cityId}
                 weatherResponse={wr}
                 toggleFavorite={toggleFavoriteCityId}
+                viewInDetail={viewInDetail}
                 toggleRemoved={toggleRemovedCityId}
                 isFavorite={true}
-                className="w-full sm:w-auto"
+                className=""
               />
             ))}
           </div>

@@ -3,12 +3,11 @@ import useNotes from "../../hooks/note/useNotes";
 import { WeatherResponse } from "../../state-manager/types";
 import NoteCard from "./Note";
 
-interface NotesProps {
+type NotesProps = {
   cityWeather: WeatherResponse;
-  isCurrentLocation: boolean;
-}
+};
 
-function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
+function Notes({ cityWeather }: NotesProps) {
   const {
     notes,
     note,
@@ -16,7 +15,7 @@ function Notes({ cityWeather, isCurrentLocation }: NotesProps) {
     saveNoteHandler,
     editNoteHandler,
     deleteNoteHandler,
-  } = useNotes(cityWeather?.cityId, isCurrentLocation);
+  } = useNotes(cityWeather?.cityId);
 
   return (
     <div className="w-full">

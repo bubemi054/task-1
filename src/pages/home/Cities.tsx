@@ -7,7 +7,7 @@ import useFavoriteCities from "../../hooks/city/useFavoriteCities";
 import useRemovedCities from "../../hooks/city/useRemovedCities";
 
 export default function Cities() {
-  const { toggleFavoriteCityId, favoriteCitiesId } = useFavoriteCities();
+  const { toggleFavoriteCityId, favoriteCitiesId, viewInDetail } = useFavoriteCities();
   const { toggleRemovedCityId } = useRemovedCities();
   const {
     fetchingCitiesWeather,
@@ -36,13 +36,14 @@ export default function Cities() {
   return (
     <div className="mb-[1rem]">
       <Header1 className="mb-[2.7rem] text-center sm:text-left">Cities</Header1>
-      <div className="flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {sortedCitiesWeather.map((wr) => (
           <CityWeatherCard
             key={wr?.cityId}
             weatherResponse={wr}
             toggleFavorite={toggleFavoriteCityId}
             toggleRemoved={toggleRemovedCityId}
+            viewInDetail={viewInDetail}
             isFavorite={favoriteCitiesId.includes(wr.cityId)}
           />
         ))}
