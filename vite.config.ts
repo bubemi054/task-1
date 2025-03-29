@@ -6,4 +6,5 @@ import { viteRequire } from "vite-require";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), viteRequire()],
+  base: process.env.VITE_BASE_PATH || "/"
 });
