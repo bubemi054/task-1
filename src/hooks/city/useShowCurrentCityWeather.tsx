@@ -14,23 +14,27 @@ export default function useShowCurrentCityWeather() {
   const navigate = useNavigate();
   const { recentCurrentCity } = useSelector((state: RootState) => state.city);
 
-  const { coords, isGeolocationAvailable } = useGeolocated({
-    positionOptions: {
-      enableHighAccuracy: false,
-    },
-    userDecisionTimeout: 5000,
-  });
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
 
   const { isOffline } = useIsOnline();
 
-  const oldLat = recentCurrentCity?.loc.coordinates[0] || 0;
-  const oldLon = recentCurrentCity?.loc.coordinates[1] || 0;
   const newLat = coords?.latitude || 0;
   const newLon = coords?.longitude || 0;
 
-  const viewCurrentCityWeather = () => {
+  const viewCurrentCityWeather = (cityId?: number) => {
     if (isOffline) return;
-    navigate(`/city/${recentCurrentCity?.cityId}`);
+
+    if (typeof cityId == "number") {
+      navigate(`/city/${cityId}`);
+    } else {
+      navigate(`/city/${recentCurrentCity?.cityId}`);
+    }
   };
 
   useEffect(() => {
@@ -39,25 +43,29 @@ export default function useShowCurrentCityWeather() {
     if (currentCity) {
       dispatch(cityActions.updateRecentCurrentCity(currentCity));
     }
-  }, [dispatch, newLat, newLon]);
+  }, [coords]);
 
   useEffect(() => {
-    if (isOffline || !isGeolocationAvailable) return;
+    if (
+      isOffline ||
+      !isGeolocationAvailable ||
+      !isGeolocationEnabled ||
+      !coords
+    )
+      return;
 
     const showPrompts = () => {
-      console.log(oldLat);
-      console.log(oldLon);
-      if (!oldLat || !oldLon) {
-        const ans = window.confirm(
-          "Do you want to view your current locations weather?\nYou can always click the profile icon to view your locations wether.",
-        );
+      if (!recentCurrentCity) return;
 
-        if (ans) {
-          viewCurrentCityWeather();
-        }
+      const ans = window.confirm(
+        "Do you want to view your current locations weather?\nYou can always click the profile icon to view your locations wether.",
+      );
 
-        return;
+      if (ans) {
+        viewCurrentCityWeather(recentCurrentCity?.cityId);
       }
+
+      return;
     };
 
     const id = setTimeout(() => {
@@ -67,10 +75,13 @@ export default function useShowCurrentCityWeather() {
     return () => {
       clearTimeout(id);
     };
-    // eslint-disable-next-line
-  }, [isOffline, isGeolocationAvailable, coords]);
-
-  console.log("bvjh");
+  }, [
+    isOffline,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    coords,
+    recentCurrentCity,
+  ]);
 
   return { viewCurrentCityWeather };
 }
