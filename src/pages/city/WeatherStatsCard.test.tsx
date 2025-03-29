@@ -16,18 +16,42 @@ vi.mock("../../utils/weather", () => ({
   getWeatherStatus: vi.fn(),
 }));
 
-vi.mock("../../assets/wmo-code-images/wmo10-29.png", () => ({ default: "cat1" }));
-vi.mock("../../assets/wmo-code-images/wmo30-59.png", () => ({ default: "cat2" }));
-vi.mock("../../assets/wmo-code-images/wmo60-69.png", () => ({ default: "cat3" }));
-vi.mock("../../assets/wmo-code-images/wmo70-79.png", () => ({ default: "cat4" }));
-vi.mock("../../assets/wmo-code-images/wmo80-89.png", () => ({ default: "cat5" }));
-vi.mock("../../assets/wmo-code-images/wmo90-99.png", () => ({ default: "cat6" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-1.png", () => ({ default: "cat1night" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-2.png", () => ({ default: "cat2night" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-3.png", () => ({ default: "cat3night" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-4.png", () => ({ default: "cat4night" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-5.png", () => ({ default: "cat5night" }));
-vi.mock("../../assets/wmo-code-images/dark-icon-6.png", () => ({ default: "cat6night" }));
+vi.mock("../../assets/wmo-code-images/wmo10-29.png", () => ({
+  default: "cat1",
+}));
+vi.mock("../../assets/wmo-code-images/wmo30-59.png", () => ({
+  default: "cat2",
+}));
+vi.mock("../../assets/wmo-code-images/wmo60-69.png", () => ({
+  default: "cat3",
+}));
+vi.mock("../../assets/wmo-code-images/wmo70-79.png", () => ({
+  default: "cat4",
+}));
+vi.mock("../../assets/wmo-code-images/wmo80-89.png", () => ({
+  default: "cat5",
+}));
+vi.mock("../../assets/wmo-code-images/wmo90-99.png", () => ({
+  default: "cat6",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-1.png", () => ({
+  default: "cat1night",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-2.png", () => ({
+  default: "cat2night",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-3.png", () => ({
+  default: "cat3night",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-4.png", () => ({
+  default: "cat4night",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-5.png", () => ({
+  default: "cat5night",
+}));
+vi.mock("../../assets/wmo-code-images/dark-icon-6.png", () => ({
+  default: "cat6night",
+}));
 
 describe("WeatherStatsCard", () => {
   const mockProps = {
@@ -106,7 +130,7 @@ describe("WeatherStatsCard", () => {
         pressure={NaN}
         uvIndex={NaN}
         weatherCode={NaN}
-      />
+      />,
     );
 
     expect(screen.getByText("NA%")).toBeInTheDocument();

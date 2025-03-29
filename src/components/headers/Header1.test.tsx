@@ -1,9 +1,6 @@
 // @ts-expect-error Need React imported for my tests
 import React from "react";
-import {
-  render,
-  cleanup,
-} from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import Header1 from "./Header1";
 import { describe, vi, it, expect, afterEach } from "vitest";
 import "@testing-library/jest-dom/vitest";

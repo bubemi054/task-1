@@ -74,7 +74,10 @@ export default function Forecast({ daily, dailyUnits }: ForecastProps) {
               <span className="text-xl">
                 {weatherIcons[daily.weathercode[index]]}
               </span>
-              <span data-testid="max-temp" className="w-[70px] text-left text-lg">
+              <span
+                data-testid="max-temp"
+                className="w-[70px] text-left text-lg"
+              >
                 {daily.temperature_2m_max[index]}
                 {dailyUnits?.temperature_2m_max}
               </span>

@@ -1,11 +1,6 @@
 // @ts-expect-error Need React imported for my tests
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  cleanup,
-} from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import CityWeatherCard from "./CityWeatherCard";
 import { BrowserRouter } from "react-router";
 import { describe, vi, it, expect, afterEach } from "vitest";

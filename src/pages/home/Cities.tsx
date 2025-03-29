@@ -8,7 +8,8 @@ import useFavoriteCities from "../../hooks/city/useFavoriteCities";
 import useRemovedCities from "../../hooks/city/useRemovedCities";
 
 export default function Cities() {
-  const { toggleFavoriteCityId, favoriteCitiesId, viewInDetail } = useFavoriteCities();
+  const { toggleFavoriteCityId, favoriteCitiesId, viewInDetail } =
+    useFavoriteCities();
   const { toggleRemovedCityId } = useRemovedCities();
   const {
     fetchingCitiesWeather,

@@ -16,9 +16,8 @@ import Notes from "./Notes";
 export default function City() {
   const navigate = useNavigate();
   const { cityId } = useParams<{ cityId: string }>();
-  const { remainingBiggestCities, cityWeather, fetchingCityWeather } = useCity(
-    cityId,
-  );
+  const { remainingBiggestCities, cityWeather, fetchingCityWeather } =
+    useCity(cityId);
   const { isOffline } = useIsOnline();
 
   useEffect(() => {
@@ -57,7 +56,10 @@ export default function City() {
             />
           </div>
           <div className="flex gap-[15px] [@media(max-width:840px)]:flex-wrap">
-            <Forecast daily={cityWeather?.daily} dailyUnits={cityWeather?.daily_units}/>
+            <Forecast
+              daily={cityWeather?.daily}
+              dailyUnits={cityWeather?.daily_units}
+            />
             <WeatherStatsCard
               temperature={cityWeather?.current.temperature_2m || 0}
               humidity={cityWeather?.current.relative_humidity_2m || 0}
@@ -71,10 +73,8 @@ export default function City() {
         </div>
         <PopularCities weatherData={remainingBiggestCities} />
       </div>
-      {cityWeather && (cityWeather?.cityId) && (
-        <Notes
-          cityWeather={cityWeather}
-        />
+      {cityWeather && cityWeather?.cityId && (
+        <Notes cityWeather={cityWeather} />
       )}
     </div>
   );

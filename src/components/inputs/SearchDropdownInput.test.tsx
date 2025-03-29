@@ -71,7 +71,7 @@ const mockCities: City[] = [
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
-})
+});
 
 describe("SearchDropdownInput Component", () => {
   it("renders input field and search icon", () => {

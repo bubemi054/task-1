@@ -58,7 +58,7 @@ export default function useRemovedCities() {
 
   const viewInDetail = (cityId: number) => {
     navigate(`/city/${cityId}`);
-  }
+  };
 
   useEffect(() => {
     if (removedCitiesId.length === 0) changeShowRemovedCities(false);
@@ -71,6 +71,6 @@ export default function useRemovedCities() {
     removedCities,
     showRemovedCities,
     toggleShowRemovedCities,
-    viewInDetail
+    viewInDetail,
   };
 }

@@ -15,7 +15,7 @@ export default function FavoriteCities() {
     toggleRemovedCityId,
     showRemovedCities,
     toggleShowRemovedCities,
-    viewInDetail
+    viewInDetail,
   } = useRemovedCities();
 
   return (
@@ -27,10 +27,7 @@ export default function FavoriteCities() {
           </Header1>
           <div className="relative flex flex-col items-end">
             {removedCities?.length > 0 && (
-              <Button1
-                onClick={toggleShowRemovedCities}
-                className=""
-              >
+              <Button1 onClick={toggleShowRemovedCities} className="">
                 Removed Cities
               </Button1>
             )}

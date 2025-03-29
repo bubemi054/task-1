@@ -62,7 +62,7 @@ export default function CityWeatherCard({
   return (
     <div
       className={twMerge(
-        "flex h-[450px] sm:h-[380px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem]",
+        "flex h-[450px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem] sm:h-[380px]",
         `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`,
         className,
       )}
@@ -90,7 +90,6 @@ export default function CityWeatherCard({
           onClick={() => toggleFavorite(weatherResponse.cityId)}
           fill={isFavorite ? "#F1CC51" : "none"}
           className="cursor-pointer"
-          
         />
       </div>
       <div className="m-auto flex max-h-[200px] max-w-[200px] items-center justify-center">

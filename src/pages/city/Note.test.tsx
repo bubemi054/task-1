@@ -96,7 +96,13 @@ describe("NoteCard Component", () => {
   });
 
   it("toggles edit mode correctly", () => {
-    render(<NoteCard initialNote={mockNote} onSave={mockOnSave} onDelete={mockOnDelete} />);
+    render(
+      <NoteCard
+        initialNote={mockNote}
+        onSave={mockOnSave}
+        onDelete={mockOnDelete}
+      />,
+    );
 
     const editButton = screen.getByRole("edit-icon");
 

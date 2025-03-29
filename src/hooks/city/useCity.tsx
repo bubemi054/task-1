@@ -9,9 +9,7 @@ import { AppDispatch, RootState } from "../../state-manager/store";
 
 const MAX_POPULAR_CITIES = 8;
 
-export default function useCity(
-  cityId: string | undefined,
-) {
+export default function useCity(cityId: string | undefined) {
   const dispatch: AppDispatch = useDispatch();
   const { citiesWeather, cityWeather, fetchingCityWeather } = useSelector(
     (state: RootState) => state.city,

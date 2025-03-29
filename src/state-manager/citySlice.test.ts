@@ -223,13 +223,19 @@ describe("citySlice async actions", () => {
 
   it("should handle getCitiesWeather.rejected", () => {
     const errorMessage = "Network error";
-    const newState = reducer(initialState, getCitiesWeather.rejected(null, "", [], errorMessage));
+    const newState = reducer(
+      initialState,
+      getCitiesWeather.rejected(null, "", [], errorMessage),
+    );
     expect(newState.fetchingCitiesWeather).toBe(false);
     expect(newState.fetchingCitiesWeatherError).toBe(errorMessage);
   });
 
   it("should handle getCityWeather.fulfilled", () => {
-    const newState = reducer(initialState, getCityWeather.fulfilled(mockWeatherResponses[0], "", {} as City));
+    const newState = reducer(
+      initialState,
+      getCityWeather.fulfilled(mockWeatherResponses[0], "", {} as City),
+    );
     expect(newState.fetchingCityWeather).toBe(false);
     expect(newState.cityWeather).toEqual(mockWeatherResponses[0]);
   });
@@ -237,7 +243,7 @@ describe("citySlice async actions", () => {
   it("should handle getFavoriteCitiesWeather.fulfilled", () => {
     const newState = reducer(
       initialState,
-      getFavoriteCitiesWeather.fulfilled(mockWeatherResponses, "", [])
+      getFavoriteCitiesWeather.fulfilled(mockWeatherResponses, "", []),
     );
     expect(newState.fetchingFavoriteCities).toBe(false);
     expect(newState.favoriteCities).toEqual(mockWeatherResponses);
@@ -246,7 +252,7 @@ describe("citySlice async actions", () => {
   it("should handle getRemovedCitiesWeather.fulfilled", () => {
     const newState = reducer(
       initialState,
-      getRemovedCitiesWeather.fulfilled(mockWeatherResponses, "", [])
+      getRemovedCitiesWeather.fulfilled(mockWeatherResponses, "", []),
     );
     expect(newState.fetchingRemovedCities).toBe(false);
     expect(newState.removedCities).toEqual(mockWeatherResponses);

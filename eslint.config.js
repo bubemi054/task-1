@@ -20,12 +20,9 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "warn",
-        { "varsIgnorePattern": "^React$" }
+        { varsIgnorePattern: "^React$" },
       ],
-      "no-unused-vars": [
-        "warn",
-        { "varsIgnorePattern": "^React$" }
-      ]
-    }
+      "no-unused-vars": ["warn", { varsIgnorePattern: "^React$" }],
+    },
   },
 );
