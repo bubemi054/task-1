@@ -1,41 +1,9 @@
 import { WeatherResponse } from "../../state-manager/types";
-import cat1 from "../../assets/wmo-code-images/wmo10-29.png";
-import cat2 from "../../assets/wmo-code-images/wmo30-59.png";
-import cat3 from "../../assets/wmo-code-images/wmo60-69.png";
-import cat4 from "../../assets/wmo-code-images/wmo70-79.png";
-import cat5 from "../../assets/wmo-code-images/wmo80-89.png";
-import cat6 from "../../assets/wmo-code-images/wmo90-99.png";
-import cat1night from "../../assets/wmo-code-images/dark-icon-1.png";
-import cat2night from "../../assets/wmo-code-images/dark-icon-2.png";
-import cat3night from "../../assets/wmo-code-images/dark-icon-3.png";
-import cat4night from "../../assets/wmo-code-images/dark-icon-4.png";
-import cat5night from "../../assets/wmo-code-images/dark-icon-5.png";
-import cat6night from "../../assets/wmo-code-images/dark-icon-6.png";
 import StarIcon from "../../components/icons/StarIcon";
 import SendIcon from "../../components/icons/SendIcon";
 import TrashIcon from "../../components/icons/TrashIcon";
-import { isNight, getWeatherStatus } from "../../utils/weather";
+import { isNight, getWeatherDescImageStatus } from "../../utils/weather";
 import { twMerge } from "tailwind-merge";
-
-function getCatImage(isNight: boolean, wmoCode: number) {
-  if (isNight) {
-    if (wmoCode >= 0 && wmoCode <= 29) return cat1night;
-    if (wmoCode >= 30 && wmoCode <= 59) return cat2night;
-    if (wmoCode >= 60 && wmoCode <= 69) return cat3night;
-    if (wmoCode >= 70 && wmoCode <= 79) return cat4night;
-    if (wmoCode >= 80 && wmoCode <= 89) return cat5night;
-    if (wmoCode >= 90 && wmoCode <= 99) return cat6night;
-    return "";
-  } else {
-    if (wmoCode >= 0 && wmoCode <= 29) return cat1;
-    if (wmoCode >= 30 && wmoCode <= 59) return cat2;
-    if (wmoCode >= 60 && wmoCode <= 69) return cat3;
-    if (wmoCode >= 70 && wmoCode <= 79) return cat4;
-    if (wmoCode >= 80 && wmoCode <= 89) return cat5;
-    if (wmoCode >= 90 && wmoCode <= 99) return cat6;
-    return "";
-  }
-}
 
 type CityWeatherCardProps = {
   weatherResponse: WeatherResponse;
@@ -55,8 +23,10 @@ export default function CityWeatherCard({
   className,
 }: CityWeatherCardProps) {
   const isNightTime = isNight(weatherResponse.current.time);
-  const weatherStatusColor = getWeatherStatus(
+
+  const { description, image, color } = getWeatherDescImageStatus(
     weatherResponse.current.weathercode,
+    isNightTime,
   );
 
   return (
@@ -94,7 +64,8 @@ export default function CityWeatherCard({
       </div>
       <div className="m-auto flex max-h-[200px] max-w-[200px] items-center justify-center">
         <img
-          src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
+          src={image}
+          // src={getCatImage(isNightTime, weatherResponse.current.weathercode)}
           role="weather-image"
           className="h-[100%] w-[100%] object-contain"
         />
@@ -122,9 +93,9 @@ export default function CityWeatherCard({
       <div className="flex items-center justify-between">
         <p
           className="font-manrope text-xs leading-[normal] font-extrabold not-italic"
-          style={{ color: weatherStatusColor.color }}
+          style={{ color: color }}
         >
-          {weatherStatusColor.status}
+          {description}
         </p>
         <TrashIcon
           onClick={() => toggleRemoved(weatherResponse.cityId)}

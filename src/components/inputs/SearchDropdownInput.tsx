@@ -91,7 +91,7 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
       new Fuse(items, {
         keys: [
           { name: "name", weight: 0.4 },
-          // { name: "country", weight: 0.3 },
+          { name: "country", weight: 0.2 },
           // { name: "altCountry", weight: 0.2 },
           // { name: "muni", weight: 0.2 },
           // { name: "muniSub", weight: 0.1 },
@@ -106,6 +106,8 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
     if (!debouncedValue) return items;
     return fuse.search(debouncedValue).map((result) => result.item);
   }, [debouncedValue, fuse, items]);
+
+  console.log(filteredItems);
 
   return (
     <div
@@ -122,7 +124,7 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
           <div style={style} className="cursor-pointer">
             <DropdownItem
               key={filteredItems[index].cityId}
-              text={filteredItems[index].name}
+              text={`${filteredItems[index].name}, (${filteredItems[index].country})`}
               onClick={() => onSelect(filteredItems[index])}
             />
           </div>

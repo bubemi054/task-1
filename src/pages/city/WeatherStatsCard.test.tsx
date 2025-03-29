@@ -2,7 +2,7 @@
 import React from "react";
 import { render, cleanup, screen } from "@testing-library/react";
 import WeatherStatsCard from "./WeatherStatsCard";
-import { describe, vi, it, expect, afterEach } from "vitest";
+import { describe, vi, it, expect, afterEach, beforeEach } from "vitest";
 import * as weatherUtils from "../../utils/weather";
 import "@testing-library/jest-dom/vitest";
 
@@ -11,128 +11,114 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+// Mock weather utility functions
 vi.mock("../../utils/weather", () => ({
   isNight: vi.fn(),
-  getWeatherStatus: vi.fn(),
-}));
-
-vi.mock("../../assets/wmo-code-images/wmo10-29.png", () => ({
-  default: "cat1",
-}));
-vi.mock("../../assets/wmo-code-images/wmo30-59.png", () => ({
-  default: "cat2",
-}));
-vi.mock("../../assets/wmo-code-images/wmo60-69.png", () => ({
-  default: "cat3",
-}));
-vi.mock("../../assets/wmo-code-images/wmo70-79.png", () => ({
-  default: "cat4",
-}));
-vi.mock("../../assets/wmo-code-images/wmo80-89.png", () => ({
-  default: "cat5",
-}));
-vi.mock("../../assets/wmo-code-images/wmo90-99.png", () => ({
-  default: "cat6",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-1.png", () => ({
-  default: "cat1night",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-2.png", () => ({
-  default: "cat2night",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-3.png", () => ({
-  default: "cat3night",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-4.png", () => ({
-  default: "cat4night",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-5.png", () => ({
-  default: "cat5night",
-}));
-vi.mock("../../assets/wmo-code-images/dark-icon-6.png", () => ({
-  default: "cat6night",
+  getWeatherDescImageStatus: vi.fn(),
 }));
 
 describe("WeatherStatsCard", () => {
   const mockProps = {
     time: "2025-03-29T16:30",
-
-    interval: 900,
-
     temperature: 12.1,
-
     weatherCode: 3,
-
     windSpeed: 15.9,
-
-    precipitation: 0,
-
-    cloudcover: 100,
-
     humidity: 74,
-
     pressure: 1017.8,
-
     uvIndex: 0.45,
   };
 
-  it("renders temperature, humidity, wind speed, pressure, and UV index", () => {
-    vi.spyOn(weatherUtils, "isNight").mockReturnValue(false);
-    vi.spyOn(weatherUtils, "getWeatherStatus").mockReturnValue({
-      status: "Clear",
-      color: "#FF8E27",
+  beforeEach(() => {
+    vi.mocked(weatherUtils.isNight).mockReturnValue(false);
+    vi.mocked(weatherUtils.getWeatherDescImageStatus).mockReturnValue({
+      description: "Cloudy",
+      image: "http://openweathermap.org/img/wn/03d@4x.png",
+      color: "#808080",
     });
+  });
 
+  it("renders without crashing", () => {
     render(<WeatherStatsCard {...mockProps} />);
-
     expect(screen.getByText("12.1°C")).toBeInTheDocument();
+  });
+
+  it("displays the correct weather description", () => {
+    render(<WeatherStatsCard {...mockProps} />);
+    expect(screen.getByText("Cloudy")).toBeInTheDocument();
+  });
+
+  it("displays the correct temperature", () => {
+    render(<WeatherStatsCard {...mockProps} />);
+    expect(screen.getByText("12.1°C")).toBeInTheDocument();
+  });
+
+  it("displays the correct humidity", () => {
+    render(<WeatherStatsCard {...mockProps} />);
     expect(screen.getByText("74%")).toBeInTheDocument();
+    expect(screen.getByText("Humidity")).toBeInTheDocument();
+  });
+
+  it("displays the correct wind speed", () => {
+    render(<WeatherStatsCard {...mockProps} />);
     expect(screen.getByText("15.9km/h")).toBeInTheDocument();
+    expect(screen.getByText("Wind Speed")).toBeInTheDocument();
+  });
+
+  it("displays the correct pressure", () => {
+    render(<WeatherStatsCard {...mockProps} />);
     expect(screen.getByText("1017.8hPa")).toBeInTheDocument();
+    expect(screen.getByText("Pressure")).toBeInTheDocument();
+  });
+
+  it("displays the correct UV index", () => {
+    render(<WeatherStatsCard {...mockProps} />);
     expect(screen.getByText("0.45")).toBeInTheDocument();
-    expect(screen.getByText("Clear")).toBeInTheDocument();
+    expect(screen.getByText("UV")).toBeInTheDocument();
   });
 
-  it("displays correct weather image based on time of day", () => {
-    vi.spyOn(weatherUtils, "isNight").mockReturnValue(true);
-    vi.spyOn(weatherUtils, "getWeatherStatus").mockReturnValue({
-      status: "Clear",
-      color: "#FF8E27",
-    });
-
+  it("calls isNight with the correct time", () => {
     render(<WeatherStatsCard {...mockProps} />);
-
-    const image = screen.getByAltText("cat");
-    expect(image).toHaveAttribute("src", "cat1night");
+    expect(weatherUtils.isNight).toHaveBeenCalledWith("2025-03-29T16:30");
   });
 
-  it("displays the correct weather status color", () => {
-    vi.spyOn(weatherUtils, "isNight").mockReturnValue(false);
-    vi.spyOn(weatherUtils, "getWeatherStatus").mockReturnValue({
-      status: "Clear",
-      color: "#FF8E27",
-    });
-
+  it("calls getWeatherDescImageStatus with the correct weather code and isNight result", () => {
     render(<WeatherStatsCard {...mockProps} />);
-
-    const statusElement = screen.getByText("Clear");
-    expect(statusElement).toBeInTheDocument();
-    expect(statusElement).toHaveStyle("color: #FF8E27");
+    expect(weatherUtils.getWeatherDescImageStatus).toHaveBeenCalledWith(
+      3,
+      false,
+    );
   });
 
-  it("renders default values when missing data", () => {
+  it("renders the correct weather image", () => {
+    render(<WeatherStatsCard {...mockProps} />);
+    const imageElement = screen.getByAltText("cat"); // Image alt text is "cat"
+    expect(imageElement).toBeInTheDocument();
+    expect(imageElement).toHaveAttribute(
+      "src",
+      "http://openweathermap.org/img/wn/03d@4x.png",
+    );
+  });
+
+  it("applies the correct weather color", () => {
+    render(<WeatherStatsCard {...mockProps} />);
+    const descriptionElement = screen.getByText("Cloudy");
+    expect(descriptionElement).toHaveStyle("color: #808080");
+  });
+
+  it("displays 'NA' for missing values", () => {
     render(
       <WeatherStatsCard
-        time=""
-        temperature={NaN}
-        humidity={NaN}
-        windSpeed={NaN}
-        pressure={NaN}
-        uvIndex={NaN}
-        weatherCode={NaN}
+        {...mockProps}
+        // @ts-expect-error Missing values
+        humidity={undefined}
+        // @ts-expect-error Missing values
+        windSpeed={undefined}
+        // @ts-expect-error Missing values
+        pressure={undefined}
+        // @ts-expect-error Missing values
+        uvIndex={undefined}
       />,
     );
-
     expect(screen.getByText("NA%")).toBeInTheDocument();
     expect(screen.getByText("NAkm/h")).toBeInTheDocument();
     expect(screen.getByText("NAhPa")).toBeInTheDocument();

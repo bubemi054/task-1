@@ -1,5 +1,5 @@
 import React from "react";
-import { getWeatherStatus } from "../../utils/weather";
+import { getWeatherDescImageStatus, isNight } from "../../utils/weather";
 import PlusIcon from "../../components/icons/PlusIcon";
 import type { WeatherResponse } from "../../state-manager/types";
 
@@ -34,7 +34,7 @@ function Dropdown({ children, onClick }: ModalProps) {
   return (
     <ul
       onClick={onClick}
-      className="absolute top-[50px] flex w-[20rem] flex-col gap-3 rounded-[1.25rem] bg-white px-3 py-2"
+      className="absolute top-[50px] z-10 flex max-h-[20rem] w-[22rem] flex-col gap-3 overflow-y-auto rounded-[1.25rem] bg-white px-3 py-2"
     >
       {children}
     </ul>
@@ -47,8 +47,11 @@ type ItemProps = {
 };
 
 function Item({ weatherResponse, removeCity }: ItemProps) {
-  const weatherStatusColor = getWeatherStatus(
+  const isNightTime = isNight(weatherResponse.current.time);
+
+  const { color, description } = getWeatherDescImageStatus(
     weatherResponse.current.weathercode,
+    isNightTime,
   );
 
   return (
@@ -62,30 +65,26 @@ function Item({ weatherResponse, removeCity }: ItemProps) {
         </span>
       </span>
 
-      <div className="flex items-center justify-center gap-5">
-        <span className="flex w-[120px] items-end justify-center gap-1">
-          <div className="text-left">
-            <span className="font-manrope bg-gradient-to-t from-[#111827] to-[#6B7280] bg-clip-text text-[20px] leading-normal font-extrabold text-transparent not-italic">
-              {weatherResponse.current.temperature_2m}
-              {weatherResponse.current_units.temperature_2m}
-            </span>
-          </div>
-
-          <span
-            className="font-manrope text-xs leading-[normal] font-extrabold not-italic"
-            style={{ color: weatherStatusColor.color }}
-          >
-            {weatherStatusColor.status === "Thunderstorm"
-              ? "Storm"
-              : weatherStatusColor.status}
+      <span className="flex w-[120px] items-end justify-center gap-1">
+        <div className="text-left">
+          <span className="font-manrope bg-gradient-to-t from-[#111827] to-[#6B7280] bg-clip-text text-[20px] leading-normal font-extrabold text-transparent not-italic">
+            {weatherResponse.current.temperature_2m}
+            {weatherResponse.current_units.temperature_2m}
           </span>
-        </span>
+        </div>
 
-        <PlusIcon
-          onClick={() => removeCity(weatherResponse.cityId)}
-          className="cursor-pointer"
-        />
-      </div>
+        <span
+          className="font-manrope text-xs leading-[normal] font-extrabold not-italic truncate sm:min-w-[100px]"
+          style={{ color: color }}
+        >
+          {description}
+        </span>
+      </span>
+
+      <PlusIcon
+        onClick={() => removeCity(weatherResponse.cityId)}
+        className="cursor-pointer"
+      />
     </li>
   );
 }

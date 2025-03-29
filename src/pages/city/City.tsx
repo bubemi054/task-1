@@ -10,7 +10,6 @@ import { useNavigate } from "react-router";
 import Forecast from "./Forecast";
 import WeatherStatsCard from "./WeatherStatsCard";
 import PopularCities from "./PopularCities";
-import { formatTimeAndDate } from "../../utils/weather";
 import Notes from "./Notes";
 
 export default function City() {
@@ -34,12 +33,6 @@ export default function City() {
     );
   }
 
-  const { time, dateString } = formatTimeAndDate(
-    cityWeather?.current.time || "",
-    cityWeather?.latitude || 0,
-    cityWeather?.longitude || 0,
-  );
-
   return (
     <div className="m-auto mb-[20px] flex min-h-[95vh] w-[100%] flex-col gap-[70px] overflow-x-hidden">
       <div className="flex flex-wrap gap-[15px]">
@@ -47,8 +40,24 @@ export default function City() {
           <div className="flex gap-[15px] [@media(max-width:1050px)]:justify-center [@media(max-width:550px)]:flex-wrap">
             <CityTimeDisplay
               cityName={cityWeather?.name || "Unknown City"}
-              time={time || "00:00"}
-              dateString={dateString || "Unknown Date"}
+              time={
+                cityWeather?.current?.time
+                  ? new Date(cityWeather?.current?.time).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                        timeZone: "UTC",
+                      },
+                    )
+                  : "00:00"
+              }
+              dateString={
+                cityWeather?.current?.time
+                  ? new Date(cityWeather?.current?.time).toDateString()
+                  : "Unknown Date"
+              }
             />
             <MapComponent
               latitude={cityWeather?.latitude || 0}

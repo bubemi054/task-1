@@ -1,6 +1,6 @@
 import { Send } from "lucide-react";
 import { WeatherResponse } from "../../state-manager/types";
-import { getWeatherStatus } from "../../utils/weather";
+import { getWeatherDescImageStatus, isNight } from "../../utils/weather";
 import { Link } from "react-router";
 
 type PopularCitiesProps = {
@@ -32,6 +32,13 @@ export function PopularCity({ city }: { city: WeatherResponse }) {
     month: "short",
   });
 
+  const isNightTime = isNight(city.current.time);
+
+  const { color, description } = getWeatherDescImageStatus(
+    city.current.weathercode,
+    isNightTime,
+  );
+
   return (
     <div
       key={city.name}
@@ -50,10 +57,10 @@ export function PopularCity({ city }: { city: WeatherResponse }) {
           <span
             className="relative bottom-[-20px] text-[12px] font-semibold"
             style={{
-              color: getWeatherStatus(city.current.weathercode)?.color,
+              color: color,
             }}
           >
-            {getWeatherStatus(city.current.weathercode)?.status}
+            {description}
           </span>
         </div>
         <Link to={`/city/${city?.cityId}`}>

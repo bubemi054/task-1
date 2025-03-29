@@ -37,6 +37,7 @@ export const fetchCityWeather = async (
     "hourly",
     "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover",
   );
+  // baseURL.searchParams.set("forecast_days", "1")
 
   const url = baseURL.toString();
   const response = await axios.get(url);
@@ -60,6 +61,7 @@ export const fetchCitiesWeather = async (
     "hourly",
     "wind_speed_10m,temperature_2m,relative_humidity_2m,weathercode,precipitation,cloudcover",
   );
+  // baseURL.searchParams.set("forecast_days", "1")
 
   const url = baseURL.toString();
   const response = await axios.get(url);

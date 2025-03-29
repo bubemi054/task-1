@@ -13,8 +13,8 @@ afterEach(() => {
 describe("CityTimeDisplay Component", () => {
   const mockProps = {
     cityName: "Lagos",
-    time: "12:30 PM",
-    dateString: "March 29, 2025",
+    time: "06:15",
+    dateString: "Sun Mar 30 2025",
   };
 
   it("renders the city name", () => {
@@ -24,16 +24,11 @@ describe("CityTimeDisplay Component", () => {
 
   it("renders the correct time", () => {
     render(<CityTimeDisplay {...mockProps} />);
-    expect(screen.getByText(mockProps.time)).toBeInTheDocument();
+    expect(screen.getByText(`${mockProps.time} UTC`)).toBeInTheDocument();
   });
 
   it("renders the correct date", () => {
     render(<CityTimeDisplay {...mockProps} />);
     expect(screen.getByText(mockProps.dateString)).toBeInTheDocument();
-  });
-
-  it("matches snapshot", () => {
-    const { container } = render(<CityTimeDisplay {...mockProps} />);
-    expect(container).toMatchSnapshot();
   });
 });

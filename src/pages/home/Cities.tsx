@@ -47,6 +47,7 @@ export default function Cities() {
             toggleRemoved={toggleRemovedCityId}
             viewInDetail={viewInDetail}
             isFavorite={favoriteCitiesId.includes(wr.cityId)}
+            
           />
         ))}
       </div>

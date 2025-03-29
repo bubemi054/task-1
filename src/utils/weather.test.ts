@@ -2,7 +2,12 @@
 import React from "react";
 import { describe, it, expect } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { isNight, getWeatherStatus, formatTimeAndDate } from "./weather";
+import {
+  isNight,
+  formatTimeAndDate,
+  wmoData,
+  getWeatherDescImageStatus,
+} from "./weather";
 
 describe("isNight", () => {
   it("returns true for nighttime hours", () => {
@@ -15,45 +20,43 @@ describe("isNight", () => {
   });
 });
 
-describe("getWeatherStatus", () => {
-  it("returns correct status and color for Clear weather", () => {
-    expect(getWeatherStatus(10)).toEqual({ status: "Clear", color: "#FF8E27" });
+describe("getWeatherDescImageStatus", () => {
+  it("should return correct weather data for known WMO code during the day", () => {
+    const result = getWeatherDescImageStatus(0, true);
+    expect(result).toEqual(wmoData["0"].day);
   });
 
-  it("returns correct status and color for Drizzle weather", () => {
-    expect(getWeatherStatus(40)).toEqual({
-      status: "Drizzle",
-      color: "#8EC1DD",
+  it("should return correct weather data for known WMO code during the night", () => {
+    const result = getWeatherDescImageStatus(1, false);
+    expect(result).toEqual(wmoData["1"].night);
+  });
+
+  it("should fallback to the next available WMO code when given an unknown code", () => {
+    const result = getWeatherDescImageStatus(4, true); // 4 is missing, next available is 45
+    expect(result).toEqual(wmoData["45"].day);
+  });
+
+  it("should return default unknown weather data for completely unknown WMO codes", () => {
+    const result = getWeatherDescImageStatus(999, true);
+    expect(result).toEqual({
+      description: "Unknown",
+      image: "",
+      color: "#000000",
     });
   });
 
-  it("returns correct status and color for Rain weather", () => {
-    expect(getWeatherStatus(65)).toEqual({ status: "Rain", color: "#27B1FF" });
-  });
-
-  it("returns correct status and color for Snow weather", () => {
-    expect(getWeatherStatus(75)).toEqual({ status: "Snow", color: "#4E8DB1" });
-  });
-
-  it("returns correct status and color for Showers weather", () => {
-    expect(getWeatherStatus(85)).toEqual({
-      status: "Showers",
-      color: "#8EC1DD",
+  it("should handle edge cases properly", () => {
+    const result = getWeatherDescImageStatus(-1, true); // Negative WMO codes don't exist
+    expect(result).toEqual({
+      description: "Unknown",
+      image: "",
+      color: "#000000",
     });
   });
 
-  it("returns correct status and color for Thunderstorm weather", () => {
-    expect(getWeatherStatus(95)).toEqual({
-      status: "Thunderstorm",
-      color: "#BF8EDD",
-    });
-  });
-
-  it("returns Unknown status for out-of-range values", () => {
-    expect(getWeatherStatus(150)).toEqual({
-      status: "Unknown",
-      color: "#9CA3AF",
-    });
+  it("should handle the highest known WMO code correctly", () => {
+    const result = getWeatherDescImageStatus(45, false);
+    expect(result).toEqual(wmoData["45"].night);
   });
 });
 

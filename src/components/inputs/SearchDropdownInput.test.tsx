@@ -117,7 +117,7 @@ describe("SearchDropdownInput Component", () => {
 
     await waitFor(() => {
       expect(screen.getByTestId("search-dropdown")).toBeInTheDocument();
-      expect(screen.getByText("Blantyre")).toBeInTheDocument();
+      expect(screen.getByText("Blantyre, (MW)")).toBeInTheDocument();
     });
   });
 
@@ -137,7 +137,7 @@ describe("SearchDropdownInput Component", () => {
     await waitFor(() =>
       expect(screen.getByTestId("search-dropdown")).toBeInTheDocument(),
     );
-    fireEvent.click(screen.getByText("Vladivostok"));
+    fireEvent.click(screen.getByText("Vladivostok, (RU)"));
     expect(handleSelect).toHaveBeenCalledWith(mockCities[0]);
   });
 });

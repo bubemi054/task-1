@@ -7,7 +7,8 @@ import type { WeatherResponse } from "../../state-manager/types";
 import "@testing-library/jest-dom/vitest";
 
 vi.mock("../../utils/weather", () => ({
-  getWeatherStatus: vi.fn(),
+  getWeatherDescImageStatus: vi.fn(),
+  isNight: vi.fn(),
 }));
 
 vi.mock("react-router", () => ({
@@ -327,9 +328,10 @@ describe("PopularCities", () => {
   });
 
   it("renders city names and temperatures", () => {
-    vi.spyOn(weatherUtils, "getWeatherStatus").mockReturnValue({
-      status: "Clear",
-      color: "#FF8E27",
+    vi.spyOn(weatherUtils, "getWeatherDescImageStatus").mockReturnValue({
+      description: "Cloudy",
+      color: "#808080",
+      image: "http://openweathermap.org/img/wn/03d@4x.png",
     });
     render(<PopularCity city={mockWeatherData} />);
     expect(screen.getByText("Shanghai")).toBeInTheDocument();
@@ -337,14 +339,15 @@ describe("PopularCities", () => {
   });
 
   it("applies correct weather status and color", () => {
-    vi.spyOn(weatherUtils, "getWeatherStatus").mockReturnValue({
-      status: "Clear",
-      color: "#FF8E27",
+    vi.spyOn(weatherUtils, "getWeatherDescImageStatus").mockReturnValue({
+      description: "Cloudy",
+      color: "#808080",
+      image: "http://openweathermap.org/img/wn/03d@4x.png",
     });
 
     render(<PopularCity city={mockWeatherData} />);
 
-    const statusElement = screen.getByText("Clear");
-    expect(statusElement).toHaveStyle("color: #FF8E27");
+    const statusElement = screen.getByText("Cloudy");
+    expect(statusElement).toHaveStyle("color: #808080");
   });
 });
