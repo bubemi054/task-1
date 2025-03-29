@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CityTimeDisplay Component > matches snapshot 1`] = `
+<div>
+  <div
+    class="flex h-[297px] w-[312px] flex-col items-center justify-center gap-[20px] rounded-[15px] bg-[rgba(0,0,0,0.2)] backdrop-blur-[20px] [@media(max-width:550px)]:w-[100%]"
+  >
+    <span
+      class="text-[36px] font-bold text-white"
+    >
+      Lagos
+    </span>
+    <div
+      class="flex flex-col items-center"
+    >
+      <span
+        class="text-[70px] font-bold text-white"
+      >
+        12:30 PM
+      </span>
+      <span
+        class="text-[20px] font-normal text-white"
+      >
+        March 29, 2025
+      </span>
+    </div>
+  </div>
+</div>
+`;

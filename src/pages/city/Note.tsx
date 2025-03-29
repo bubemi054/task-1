@@ -36,6 +36,7 @@ export default function NoteCard({
       />
       {editMode ? (
         <Check
+          role="save-icon"
           size={25}
           className="absolute right-3 bottom-3 cursor-pointer text-white"
           onClick={handleSaveNote}
@@ -43,11 +44,13 @@ export default function NoteCard({
       ) : (
         <div>
           <Trash
+            role="delete-icon"
             size={25}
             className="absolute right-11 bottom-3 cursor-pointer text-white"
             onClick={() => onDelete(note)}
           />
           <Pencil
+            role="edit-icon"
             size={25}
             className="absolute right-3 bottom-3 cursor-pointer text-white"
             onClick={() => setEditMode(true)}

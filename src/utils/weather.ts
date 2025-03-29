@@ -7,7 +7,28 @@ export function isNight(timestamp: string): boolean {
   return hours < 6 || hours >= 18;
 }
 
-export function getWeatherStatus(wmoCode: number) {
+type WeatherStatus =
+  | "Clear"
+  | "Drizzle"
+  | "Rain"
+  | "Snow"
+  | "Showers"
+  | "Thunderstorm"
+  | "Unknown";
+
+type WeatherColor =
+  | "#FF8E27"
+  | "#8EC1DD"
+  | "#27B1FF"
+  | "#4E8DB1"
+  | "#8EC1DD"
+  | "#BF8EDD"
+  | "#9CA3AF";
+
+export function getWeatherStatus(wmoCode: number): {
+  status: WeatherStatus;
+  color: WeatherColor;
+} {
   if (wmoCode >= 0 && wmoCode <= 29) {
     return { status: "Clear", color: "#FF8E27" };
   }

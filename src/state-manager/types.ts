@@ -40,7 +40,7 @@ export interface WeatherResponse extends City {
     cloudcover: string;
     relative_humidity_2m: string;
     surface_pressure: string;
-    uv_index: string;
+    uv_index?: string;
   };
 
   current: {
@@ -53,7 +53,7 @@ export interface WeatherResponse extends City {
     cloudcover: number;
     relative_humidity_2m: number;
     surface_pressure: number;
-    uv_index: number;
+    uv_index?: number;
   };
 
   hourly_units: {
@@ -76,14 +76,14 @@ export interface WeatherResponse extends City {
     cloudcover: number[];
   };
 
-  daily_units: {
+  daily_units?: {
     time: string;
     temperature_2m_max: string;
     temperature_2m_min: string;
     weathercode: string;
   };
 
-  daily: {
+  daily?: {
     time: string[];
     temperature_2m_max: number[];
     temperature_2m_min: number[];

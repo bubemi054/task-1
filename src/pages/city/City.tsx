@@ -6,7 +6,7 @@ import CityTimeDisplay from "./CityTimeDisplay";
 import MapComponent from "./MapComponent";
 import { useIsOnline } from "react-use-is-online";
 import { useNavigate } from "react-router";
-import Forecast from "./Forcast";
+import Forecast from "./Forecast";
 import WeatherStatsCard from "./WeatherStatsCard";
 import PopularCities from "./PopularCities";
 import { formatTimeAndDate } from "../../utils/weather";
@@ -40,6 +40,8 @@ export default function City() {
     cityWeather?.longitude || 0,
   );
 
+  console.log(remainingBiggestCities);
+
   return (
     <div className="m-auto mb-[20px] flex min-h-[95vh] w-[100%] flex-col gap-[70px] overflow-x-hidden">
       <div className="flex flex-wrap gap-[15px]">
@@ -56,7 +58,7 @@ export default function City() {
             />
           </div>
           <div className="flex gap-[15px] [@media(max-width:840px)]:flex-wrap">
-            <Forecast daily={cityWeather?.daily} />
+            <Forecast daily={cityWeather?.daily} dailyUnits={cityWeather?.daily_units}/>
             <WeatherStatsCard
               temperature={cityWeather?.current.temperature_2m || 0}
               humidity={cityWeather?.current.relative_humidity_2m || 0}

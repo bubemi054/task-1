@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest", 
+    "test-1": "vitest src\\hooks\\city\\useFavoriteCities.test.tsx", 
+    "test-2": "vitest src\\state-manager\\citySlice.test.ts", 
     "format": "prettier --write ."
   },
   "dependencies": {

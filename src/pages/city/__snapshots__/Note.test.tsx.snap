@@ -1,0 +1,59 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NoteCard Component > matches snapshot 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <textarea
+      class="flex h-[319px] w-[319px] flex-col justify-between rounded-lg bg-[rgba(0,0,0,0.2)] p-4 text-white backdrop-blur-[20px] outline-none [@media(max-width:380px)]:w-[100%]"
+      disabled=""
+    >
+      Test Note
+    </textarea>
+    <div>
+      <svg
+        class="lucide lucide-trash absolute right-11 bottom-3 cursor-pointer text-white"
+        fill="none"
+        height="25"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="25"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 6h18"
+        />
+        <path
+          d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+        />
+        <path
+          d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+        />
+      </svg>
+      <svg
+        class="lucide lucide-pencil absolute right-3 bottom-3 cursor-pointer text-white"
+        fill="none"
+        height="25"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="25"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+        />
+        <path
+          d="m15 5 4 4"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

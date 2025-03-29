@@ -1,8 +1,14 @@
+console.log("1");
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+console.log("2");
 import type { PayloadAction } from "@reduxjs/toolkit";
+console.log("3");
 import axios from "axios";
+console.log("4");
 import cities from "./cities.json";
+console.log("5");
 import type { City, WeatherResponse, Note } from "./types";
+console.log("6");
 
 export const fetchCityWeather = async (
   city: City,

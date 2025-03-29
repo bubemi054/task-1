@@ -1,5 +1,6 @@
 import React from "react";
 import Header1 from "../../components/headers/Header1";
+import Button1 from "../../components/buttons/Button1";
 import CityWeatherCard from "./CityWeatherCard";
 import RemovedCities from "./RemovedCities";
 import useFavoriteCities from "../../hooks/city/useFavoriteCities";
@@ -25,12 +26,12 @@ export default function FavoriteCities() {
           </Header1>
           <div className="relative flex flex-col items-end">
             {removedCities?.length > 0 && (
-              <button
+              <Button1
                 onClick={toggleShowRemovedCities}
-                className="font-manrope inline-flex cursor-pointer items-center justify-center truncate rounded-lg bg-white px-2 py-2 text-sm leading-normal font-bold text-black transition-all duration-200 hover:bg-gray-200 sm:px-6 sm:text-base lg:text-lg"
+                className=""
               >
                 Removed Cities
-              </button>
+              </Button1>
             )}
             {showRemovedCities && (
               <ClickAwayListener onClickAway={toggleShowRemovedCities}>

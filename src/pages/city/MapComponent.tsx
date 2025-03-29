@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useMediaQuery } from "react-responsive";
 
 type MapProps = {
   latitude: number;
@@ -10,6 +9,7 @@ type MapProps = {
 export default function MapComponent({ latitude, longitude }: MapProps) {
   return (
     <MapContainer
+      
       center={[latitude, longitude]}
       zoom={12}
       className="h-[297px] w-[571px] rounded-[15px] [@media(max-width:1050px)]:w-[50%] [@media(max-width:550px)]:w-[100%]"
