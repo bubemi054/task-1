@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import Header1 from "../../components/headers/Header1";
 import CityWeatherCard from "./CityWeatherCard";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cityActions } from "../../state-manager/citySlice";
 import { RootState, AppDispatch } from "../../state-manager/store";
@@ -58,6 +58,10 @@ export default function useNotes(cityId: number | undefined) {
     setNotes(updatedNotes);
   };
 
+  const citySpecificNotes = useMemo(() => {
+    return notes.filter((note) => note.cityId === cityId);
+  }, [notes, cityId]);
+
   return {
     notes,
     note,
@@ -65,5 +69,6 @@ export default function useNotes(cityId: number | undefined) {
     saveNoteHandler,
     editNoteHandler,
     deleteNoteHandler,
+    citySpecificNotes,
   };
 }

@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import SearchDropdownInput from "../../components/inputs/SearchDropdownInput";
 import ProfileIcon from "../../components/icons/ProfileIcon";

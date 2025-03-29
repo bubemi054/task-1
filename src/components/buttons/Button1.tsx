@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 type Button1Props = {
   className?: string;
   children: React.ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
+  onClick?: () => void;
 };
 
 export default function Button1({

@@ -8,7 +8,7 @@ export interface City {
   cityId: number;
   name: string;
   country: string;
-  altCountry: string;
+  altCountry?: string;
   muni?: string;
   muniSub?: string;
   featureClass?: string;

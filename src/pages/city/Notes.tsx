@@ -9,7 +9,7 @@ type NotesProps = {
 
 function Notes({ cityWeather }: NotesProps) {
   const {
-    notes,
+    citySpecificNotes,
     note,
     changeNoteHandler,
     saveNoteHandler,
@@ -38,7 +38,7 @@ function Notes({ cityWeather }: NotesProps) {
             className="absolute right-3 bottom-3 text-white"
           />
         </div>
-        {notes?.map((note) => (
+        {citySpecificNotes?.map((note) => (
           <div className="[@media(max-width:380px)]:w-full" key={note.id}>
             <NoteCard
               initialNote={note}

@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import { Routes, Route } from "react-router";
 import Layout from "./layout";

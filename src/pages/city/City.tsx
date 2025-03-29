@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import Spinner from "../../components/general/Spinner";
@@ -39,8 +40,6 @@ export default function City() {
     cityWeather?.latitude || 0,
     cityWeather?.longitude || 0,
   );
-
-  console.log(remainingBiggestCities);
 
   return (
     <div className="m-auto mb-[20px] flex min-h-[95vh] w-[100%] flex-col gap-[70px] overflow-x-hidden">

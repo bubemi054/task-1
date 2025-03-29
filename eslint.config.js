@@ -18,13 +18,14 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": "off", // Use this for TypeScript files
-      "no-unused-vars": "off", // Disable the base rule to prevent conflicts
-      "react-refresh/only-export-components": [
+      "@typescript-eslint/no-unused-vars": [
         "warn",
-        { allowConstantExport: true },
+        { "varsIgnorePattern": "^React$" }
       ],
-    },
+      "no-unused-vars": [
+        "warn",
+        { "varsIgnorePattern": "^React$" }
+      ]
+    }
   },
 );

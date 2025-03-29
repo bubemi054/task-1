@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React, { useEffect } from "react";
 import { useGeolocated } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";

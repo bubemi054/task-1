@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import { ImSpinner7 } from "react-icons/im";
 import { twMerge } from "tailwind-merge";

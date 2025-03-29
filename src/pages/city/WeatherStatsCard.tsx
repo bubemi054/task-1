@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import cat1 from "../../assets/wmo-code-images/wmo10-29.png";
 import cat2 from "../../assets/wmo-code-images/wmo30-59.png";

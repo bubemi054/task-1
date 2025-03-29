@@ -5,7 +5,10 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "types": ["vipvite", "vitest"]
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "types": ["vipvite", "vitest"],
+    "noEmitOnError": false,
+    "skipLibCheck": true
   }
 }

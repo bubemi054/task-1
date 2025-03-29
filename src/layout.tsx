@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import { Outlet } from "react-router";
 import Cloud from "./pages/home/Cloud";

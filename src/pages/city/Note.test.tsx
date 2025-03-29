@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React from "react";
 import { render, cleanup, screen, fireEvent } from "@testing-library/react";
 import NoteCard from "./Note";

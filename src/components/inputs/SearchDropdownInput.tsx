@@ -1,3 +1,4 @@
+// @ts-expect-error Need React imported for my tests
 import React, { useState, useEffect, useMemo } from "react";
 import SearchIcon from "../icons/SearchIcon";
 import { twMerge } from "tailwind-merge";
