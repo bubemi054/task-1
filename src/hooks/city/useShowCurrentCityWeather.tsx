@@ -50,7 +50,7 @@ export default function useShowCurrentCityWeather() {
         if (ans) {
           viewCurrentCityWeather(currentCity.cityId);
         }
-      }, 3000);
+      }, 1500);
     }
   }, [coords, recentCurrentCity, isOffline, isGeolocationAvailable, isGeolocationEnabled]);
 
