@@ -13,14 +13,10 @@ export default function useShowCurrentCityWeather() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { recentCurrentCity } = useSelector((state: RootState) => state.city);
-
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 5000,
-    });
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
+    positionOptions: { enableHighAccuracy: false },
+    userDecisionTimeout: 5000,
+  });
 
   const { isOffline } = useIsOnline();
 
@@ -30,58 +26,33 @@ export default function useShowCurrentCityWeather() {
   const viewCurrentCityWeather = (cityId?: number) => {
     if (isOffline) return;
 
-    if (typeof cityId == "number") {
+    if (typeof cityId === "number") {
       navigate(`/city/${cityId}`);
-    } else {
-      navigate(`/city/${recentCurrentCity?.cityId}`);
+    } else if (recentCurrentCity?.cityId) {
+      navigate(`/city/${recentCurrentCity.cityId}`);
     }
   };
 
   useEffect(() => {
+    if (isOffline || !coords || !isGeolocationAvailable || !isGeolocationEnabled) return;
+
     const currentCity = findClosestCity(CITIES, [newLat, newLon]);
+    if (!currentCity) return;
 
-    if (currentCity) {
-      dispatch(cityActions.updateRecentCurrentCity(currentCity));
+    dispatch(cityActions.updateRecentCurrentCity(currentCity));
+
+    if (recentCurrentCity === undefined) {
+      setTimeout(() => {
+        const ans = window.confirm(
+          "Do you want to view your current location's weather?\nYou can always click the profile icon to view your location's weather."
+        );
+
+        if (ans) {
+          viewCurrentCityWeather(currentCity.cityId);
+        }
+      }, 3000);
     }
-  }, [coords]);
-
-  useEffect(() => {
-    if (
-      isOffline ||
-      !isGeolocationAvailable ||
-      !isGeolocationEnabled ||
-      !coords
-    )
-      return;
-
-    const showPrompts = () => {
-      if (!recentCurrentCity) return;
-
-      const ans = window.confirm(
-        "Do you want to view your current locations weather?\nYou can always click the profile icon to view your locations wether.",
-      );
-
-      if (ans) {
-        viewCurrentCityWeather(recentCurrentCity?.cityId);
-      }
-
-      return;
-    };
-
-    const id = setTimeout(() => {
-      showPrompts();
-    }, 3000);
-
-    return () => {
-      clearTimeout(id);
-    };
-  }, [
-    isOffline,
-    isGeolocationAvailable,
-    isGeolocationEnabled,
-    coords,
-    recentCurrentCity,
-  ]);
+  }, [coords, recentCurrentCity, isOffline, isGeolocationAvailable, isGeolocationEnabled]);
 
   return { viewCurrentCityWeather };
 }
