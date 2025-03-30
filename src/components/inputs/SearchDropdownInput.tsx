@@ -107,8 +107,6 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
     return fuse.search(debouncedValue).map((result) => result.item);
   }, [debouncedValue, fuse, items]);
 
-  console.log(filteredItems);
-
   return (
     <div
       data-testid="search-dropdown"

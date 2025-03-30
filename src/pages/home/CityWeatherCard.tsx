@@ -33,7 +33,7 @@ export default function CityWeatherCard({
     <div
       className={twMerge(
         "flex h-[450px] flex-col justify-between rounded-[1.25rem] px-[1rem] py-[2rem] sm:h-[380px]",
-        `${isNightTime ? "bg-[#1F2937]" : "bg-white"}`,
+        `${isNightTime ? "bg-[#1F2937]" : "bg-white opacity-90"}`,
         className,
       )}
     >

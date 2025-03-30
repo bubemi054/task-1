@@ -15,8 +15,13 @@ import Notes from "./Notes";
 export default function City() {
   const navigate = useNavigate();
   const { cityId } = useParams<{ cityId: string }>();
-  const { remainingBiggestCities, cityWeather, fetchingCityWeather } =
-    useCity(cityId);
+  const {
+    remainingBiggestCities,
+    cityWeather,
+    fetchingCityWeather,
+    toggleFavoriteCityId,
+    favoriteCitiesId,
+  } = useCity(cityId);
   const { isOffline } = useIsOnline();
 
   useEffect(() => {
@@ -33,12 +38,25 @@ export default function City() {
     );
   }
 
+  if (!cityId) {
+    return (
+      <div className="flex h-24 items-center justify-center">
+        <p className="text-center text-lg font-medium text-white opacity-50 sm:text-xl">
+          No id present
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="m-auto mb-[20px] flex min-h-[95vh] w-[100%] flex-col gap-[70px] overflow-x-hidden">
       <div className="flex flex-wrap gap-[15px]">
         <div className="flex flex-col gap-[15px]">
           <div className="flex gap-[15px] [@media(max-width:1050px)]:justify-center [@media(max-width:550px)]:flex-wrap">
             <CityTimeDisplay
+              cityId={+cityId}
+              isFavorite={favoriteCitiesId.includes(cityWeather?.cityId || 0)}
+              toggleFavorite={toggleFavoriteCityId}
               cityName={cityWeather?.name || "Unknown City"}
               time={
                 cityWeather?.current?.time

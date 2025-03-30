@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGeolocated } from "react-geolocated";
 import useRemovedCities from "./useRemovedCities";
+import useFavoriteCities from "./useFavoriteCities";
 import { getCityWeather } from "../../state-manager/citySlice";
 import { CITIES } from "../../state-manager/citySlice";
 import { AppDispatch, RootState } from "../../state-manager/store";
@@ -15,6 +16,7 @@ export default function useCity(cityId: string | undefined) {
     (state: RootState) => state.city,
   );
   const { removedCitiesId } = useRemovedCities();
+  const { toggleFavoriteCityId, favoriteCitiesId } = useFavoriteCities();
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -48,5 +50,7 @@ export default function useCity(cityId: string | undefined) {
     isGeolocationAvailable,
     isGeolocationEnabled,
     remainingBiggestCities,
+    toggleFavoriteCityId,
+    favoriteCitiesId,
   };
 }

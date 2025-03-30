@@ -55,7 +55,7 @@ export function PopularCity({ city }: { city: WeatherResponse }) {
             {city.current_units.temperature_2m}
           </span>
           <span
-            className="relative bottom-[-20px] text-[12px] font-semibold"
+            className="relative bottom-[-20px] truncate min-w-[70px] text-[12px] font-semibold"
             style={{
               color: color,
             }}

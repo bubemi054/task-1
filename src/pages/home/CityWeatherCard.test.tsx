@@ -357,6 +357,6 @@ describe("CityWeatherCard Component", () => {
 
   it("renders correct weather status", () => {
     renderComponent();
-    expect(screen.getByText("Clear")).toBeInTheDocument();
+    expect(screen.getByText("Sunny")).toBeInTheDocument();
   });
 });

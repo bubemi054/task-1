@@ -33,11 +33,9 @@ export default function useFavoriteCities() {
     const favoriteCities = CITIES.filter((city) =>
       favoriteCitiesId.includes(city.cityId),
     );
-    // console.log(favoriteCities);
     const remainingFavoriteCities = favoriteCities.filter(
       (city) => !removedCitiesId.includes(city.cityId),
     );
-    // console.log(remainingFavoriteCities);
     dispatch(getFavoriteCitiesWeather(remainingFavoriteCities));
   }, [dispatch, favoriteCitiesId, removedCitiesId, isOffline]);
 

@@ -21,7 +21,6 @@ export function renderWithProviders(
     ...renderOptions
   }: ExtendedRenderOptions = {},
 ) {
-  console.log("opihouyvcx");
   // eslint-disable-next-line
   function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
