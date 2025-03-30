@@ -34,6 +34,7 @@ describe("WeatherStatsCard", () => {
       description: "Cloudy",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
       color: "#808080",
+      emoji: "☁️",
     });
   });
 

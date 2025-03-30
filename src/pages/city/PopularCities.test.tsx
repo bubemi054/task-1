@@ -332,6 +332,7 @@ describe("PopularCities", () => {
       description: "Cloudy",
       color: "#808080",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
+      emoji: "☁️",
     });
     render(<PopularCity city={mockWeatherData} />);
     expect(screen.getByText("Shanghai")).toBeInTheDocument();
@@ -343,6 +344,7 @@ describe("PopularCities", () => {
       description: "Cloudy",
       color: "#808080",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
+      emoji: "☁️",
     });
 
     render(<PopularCity city={mockWeatherData} />);
