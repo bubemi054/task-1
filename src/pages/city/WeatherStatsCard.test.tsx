@@ -14,7 +14,7 @@ afterEach(() => {
 // Mock weather utility functions
 vi.mock("../../utils/weather", () => ({
   isNight: vi.fn(),
-  getWeatherDescImageStatus: vi.fn(),
+  getWeatherDetails: vi.fn(),
 }));
 
 describe("WeatherStatsCard", () => {
@@ -30,7 +30,7 @@ describe("WeatherStatsCard", () => {
 
   beforeEach(() => {
     vi.mocked(weatherUtils.isNight).mockReturnValue(false);
-    vi.mocked(weatherUtils.getWeatherDescImageStatus).mockReturnValue({
+    vi.mocked(weatherUtils.getWeatherDetails).mockReturnValue({
       description: "Cloudy",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
       color: "#808080",
@@ -81,9 +81,9 @@ describe("WeatherStatsCard", () => {
     expect(weatherUtils.isNight).toHaveBeenCalledWith("2025-03-29T16:30");
   });
 
-  it("calls getWeatherDescImageStatus with the correct weather code and isNight result", () => {
+  it("calls getWeatherDetails with the correct weather code and isNight result", () => {
     render(<WeatherStatsCard {...mockProps} />);
-    expect(weatherUtils.getWeatherDescImageStatus).toHaveBeenCalledWith(
+    expect(weatherUtils.getWeatherDetails).toHaveBeenCalledWith(
       3,
       false,
     );

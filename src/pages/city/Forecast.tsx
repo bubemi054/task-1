@@ -1,36 +1,6 @@
 // @ts-expect-error Need React imported for my tests
 import React from "react";
-
-const weatherIcons: Record<number, string> = {
-  0: "☀️",
-  1: "🌤",
-  2: "🌤",
-  3: "☁️",
-  45: "🌫",
-  48: "🌫",
-  51: "🌧",
-  53: "🌧",
-  55: "🌧",
-  56: "🌧",
-  57: "🌧",
-  61: "🌧",
-  63: "🌧",
-  65: "🌧",
-  66: "🌧",
-  67: "🌧",
-  71: "❄️",
-  73: "❄️",
-  75: "❄️",
-  77: "❄️",
-  80: "🌦",
-  81: "🌦",
-  82: "🌦",
-  85: "🌨",
-  86: "🌨",
-  95: "⛈",
-  96: "⛈",
-  99: "⛈",
-};
+import { getWeatherDetails } from "../../utils/weather";
 
 type ForecastProps = {
   daily?: {
@@ -51,6 +21,7 @@ export default function Forecast({ daily, dailyUnits }: ForecastProps) {
     return <span>No Data Available</span>;
   }
 
+  // time doesn't matter for forecast UI
   return (
     <div className="flex h-[500px] w-[376px] flex-col gap-[25px] rounded-[15px] bg-[rgba(0,0,0,0.2)] p-4 py-[30px] text-white backdrop-blur-[20px] [@media(max-width:550px)]:w-[100%]">
       <div className="mb-2 flex items-center justify-between px-[15px]">
@@ -69,11 +40,12 @@ export default function Forecast({ daily, dailyUnits }: ForecastProps) {
             month: "short",
           });
 
+          // isNight can be true or falsehere dont matter
+          const { emoji } = getWeatherDetails(daily.weathercode[index], true);
+
           return (
             <div key={index} className="flex items-center justify-around py-1">
-              <span className="text-xl">
-                {weatherIcons[daily.weathercode[index]]}
-              </span>
+              <span className="text-xl">{emoji}</span>
               <span
                 data-testid="max-temp"
                 className="w-[70px] text-left text-lg"

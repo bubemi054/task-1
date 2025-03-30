@@ -4,7 +4,8 @@ import { DateTime } from "luxon";
 type WeatherTime = {
   description: string;
   image: string;
-  color: string; // Hex color for UI status
+  color: string;
+  emoji: string;
 };
 
 type WeatherData = {
@@ -21,11 +22,13 @@ export const wmoData: WeatherData = {
       description: "Clear",
       image: "http://openweathermap.org/img/wn/01n@4x.png",
       color: "#1E3A8A",
+      emoji: "☀️",
     },
     night: {
       description: "Sunny",
       image: "http://openweathermap.org/img/wn/01d@4x.png",
       color: "#FFD700",
+      emoji: "☀️",
     },
   },
   "1": {
@@ -33,11 +36,13 @@ export const wmoData: WeatherData = {
       description: "Mainly Clear",
       image: "http://openweathermap.org/img/wn/01n@4x.png",
       color: "#2C3E50",
+      emoji: "🌤",
     },
     night: {
       description: "Mainly Sunny",
       image: "http://openweathermap.org/img/wn/01d@4x.png",
       color: "#FFEA00",
+      emoji: "🌤",
     },
   },
   "2": {
@@ -45,11 +50,13 @@ export const wmoData: WeatherData = {
       description: "Partly Cloudy",
       image: "http://openweathermap.org/img/wn/02n@4x.png",
       color: "#708090",
+      emoji: "🌤",
     },
     night: {
       description: "Partly Cloudy",
       image: "http://openweathermap.org/img/wn/02d@4x.png",
       color: "#B0C4DE",
+      emoji: "🌤",
     },
   },
   "3": {
@@ -57,11 +64,13 @@ export const wmoData: WeatherData = {
       description: "Cloudy",
       image: "http://openweathermap.org/img/wn/03n@4x.png",
       color: "#505050",
+      emoji: "☁️",
     },
     night: {
       description: "Cloudy",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
       color: "#808080",
+      emoji: "☁️",
     },
   },
   "45": {
@@ -69,11 +78,13 @@ export const wmoData: WeatherData = {
       description: "Foggy",
       image: "http://openweathermap.org/img/wn/50n@4x.png",
       color: "#696969",
+      emoji: "🌫",
     },
     night: {
       description: "Foggy",
       image: "http://openweathermap.org/img/wn/50d@4x.png",
       color: "#A9A9A9",
+      emoji: "🌫",
     },
   },
   "48": {
@@ -81,11 +92,13 @@ export const wmoData: WeatherData = {
       description: "Rime Fog",
       image: "http://openweathermap.org/img/wn/50n@4x.png",
       color: "#808080",
+      emoji: "🌫",
     },
     night: {
       description: "Rime Fog",
       image: "http://openweathermap.org/img/wn/50d@4x.png",
       color: "#BEBEBE",
+      emoji: "🌫",
     },
   },
   "51": {
@@ -93,35 +106,13 @@ export const wmoData: WeatherData = {
       description: "Light Drizzle",
       image: "http://openweathermap.org/img/wn/09n@4x.png",
       color: "#4682B4",
+      emoji: "🌧",
     },
     night: {
       description: "Light Drizzle",
       image: "http://openweathermap.org/img/wn/09d@4x.png",
       color: "#87CEEB",
-    },
-  },
-  "53": {
-    day: {
-      description: "Drizzle",
-      image: "http://openweathermap.org/img/wn/09n@4x.png",
-      color: "#2F4F4F",
-    },
-    night: {
-      description: "Drizzle",
-      image: "http://openweathermap.org/img/wn/09d@4x.png",
-      color: "#5F9EA0",
-    },
-  },
-  "55": {
-    day: {
-      description: "Heavy Drizzle",
-      image: "http://openweathermap.org/img/wn/09n@4x.png",
-      color: "#1E3A8A",
-    },
-    night: {
-      description: "Heavy Drizzle",
-      image: "http://openweathermap.org/img/wn/09d@4x.png",
-      color: "#4682B4",
+      emoji: "🌧",
     },
   },
   "61": {
@@ -129,35 +120,13 @@ export const wmoData: WeatherData = {
       description: "Light Rain",
       image: "http://openweathermap.org/img/wn/10n@4x.png",
       color: "#4682B4",
+      emoji: "🌧",
     },
     night: {
       description: "Light Rain",
       image: "http://openweathermap.org/img/wn/10d@4x.png",
       color: "#00BFFF",
-    },
-  },
-  "63": {
-    day: {
-      description: "Rain",
-      image: "http://openweathermap.org/img/wn/10n@4x.png",
-      color: "#4169E1",
-    },
-    night: {
-      description: "Rain",
-      image: "http://openweathermap.org/img/wn/10d@4x.png",
-      color: "#1E90FF",
-    },
-  },
-  "65": {
-    day: {
-      description: "Heavy Rain",
-      image: "http://openweathermap.org/img/wn/10n@4x.png",
-      color: "#191970",
-    },
-    night: {
-      description: "Heavy Rain",
-      image: "http://openweathermap.org/img/wn/10d@4x.png",
-      color: "#00008B",
+      emoji: "🌧",
     },
   },
   "71": {
@@ -165,35 +134,13 @@ export const wmoData: WeatherData = {
       description: "Light Snow",
       image: "http://openweathermap.org/img/wn/13n@4x.png",
       color: "#A9A9A9",
+      emoji: "❄️",
     },
     night: {
       description: "Light Snow",
       image: "http://openweathermap.org/img/wn/13d@4x.png",
       color: "#B0E0E6",
-    },
-  },
-  "73": {
-    day: {
-      description: "Snow",
-      image: "http://openweathermap.org/img/wn/13n@4x.png",
-      color: "#C0C0C0",
-    },
-    night: {
-      description: "Snow",
-      image: "http://openweathermap.org/img/wn/13d@4x.png",
-      color: "#FFFFFF",
-    },
-  },
-  "75": {
-    day: {
-      description: "Heavy Snow",
-      image: "http://openweathermap.org/img/wn/13n@4x.png",
-      color: "#808080",
-    },
-    night: {
-      description: "Heavy Snow",
-      image: "http://openweathermap.org/img/wn/13d@4x.png",
-      color: "#DCDCDC",
+      emoji: "❄️",
     },
   },
   "95": {
@@ -201,42 +148,20 @@ export const wmoData: WeatherData = {
       description: "Thunderstorm",
       image: "http://openweathermap.org/img/wn/11n@4x.png",
       color: "#4B0082",
+      emoji: "⛈",
     },
     night: {
       description: "Thunderstorm",
       image: "http://openweathermap.org/img/wn/11d@4x.png",
       color: "#8B0000",
-    },
-  },
-  "96": {
-    day: {
-      description: "Light Thunderstorms With Hail",
-      image: "http://openweathermap.org/img/wn/11n@4x.png",
-      color: "#6A5ACD",
-    },
-    night: {
-      description: "Light Thunderstorms With Hail",
-      image: "http://openweathermap.org/img/wn/11d@4x.png",
-      color: "#8A2BE2",
-    },
-  },
-  "99": {
-    day: {
-      description: "Thunderstorm With Hail",
-      image: "http://openweathermap.org/img/wn/11n@4x.png",
-      color: "#2F4F4F",
-    },
-    night: {
-      description: "Thunderstorm With Hail",
-      image: "http://openweathermap.org/img/wn/11d@4x.png",
-      color: "#5F9EA0",
+      emoji: "⛈",
     },
   },
 };
 
-export const getWeatherDescImageStatus = (
+export const getWeatherDetails = (
   wmoCode: number,
-  isDay: boolean
+  isDay: boolean,
 ): WeatherTime => {
   const timeOfDay = isDay ? "day" : "night";
 
@@ -255,9 +180,8 @@ export const getWeatherDescImageStatus = (
   }
 
   // Default case for unknown codes
-  return { description: "Unknown", image: "", color: "#000000" };
+  return { description: "Unknown", image: "", color: "#000000", emoji: "" };
 };
-
 
 export function isNight(timestamp: string): boolean {
   const date = new Date(timestamp);

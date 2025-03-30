@@ -6,7 +6,7 @@ import {
   isNight,
   formatTimeAndDate,
   wmoData,
-  getWeatherDescImageStatus,
+  getWeatherDetails,
 } from "./weather";
 
 describe("isNight", () => {
@@ -20,43 +20,50 @@ describe("isNight", () => {
   });
 });
 
-describe("getWeatherDescImageStatus", () => {
+describe("getWeatherDetails", () => {
   it("should return correct weather data for known WMO code during the day", () => {
-    const result = getWeatherDescImageStatus(0, true);
+    const result = getWeatherDetails(0, true);
     expect(result).toEqual(wmoData["0"].day);
   });
 
   it("should return correct weather data for known WMO code during the night", () => {
-    const result = getWeatherDescImageStatus(1, false);
+    const result = getWeatherDetails(1, false);
     expect(result).toEqual(wmoData["1"].night);
   });
 
   it("should fallback to the next available WMO code when given an unknown code", () => {
-    const result = getWeatherDescImageStatus(4, true); // 4 is missing, next available is 45
+    const result = getWeatherDetails(4, true); // 4 is missing, next available is 45
     expect(result).toEqual(wmoData["45"].day);
   });
 
   it("should return default unknown weather data for completely unknown WMO codes", () => {
-    const result = getWeatherDescImageStatus(999, true);
+    const result = getWeatherDetails(999, true);
     expect(result).toEqual({
       description: "Unknown",
       image: "",
       color: "#000000",
+      emoji: "",
     });
   });
 
   it("should handle edge cases properly", () => {
-    const result = getWeatherDescImageStatus(-1, true); // Negative WMO codes don't exist
+    const result = getWeatherDetails(-1, true); // Negative WMO codes don't exist
     expect(result).toEqual({
       description: "Unknown",
       image: "",
       color: "#000000",
+      emoji: "",
     });
   });
 
   it("should handle the highest known WMO code correctly", () => {
-    const result = getWeatherDescImageStatus(45, false);
+    const result = getWeatherDetails(45, false);
     expect(result).toEqual(wmoData["45"].night);
+  });
+
+  it("should return the correct weather emoji for a given WMO code", () => {
+    const result = getWeatherDetails(0, true);
+    expect(result.emoji).toBe("☀️");
   });
 });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { getWeatherDescImageStatus, isNight } from "../../utils/weather";
+import { getWeatherDetails, isNight } from "../../utils/weather";
 import PlusIcon from "../../components/icons/PlusIcon";
 import type { WeatherResponse } from "../../state-manager/types";
 
@@ -49,7 +49,7 @@ type ItemProps = {
 function Item({ weatherResponse, removeCity }: ItemProps) {
   const isNightTime = isNight(weatherResponse.current.time);
 
-  const { color, description } = getWeatherDescImageStatus(
+  const { color, description } = getWeatherDetails(
     weatherResponse.current.weathercode,
     isNightTime,
   );

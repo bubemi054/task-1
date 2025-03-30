@@ -2,7 +2,7 @@ import { WeatherResponse } from "../../state-manager/types";
 import StarIcon from "../../components/icons/StarIcon";
 import SendIcon from "../../components/icons/SendIcon";
 import TrashIcon from "../../components/icons/TrashIcon";
-import { isNight, getWeatherDescImageStatus } from "../../utils/weather";
+import { isNight, getWeatherDetails } from "../../utils/weather";
 import { twMerge } from "tailwind-merge";
 
 type CityWeatherCardProps = {
@@ -24,7 +24,7 @@ export default function CityWeatherCard({
 }: CityWeatherCardProps) {
   const isNightTime = isNight(weatherResponse.current.time);
 
-  const { description, image, color } = getWeatherDescImageStatus(
+  const { description, image, color } = getWeatherDetails(
     weatherResponse.current.weathercode,
     isNightTime,
   );

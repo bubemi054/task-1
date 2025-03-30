@@ -7,7 +7,7 @@ import type { WeatherResponse } from "../../state-manager/types";
 import "@testing-library/jest-dom/vitest";
 
 vi.mock("../../utils/weather", () => ({
-  getWeatherDescImageStatus: vi.fn(),
+  getWeatherDetails: vi.fn(),
   isNight: vi.fn(),
 }));
 
@@ -328,7 +328,7 @@ describe("PopularCities", () => {
   });
 
   it("renders city names and temperatures", () => {
-    vi.spyOn(weatherUtils, "getWeatherDescImageStatus").mockReturnValue({
+    vi.spyOn(weatherUtils, "getWeatherDetails").mockReturnValue({
       description: "Cloudy",
       color: "#808080",
       image: "http://openweathermap.org/img/wn/03d@4x.png",
@@ -339,7 +339,7 @@ describe("PopularCities", () => {
   });
 
   it("applies correct weather status and color", () => {
-    vi.spyOn(weatherUtils, "getWeatherDescImageStatus").mockReturnValue({
+    vi.spyOn(weatherUtils, "getWeatherDetails").mockReturnValue({
       description: "Cloudy",
       color: "#808080",
       image: "http://openweathermap.org/img/wn/03d@4x.png",

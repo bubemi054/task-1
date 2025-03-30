@@ -1,6 +1,6 @@
 import { Send } from "lucide-react";
 import { WeatherResponse } from "../../state-manager/types";
-import { getWeatherDescImageStatus, isNight } from "../../utils/weather";
+import { getWeatherDetails, isNight } from "../../utils/weather";
 import { Link } from "react-router";
 
 type PopularCitiesProps = {
@@ -34,7 +34,7 @@ export function PopularCity({ city }: { city: WeatherResponse }) {
 
   const isNightTime = isNight(city.current.time);
 
-  const { color, description } = getWeatherDescImageStatus(
+  const { color, description } = getWeatherDetails(
     city.current.weathercode,
     isNightTime,
   );
@@ -42,20 +42,20 @@ export function PopularCity({ city }: { city: WeatherResponse }) {
   return (
     <div
       key={city.name}
-      className="flex items-center justify-between rounded-xl bg-white p-4 shadow-md [@media(max-width:550px)]:flex-col [@media(max-width:550px)]:gap-[20px]"
+      className="flex items-center justify-between gap-8 rounded-xl bg-white p-4 shadow-md [@media(max-width:550px)]:flex-col [@media(max-width:550px)]:gap-[20px]"
     >
-      <div>
-        <p className="text-xs text-gray-500">{day}</p>
-        <p className="text-lg font-bold">{city.name}</p>
+      <div className="min-w-[110px]">
+        <p className="truncate text-xs text-gray-500">{day}</p>
+        <p className="truncate text-lg font-bold">{city.name}</p>
       </div>
-      <div className="flex w-[180px] items-center justify-between gap-2">
+      <div className="flex w-[180px] grow items-center justify-between gap-2">
         <div className="flex gap-[5px]">
-          <span className="font-manrope bg-gradient-to-b from-[rgba(0,0,0,1)] to-[rgba(255,255,255,0.1)] bg-clip-text text-[25px] font-bold text-transparent">
+          <span className="font-manrope truncate bg-gradient-to-b from-[rgba(0,0,0,1)] to-[rgba(255,255,255,0.1)] bg-clip-text text-[25px] font-bold text-transparent">
             {city.current.temperature_2m}
             {city.current_units.temperature_2m}
           </span>
           <span
-            className="relative bottom-[-20px] truncate min-w-[70px] text-[12px] font-semibold"
+            className="relative bottom-[-20px] max-w-[100px] truncate text-[12px] font-semibold"
             style={{
               color: color,
             }}

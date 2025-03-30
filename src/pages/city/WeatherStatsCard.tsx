@@ -1,6 +1,6 @@
 // @ts-expect-error Need React imported for my tests
 import React from "react";
-import { isNight, getWeatherDescImageStatus } from "../../utils/weather";
+import { isNight, getWeatherDetails } from "../../utils/weather";
 
 type WeatherCardProps = {
   temperature: number;
@@ -22,7 +22,7 @@ export default function WeatherStatsCard({
   weatherCode,
 }: WeatherCardProps) {
   const isNightTime = isNight(time);
-  const { color, description, image } = getWeatherDescImageStatus(
+  const { color, description, image } = getWeatherDetails(
     weatherCode,
     isNightTime,
   );
