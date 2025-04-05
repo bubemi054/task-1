@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCitiesWeather } from "../../state-manager/citySlice";
 import useRemovedCities from "./useRemovedCities";
-import { BIGGEST_CITIES } from "../../state-manager/citySlice";
+import { CITIES } from "../../state-manager/citySlice";
 import { RootState, AppDispatch } from "../../state-manager/store";
 import { useIsOnline } from "react-use-is-online";
 
@@ -19,7 +19,7 @@ export default function useBiggestCities() {
   useEffect(() => {
     if (isOffline) return;
 
-    const remainingBiggestCities = BIGGEST_CITIES.filter(
+    const remainingBiggestCities = CITIES.filter(
       (city) => !removedCitiesId.includes(city.cityId),
     );
     const maxRemainingBiggestCities = remainingBiggestCities.slice(

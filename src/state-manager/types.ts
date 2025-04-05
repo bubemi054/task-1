@@ -8,17 +8,14 @@ export interface City {
   cityId: number;// ✔
   name: string; // ✔
   country: string; // ✔
-  altCountry?: string;
-  muni?: string;
-  muniSub?: string;
-  featureClass?: string;
-  featureCode: string;
-  adminCode: string;
-  population: number;
-  loc: { // ✔
-    type: "Point";
-    coordinates: [number, number];
-  };
+  coordinates: [number, number];
+  // altCountry?: string;
+  // muni?: string;
+  // muniSub?: string;
+  // featureClass?: string;
+  // featureCode: string;
+  // adminCode: string;
+  // population: number;
 }
 
 export interface WeatherResponse extends City {

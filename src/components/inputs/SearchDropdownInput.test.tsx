@@ -15,56 +15,25 @@ import "@testing-library/jest-dom/vitest";
 const mockCities: City[] = [
   {
     cityId: 2013348,
-
     name: "Vladivostok",
-
-    altCountry: "",
-
     country: "RU",
+    coordinates: [43.10562, 131.87353]
 
-    featureCode: "PPLA",
-
-    adminCode: "59",
-
-    population: 587022,
-
-    loc: { type: "Point", coordinates: [43.10562, 131.87353] },
   },
 
   {
     cityId: 2023469,
-
     name: "Irkutsk",
-
-    altCountry: "",
-
     country: "RU",
+    coordinates: [52.29778, 104.29639]
 
-    featureCode: "PPLA",
-
-    adminCode: "20",
-
-    population: 586695,
-
-    loc: { type: "Point", coordinates: [52.29778, 104.29639] },
   },
 
   {
     cityId: 931755,
-
     name: "Blantyre",
-
-    altCountry: "",
-
     country: "MW",
-
-    featureCode: "PPLA",
-
-    adminCode: "S",
-
-    population: 584877,
-
-    loc: { type: "Point", coordinates: [-15.78499, 35.00854] },
+    coordinates: [-15.78499, 35.00854]
   },
 ];
 

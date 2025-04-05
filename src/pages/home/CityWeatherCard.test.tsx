@@ -295,13 +295,7 @@ const mockWeatherResponse: WeatherResponse = {
   name: "Beijing",
   // altName: "",
   country: "CN",
-  featureCode: "PPLC",
-  adminCode: "22",
-  population: 11716620,
-  loc: {
-    type: "Point",
-    coordinates: [39.9075, 116.39723],
-  },
+  coordinates: [39.9075, 116.39723],
 };
 
 afterEach(() => {

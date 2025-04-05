@@ -69,17 +69,8 @@ describe("citySlice reducer", () => {
 
       name: "Fratar",
 
-      altCountry: "",
-
       country: "AL",
-
-      featureCode: "PPLA3",
-
-      adminCode: "44",
-
-      population: 0,
-
-      loc: { type: "Point", coordinates: [40.5, 19.81667] },
+      coordinates: [40.5, 19.81667] 
     };
 
     const newState = reducer(
@@ -192,17 +183,8 @@ const mockWeatherResponses: WeatherResponse[] = [
     },
     cityId: 1185241,
     name: "Dhaka",
-    altCountry: "",
     country: "BD",
-    featureCode: "PPLC",
-    adminCode: "81",
-    population: 10356500,
-    loc: {
-      type: "Point",
-      coordinates: [23.7104, 90.40744],
-    },
-    muni: "302640",
-    muniSub: "30264072",
+    coordinates: [23.7104, 90.40744],
   },
 ];
 

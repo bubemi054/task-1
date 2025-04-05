@@ -8,7 +8,7 @@ export const fetchCityWeather = async (
   city: City,
 ): Promise<WeatherResponse> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
-  const [latitude, longitude] = city.loc.coordinates;
+  const [latitude, longitude] = city.coordinates;
 
   baseURL.searchParams.set("latitude", latitude.toString());
   baseURL.searchParams.set("longitude", longitude.toString());
@@ -43,8 +43,8 @@ export const fetchCitiesWeather = async (
   cities: City[],
 ): Promise<WeatherResponse[]> => {
   const baseURL = new URL(import.meta.env.VITE_OPEN_METEO_URL);
-  const latitudes = cities.map((city) => city.loc.coordinates[0])?.join(",");
-  const longitudes = cities.map((city) => city.loc.coordinates[1])?.join(",");
+  const latitudes = cities.map((city) => city.coordinates[0])?.join(",");
+  const longitudes = cities.map((city) => city.coordinates[1])?.join(",");
   baseURL.searchParams.set("latitude", latitudes);
   baseURL.searchParams.set("longitude", longitudes);
   baseURL.searchParams.set(
@@ -284,13 +284,10 @@ export const citySlice = createSlice({
 
 export const cityActions = citySlice.actions;
 
-export const CITIES = (cities as City[]).filter((city) => {
-  const [latitude, longitude] = city.loc.coordinates;
-  return latitude < 90 || latitude > -90 || longitude < 180 || longitude > -180;
-});
+export const CITIES = (cities as unknown as City[])
 
-export const BIGGEST_CITIES = CITIES.slice().sort(
-  (a, b) => b.population - a.population,
-);
+// export const BIGGEST_CITIES = CITIES.slice().sort(
+//   (a, b) => b.population - a.population,
+// );
 
 export default citySlice.reducer;

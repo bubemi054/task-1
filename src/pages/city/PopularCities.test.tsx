@@ -311,15 +311,8 @@ describe("PopularCities", () => {
     },
     cityId: 1796236,
     name: "Shanghai",
-    altCountry: "",
     country: "CN",
-    featureCode: "PPLA",
-    adminCode: "23",
-    population: 22315474,
-    loc: {
-      type: "Point",
-      coordinates: [31.22222, 121.45806],
-    },
+    coordinates: [31.22222, 121.45806],
   };
 
   it("renders 'No Data Available' when no cities data is provided", () => {

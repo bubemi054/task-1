@@ -32,10 +32,10 @@ export const findClosestCity = (
   if (cities.length === 0) return null;
 
   return cities.reduce((closestCity, city) => {
-    const cityCoords = city.loc.coordinates;
+    const cityCoords = city.coordinates;
     const cityDistance = haversineDistance(cityCoords, target);
     const closestDistance = haversineDistance(
-      closestCity.loc.coordinates,
+      closestCity.coordinates,
       target,
     );
 
