@@ -5,9 +5,9 @@ export interface Note {
 }
 
 export interface City {
-  cityId: number;
-  name: string;
-  country: string;
+  cityId: number;// ✔
+  name: string; // ✔
+  country: string; // ✔
   altCountry?: string;
   muni?: string;
   muniSub?: string;
@@ -15,7 +15,7 @@ export interface City {
   featureCode: string;
   adminCode: string;
   population: number;
-  loc: {
+  loc: { // ✔
     type: "Point";
     coordinates: [number, number];
   };
