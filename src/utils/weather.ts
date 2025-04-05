@@ -157,6 +157,34 @@ export const wmoData: WeatherData = {
       emoji: "⛈",
     },
   },
+  "96": {
+    day: {
+      description: "Thunderstorm with Hail",
+      image: "http://openweathermap.org/img/wn/11n@4x.png",
+      color: "#6A0DAD",
+      emoji: "🌩",
+    },
+    night: {
+      description: "Thunderstorm with Hail",
+      image: "http://openweathermap.org/img/wn/11d@4x.png",
+      color: "#8B008B",
+      emoji: "🌩",
+    },
+  },
+  "99": {
+    day: {
+      description: "Severe Thunderstorm",
+      image: "http://openweathermap.org/img/wn/11n@4x.png",
+      color: "#4B0082",
+      emoji: "🌪",
+    },
+    night: {
+      description: "Severe Thunderstorm",
+      image: "http://openweathermap.org/img/wn/11d@4x.png",
+      color: "#2F4F4F",
+      emoji: "🌪",
+    },
+  },
 };
 
 export const getWeatherDetails = (

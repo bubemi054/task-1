@@ -1,8 +1,8 @@
 // @ts-expect-error Need React imported for my tests
 import React from "react";
 import SearchDropdownInput from "../../components/inputs/SearchDropdownInput";
-import ProfileIcon from "../../components/icons/ProfileIcon";
 import useShowCurrentCityWeather from "../../hooks/city/useShowCurrentCityWeather";
+import { CgProfile } from "react-icons/cg";
 import { Home } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -30,7 +30,7 @@ export default function SearchBar() {
   };
 
   return (
-    <nav className="mb-[3.8rem] flex flex-col items-center justify-between gap-x-[0.5rem] gap-y-[1rem] sm:flex-row">
+    <nav className="mb-[3.8rem] flex items-center justify-between gap-x-[0.5rem] gap-y-[1rem] flex-row">
       <Home
         onClick={() => navigate("/")}
         className={`cursor-pointer justify-self-start text-white`}
@@ -46,9 +46,10 @@ export default function SearchBar() {
           className="max-w-[13rem] lg:max-w-none"
           isOffline={isOffline}
         />
-        <ProfileIcon
+        <CgProfile
+          size={36}
           onClick={viewCurrentCityWeather}
-          className={`${isOffline ? "cursor-not-allowed" : "cursor-pointer"}`}
+          className={`text-white ${isOffline ? "cursor-not-allowed" : "cursor-pointer"}`}
         />
       </div>
     </nav>

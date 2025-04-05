@@ -50,7 +50,6 @@ vi.mock("./cities.json", () => ({
 }));
 
 describe("citySlice reducer", () => {
-  console.log("stearting tests");
   it("should return the initial state", () => {
     expect(reducer(undefined, { type: "unknown" })).toEqual(initialState);
   });

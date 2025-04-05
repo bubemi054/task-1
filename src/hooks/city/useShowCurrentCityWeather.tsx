@@ -7,52 +7,44 @@ import { useNavigate } from "react-router";
 import { CITIES } from "../../state-manager/citySlice";
 import { findClosestCity } from "../../utils/city-location";
 import { cityActions } from "../../state-manager/citySlice";
+import { City } from "../../state-manager/types";
 import type { RootState, AppDispatch } from "../../state-manager/store";
 
 export default function useShowCurrentCityWeather() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { recentCurrentCity } = useSelector((state: RootState) => state.city);
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
-    positionOptions: { enableHighAccuracy: false },
-    userDecisionTimeout: 5000,
-  });
-
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: { enableHighAccuracy: false },
+      userDecisionTimeout: 10000,
+    });
   const { isOffline } = useIsOnline();
 
-  const newLat = coords?.latitude || 0;
-  const newLon = coords?.longitude || 0;
+  const changeRecentCurrentCity = (city: City) => {
+    dispatch(cityActions.updateRecentCurrentCity(city));
+  };
 
-  const viewCurrentCityWeather = (cityId?: number) => {
+  const viewCurrentCityWeather = () => {
     if (isOffline) return;
-
-    if (typeof cityId === "number") {
-      navigate(`/city/${cityId}`);
-    } else if (recentCurrentCity?.cityId) {
+    if (recentCurrentCity) {
       navigate(`/city/${recentCurrentCity.cityId}`);
     }
   };
 
   useEffect(() => {
-    if (isOffline || !coords || !isGeolocationAvailable || !isGeolocationEnabled) return;
+    if (coords && isGeolocationAvailable && isGeolocationEnabled) {
+      const newLat = coords?.latitude || 0;
+      const newLon = coords?.longitude || 0;
 
-    const currentCity = findClosestCity(CITIES, [newLat, newLon]);
-    if (!currentCity) return;
+      const closestCity = findClosestCity(CITIES, [newLat, newLon]);
 
-    dispatch(cityActions.updateRecentCurrentCity(currentCity));
-
-    if (recentCurrentCity === undefined) {
-      setTimeout(() => {
-        const ans = window.confirm(
-          "Do you want to view your current location's weather?\nYou can always click the profile icon to view your location's weather."
-        );
-
-        if (ans) {
-          viewCurrentCityWeather(currentCity.cityId);
-        }
-      }, 1500);
+      if (closestCity) {
+        console.log("recent city set");
+        changeRecentCurrentCity(closestCity);
+      }
     }
-  }, [coords, recentCurrentCity, isOffline, isGeolocationAvailable, isGeolocationEnabled]);
+  }, [coords]);
 
   return { viewCurrentCityWeather };
 }

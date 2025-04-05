@@ -45,7 +45,7 @@ export default function Forecast({ daily, dailyUnits }: ForecastProps) {
 
           return (
             <div key={index} className="flex items-center justify-around py-1">
-              <span className="text-xl">{emoji}</span>
+              <span className="text-xl">{emoji || "NA"}</span>
               <span
                 data-testid="max-temp"
                 className="w-[70px] text-left text-lg"
