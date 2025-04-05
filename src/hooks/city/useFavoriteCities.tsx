@@ -58,6 +58,7 @@ export default function useFavoriteCities() {
   }, [favoriteCities]);
 
   const viewInDetail = (cityId: number) => {
+    if (isOffline) return;
     navigate(`/city/${cityId}`);
   };
 
