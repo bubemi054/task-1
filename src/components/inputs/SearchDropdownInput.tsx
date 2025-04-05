@@ -90,14 +90,10 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
     () =>
       new Fuse(items, {
         keys: [
-          { name: "name", weight: 0.4 },
+          { name: "name", weight: 0.6 },
           { name: "country", weight: 0.2 },
-          // { name: "altCountry", weight: 0.2 },
-          // { name: "muni", weight: 0.2 },
-          // { name: "muniSub", weight: 0.1 },
-          // { name: "adminCode", weight: 0.1 },
         ],
-        threshold: 0.4,
+        threshold: 0.6,
       }),
     [items],
   );
