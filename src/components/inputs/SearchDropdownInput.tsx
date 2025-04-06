@@ -108,22 +108,26 @@ function Dropdown({ items, onSelect, value }: DropdownProps) {
       data-testid="search-dropdown"
       className="absolute top-[105%] left-0 z-10 max-h-60 w-full overflow-hidden rounded-lg bg-white shadow-lg"
     >
-      <List
-        height={240}
-        itemCount={filteredItems.length}
-        itemSize={40}
-        width="100%"
-      >
-        {({ index, style }) => (
-          <div style={style} className="cursor-pointer">
-            <DropdownItem
-              key={filteredItems[index].cityId}
-              text={`${filteredItems[index].name}, (${filteredItems[index].country})`}
-              onClick={() => onSelect(filteredItems[index])}
-            />
-          </div>
-        )}
-      </List>
+      {filteredItems.length === 0 ? (
+        <div className="p-3">No results found</div>
+      ) : (
+        <List
+          height={240}
+          itemCount={filteredItems.length}
+          itemSize={40}
+          width="100%"
+        >
+          {({ index, style }) => (
+            <div style={style} className="cursor-pointer">
+              <DropdownItem
+                key={filteredItems[index].cityId}
+                text={`${filteredItems[index].name}, (${filteredItems[index].country})`}
+                onClick={() => onSelect(filteredItems[index])}
+              />
+            </div>
+          )}
+        </List>
+      )}
     </div>
   );
 }
